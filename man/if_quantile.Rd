@@ -21,18 +21,40 @@ if_quantile(y, weights = NULL, probs, type = 6, na.rm = TRUE)
 A numeric vector containing the influence function values for each observation
 }
 \description{
-Computes the influence function for quantile estimators under simple and complex survey designs
+Computes the influence function of sample quantiles, allowing for both
+simple random sampling and complex survey designs with sampling weights.
+The quantiles are estimated using the function \code{csquantile()}, which
+accounts for sampling weights, and the density function is estimated via
+a Gaussian kernel estimator.
 }
 \details{
-The influence function of a quantile Q(p) is given by:
-\deqn{I(Q(p))_i = \frac{p - \mathbbm{1}(y_i \leq Q(p))}{F'(Q(p)) N}}
+The population influence function of the quantile \eqn{Q(p)} is defined as:
 
-where F'(Q(p)) is estimated using a Gaussian kernel density estimator with bandwidth
-h = 0.79 * IQR * N^{-1/5} as suggested by Verma (2011).
+\deqn{IF(Q(p))_i = \frac{p - \mathbf{1}(y_i \leq Q(p))}{f(Q(p)) \, N},}
 
-#' @references
+where \eqn{f(Q(p))} is the population density function evaluated at the quantile and
+\eqn{N} is the population size.
+
+In the sample, this is estimated as:
+
+\deqn{\widehat{IF}(Q(p))_i = \frac{p - \mathbf{1}(y_i \leq \widehat{Q}(p))}{\widehat{f}(\widehat{Q}(p)) \, \widehat{N}},}
+
+where \eqn{\widehat{Q}(p)} is the weighted sample quantile estimated by
+\code{csquantile()}, and \eqn{\widehat{N} = \sum_{i \in s} w_i} is the estimated population size.
+
+The density \eqn{\widehat{f}(y)} is estimated using a Gaussian kernel density function:
+
+\deqn{
+\widehat{f}(y) = \frac{1}{\widehat{N} \, h \sqrt{2\pi}}
+\sum_{j \in s} w_j \exp\!\left\{ -\frac{(y - y_j)^2}{2h^2} \right\},
+}
+
+with bandwidth \eqn{h = 0.79 \cdot IQR \cdot \widehat{N}^{-1/5}}
+}
+\references{
 Osier, G., (2009), “Variance estimation for complex indicators of poverty and inequality using
 linearization techniques”, Survey Research Methods, 3, 167–195
+
 Scarpa, S., Ferrante, M.R., & Sperlich, S. (2025). Inference for the Quantile Ratio
 Inequality Index in the Context of Survey Data. \emph{Journal of Survey Statistics and Methodology}.
 }

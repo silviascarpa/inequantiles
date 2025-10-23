@@ -17,6 +17,7 @@
 #' @references
 #' Hyndman, R.J. & Fan, Y. (1996). Sample quantiles in statistical packages.
 #'   \emph{The American Statistician}, 50(4), 361–365.
+#'
 #' Scarpa, S., Ferrante, M.R., & Sperlich, S. (2025). Inference for the Quantile Ratio
 #'   Inequality Index in the Context of Survey Data. \emph{Journal of Survey Statistics and Methodology}.
 #'

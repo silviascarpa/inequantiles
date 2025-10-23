@@ -2,44 +2,108 @@
 #'
 #'
 #' Implements the rescaled bootstrap method for variance estimation in survey data,
-#' supporting both stratified simple random sampling and two-stage complex designs.
-#' Based on Rao & Wu (1988, 1992).
+#' supporting both stratified simple random sampling and multistage complex designs.
+#' Based on Rao & Wu (1988, 1992) and Kolenikov (2010).
 #'
-#' @param data A data frame containing the survey data
-#' @param estimator A function that takes the data (and weights if needed)
-#'   and returns the estimate. For simple designs: function(data).
-#'   For complex designs: function(data, weights)
-#' @param strata A character string or vector specifying the stratification variable
-#' @param psu A character string specifying the Primary Sampling Units variable (required for a multistage sampling design)
-#' @param weights A character string specifying the weight variable (required if design = "complex")
-#' @param N_h Optional vector of stratum population size, needed for computing the  finite population correction (for stratified srs).
-#'            Can be a vector of length H (one per stratum) or a single value for all strata.
-#'           Default is NULL (no FPC applied)
-#' @param B Integer, number of bootstrap replicates (default = 200)
-#' @param m_h Optional vector of bootstrap sample sizes per stratum. If NULL, computed as floor((n_h-2)^2/(n_h-1))
-#' @param seed Optional integer for reproducibility
+#' @param data A data frame containing the survey data.
+#' @param y A character string specifying the variable name to be used for the target variable.
+#' @param strata A character string specifying the stratification variable.
+#' @param N_h Optional vector of stratum population sizes, used for the finite population correction (FPC).
+#'   Can be a single value (applied to all strata) or one value per stratum.
+#' @param psu Optional character string specifying the Primary Sampling Unit (PSU) variable.
+#'   Required for multistage complex designs.
+#' @param weights Optional character string specifying the sampling weight variable.
+#'   Required for complex designs with unequal inclusion probabilities.
+#' @param estimator A function that computes the statistic of interest, accepting arguments
+#'   \code{estimator(y, weights)} for complex designs or \code{estimator(y)} for simple designs.
+#' @param by_strata Logical; if \code{TRUE}, variances are computed separately by stratum.
+#' @param B Integer; number of bootstrap replicates (default = 200).
+#' @param m_h Optional vector of bootstrap sample sizes per stratum (PSUs for complex designs).
+#'   If \code{NULL}, defaults to \eqn{m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor}.
+#' @param seed Optional integer for reproducibility.
 #'
 #'
 #' @return A list containing:
 #'   \item{variance}{Bootstrap variance estimate}
 #'   \item{boot_estimates}{Vector of B bootstrap estimates}
 #'   \item{B}{Number of bootstrap replicates}
-#'   \item{by_strata}{if variance is computed by stratum or not}
+#'   \item{by_strata}{if variance is computed by stratum or overall}
 #'   \item{design}{if the sampling design is complex (with sampling weights) or simple}
 #'   \item{strata_info}{Returns information about number of observations/PSUs per stratum}
-#'   \item{call}
+#'   \item{call}{The matched function call.}
+#'
+#' @details
+#' The rescaled bootstrap is a resampling technique designed for complex survey data that preserves
+#' stratification and primary sampling unit (PSU) structure, providing consistent variance estimation
+#' for both smooth and non-smooth statistics.
+#'
+#' \strong{(1) Stratified Simple Random Sampling}
+#'
+#' Consider a finite population divided into \eqn{H} strata, each of size \eqn{N_h}, with a sample of size \eqn{n_h}
+#' selected independently in each stratum. For each \eqn{b} bootstrap replicate, \eqn{b = \ldots, B}:
+#' \enumerate{
+#'   \item Draw a bootstrap sample of size \eqn{m_h} with replacement from the \eqn{n_h} sampled units.
+#'         By default, \eqn{m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor \approx n_h - 3}.
+#'   \item Compute rescaled bootstrap values:
+#'         \deqn{
+#'           \tilde{y}_{hj}^{*(b)} = \bar{y}_h +
+#'           \sqrt{\frac{m_h(1-f_h)}{n_h - 1}}
+#'           (y_{hj}^{*(b)} - \bar{y}_h), }
+#'         where \eqn{y_{hj}^*} is the bootstrap observation \eqn{f_h = n_h / N_h} is the sampling fraction and \eqn{\bar{y}_h} is the sample stratum mean.
+#'   \item Compute the statistic of interest \eqn{\hat{\theta}^{*(b)}} using rescaled values.
+#' }
+#'
+#' The bootstrap variance is then given by:
+#' \deqn{
+#'   \widehat{V}_{boot}(\hat{\theta}) =
+#'   \frac{1}{B-1} \sum_{b=1}^{B}
+#'   \left( \hat{\theta}^{*(b)} - \bar{\theta}^{*} \right)^2,
+#'   \qquad
+#'   \bar{\theta}^{*} = \frac{1}{B} \sum_{b=1}^{B} \hat{\theta}^{*(b)}.
+#' }
+#'
+#' \strong{(2) Two-Stage Stratified Sampling (Complex Designs)}
+#'
+#' For designs with PSUs and sampling weights:
+#' \enumerate{
+#'   \item Within each stratum \eqn{h}, draw \eqn{m_h} PSUs with replacement from the \eqn{n_h} sampled PSUs.
+#'         By default, \eqn{m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor \approx n_h - 3}.
+#'   \item Let \eqn{m_{hi}^{(b)}} denote the number of times PSU \eqn{i} is selected in replicate \eqn{b}.
+#'         Each observation in the \eqn{i}-th PSU is assigned a rescaled bootstrap weight:
+#'         \deqn{
+#'           w_{hij}^{*(b)} =
+#'           \left[
+#'             1 - c_h + c_h \frac{n_h}{m_h} m_{hi}^{(b)}
+#'           \right] w_{hij},
+#'           \qquad
+#'           c_h = \sqrt{\frac{m_h}{n_h - 1}}.
+#'         }
+#'         \eqn{w_{hij}} is the sampling weight associtaed to individual
+#'             \eqn{j} in PSU \eqn{i} in stratum \eqn{h}-
+#'   \item The statistic \eqn{\hat{\theta}^{*(b)}} is computed using the rescaled weights.
+#' }
+#'
+#' The rescaled bootstrap variance estimate is then:
+#' \deqn{
+#'   \widehat{V}_{boot}(\hat{\theta}) =
+#'   \frac{1}{B-1} \sum_{b=1}^{B}
+#'   \left( \hat{\theta}^{*(b)} - \bar{\theta}^{*} \right)^2.
+#' }
 #'
 #'
-#'#'#' @references
-#' Rao, J.N.K. & Wu, C.F.J. (1988). Resampling inference with complex survey data.
-#'   JASA, 83(401), 231-241.
-#' Rao, J.N.K., Wu, C.F.J. & Yue, K. (1992). Some recent work on resampling
-#'   methods for complex surveys. Survey Methodology, 18(2), 209-217.
-#'  Kolenikov, S. (2010). Resampling variance estimation for complex survey data.
-#'    The Stata Journal, 10(2), 165-199.
-#'  Scarpa, Silvia, Maria Rosaria Ferrante, and Stefan Sperlich.
-#'    "INFERENCE FOR THE QUANTILE RATIO INEQUALITY INDEX IN THE CONTEXT OF SURVEY DATA.",
-#'    Journal of Survey Statistics and Methodology (2025): smaf024.
+#' @references
+#' Rao, J. N. K. and Wu, C. F. J. (1988). "Resampling inference with complex survey data."
+#'   *Journal of the American Statistical Association*, 83(401), 231–241.
+#'
+#' Rao, J. N. K., Wu, C. F. J. and Yue, K. (1992). "Some recent work on resampling methods for complex surveys."
+#'   *Survey Methodology*, 18(2), 209–217.
+#'
+#' Kolenikov, S. (2010). "Resampling variance estimation for complex survey data."
+#'   *The Stata Journal*, 10(2), 165–199.
+#'
+#' Scarpa, S., Ferrante, M. R., and Sperlich, S. (2025).
+#'   "Inference for the Quantile Ratio Inequality Index in the Context of Survey Data."
+#'   *Journal of Survey Statistics and Methodology*, smaf024
 #'
 #'
 #' @export

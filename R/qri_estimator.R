@@ -6,20 +6,26 @@
 #' @param weights A numeric vector of sampling weights (optional)
 #' @param J Integer, number of quantile ratios to average (default: 100)
 #' @param type Quantile estimation type: integer 4-9 or "HD" for Harrell-Davis (default: 6)
-#' @param na.rm Logical, should missing values be removed? (default: T)
+#' @param na.rm Logical, should missing values be removed? (default: TRUE)
 #'
-#' @return The QRI estimate as a scalar value
+#' @return A scalar numeric value representing the estimated quantile ratio index (QRI)
 #'
 #' @details
 #' The QRI estimator is defined as:
+#'
 #' \deqn{\widehat{QRI} = \frac{1}{M}\sum_{m=1}^M\left(1- \frac{\widehat{Q}(p_{m/2})}{\widehat{Q}(1 - p_{m/2})}\right)}
 #'
-#' where \eqn{\widehat{Q}(p)} denotes the quantile estimator at probability \eqn{p}.
+#' where the estimated quantiles \eqn{\widehat{Q}(p)} are computed via the function
+#' \code{csquantile()}, which accounts for sampling weights and the specified
+#' quantile type. This allows \eqn{\widehat{QRI}} to be used both for simple
+#' random samples and for complex survey data with design weights.
 #'
-#'#' @references
 #'
-#'Scarpa, S., Ferrante, M.R., & Sperlich, S. (2025). Inference for the Quantile Ratio
-#'   Inequality Index in the Context of Survey Data. \emph{Journal of Survey Statistics and Methodology}.
+#' @references
+#' Scarpa, S., Ferrante, M. R., & Sperlich, S. (2025).
+#' "Inference for the Quantile Ratio Inequality Index in the Context of Survey Data."
+#' *Journal of Survey Statistics and Methodology*.
+#'
 #'
 #' @export
 

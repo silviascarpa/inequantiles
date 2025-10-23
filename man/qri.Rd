@@ -2,7 +2,7 @@
 % Please edit documentation in R/qri_estimator.R
 \name{qri}
 \alias{qri}
-\title{Computes the quantile ratio index (QRI) estimator for measuring inequality}
+\title{quantile ratio index estimator}
 \usage{
 qri(y, weights = NULL, J = 100, type = 6, na.rm = TRUE)
 }
@@ -15,22 +15,26 @@ qri(y, weights = NULL, J = 100, type = 6, na.rm = TRUE)
 
 \item{type}{Quantile estimation type: integer 4-9 or "HD" for Harrell-Davis (default: 6)}
 
-\item{na.rm}{Logical, should missing values be removed? (default: T)}
+\item{na.rm}{Logical, should missing values be removed? (default: TRUE)}
 }
 \value{
-The QRI estimate as a scalar value
+A scalar numeric value representing the estimated quantile ratio index (QRI)
 }
 \description{
 Computes the quantile ratio index (QRI) estimator for measuring inequality
 }
 \details{
 The QRI estimator is defined as:
+
 \deqn{\widehat{QRI} = \frac{1}{M}\sum_{m=1}^M\left(1- \frac{\widehat{Q}(p_{m/2})}{\widehat{Q}(1 - p_{m/2})}\right)}
 
-where \eqn{\widehat{Q}(p)} denotes the quantile estimator at probability \eqn{p}.
-
-#' @references
-
-Scarpa, S., Ferrante, M.R., & Sperlich, S. (2025). Inference for the Quantile Ratio
-Inequality Index in the Context of Survey Data. \emph{Journal of Survey Statistics and Methodology}.
+where the estimated quantiles \eqn{\widehat{Q}(p)} are computed via the function
+\code{csquantile()}, which accounts for sampling weights and the specified
+quantile type. This allows \eqn{\widehat{QRI}} to be used both for simple
+random samples and for complex survey data with design weights.
+}
+\references{
+Scarpa, S., Ferrante, M. R., & Sperlich, S. (2025).
+"Inference for the Quantile Ratio Inequality Index in the Context of Survey Data."
+\emph{Journal of Survey Statistics and Methodology}.
 }
