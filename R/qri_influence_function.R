@@ -1,4 +1,4 @@
-#' Influence Function for the Quantile Ratio Index
+#' Influence Function for the quantile ratio index
 #'
 #' Computes the influence function of the QRI for all observations.
 #'
