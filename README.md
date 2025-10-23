@@ -4,7 +4,7 @@
 <!-- badges: end -->
 
 **inequantiles** provides R functions for the estimation of quantile-based inequality indicators, 
-such as the *Quantile Ratio Index (QRI)*, and quantiles, also allowing for complex sampling data.
+such as the *quantile ratio index (QRI)*, and quantiles, also allowing for complex sampling data.
 
 ## Installation
 
