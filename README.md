@@ -24,7 +24,7 @@ library(inequantiles)
 set.seed(123)
 y <- rlnorm(100)  # simulated income data
 w <- rlnorm(6, 0.4, length(y)) # simulated sampling weights
-qri(y, w)
+qri(y, w) ## QRI estimation
 
-if_qri(y, w)
+csquantile(y, w, type = 4, probs = 0.5) ## Estimate the median
 ```
