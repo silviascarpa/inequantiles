@@ -11,14 +11,16 @@ if_qri(y, weights = NULL, type = 6)
 
 \item{weights}{A numeric vector of sampling weights (optional). If \code{NULL}, equal weights are assumed.}
 
-\item{type}{Quantile estimation type: integer 4–9 or "HD" for Harrell–Davis (default: 7)}
+\item{type}{Quantile estimation type: integer 4–9 or HD for Harrell–Davis (default: 6)
+See \code{csquantile} documentation for a complete description.}
 }
 \value{
 A numeric vector of influence function values (one for each observation)
 }
 \description{
-Computes the influence function of the quantile ratio index (QRI) for all observations,
-as defined in Scarpa, Ferrante and Sperlich (2025), under complex sampling.
+Computes the influence function of the quantile ratio index (QRI) in the context
+of finite population (see Deville, 1999, for a definition) for all observations,
+as defined in Scarpa et al. (2025), under simple and complex sampling.
 }
 \details{
 The influence function for the QRI is computed on each observation as
@@ -67,7 +69,25 @@ The bandwidth is chosen as:
 }
 where \eqn{\mathrm{IQR}} is the interquartile range of the weighted sample.
 }
+\examples{
+
+# On synthetic data
+eq_synth <- rlnorm(30, 9, 0.7)
+IF_synth <- if_qri(y = eq_synth)
+
+# On real data
+eq <- synthouse$eq_income[1:30] ## Take some observations (as example)
+w <- synthouse$weight[1:30]
+IF_qri <- if_qri(y = eq, weights = w, type = 6)
+
+
+
+}
 \references{
-Scarpa, S., Ferrante, M.R., & Sperlich, S. (2025). Inference for the Quantile Ratio
-Inequality Index in the Context of Survey Data. \emph{Journal of Survey Statistics and Methodology}
+Deville, J.C., (1999), “Variance estimation for complex statistics and estimators:
+Linearization and residual techniques”, \emph{Survey methodology}, 25, 193–204
+
+Scarpa, S., Ferrante, M.R., & Sperlich, S. (2025). "Inference for the Quantile Ratio
+Inequality Index in the Context of Survey Data".
+\emph{{Journal of Survey Statistics and Methodology}}, smaf024
 }

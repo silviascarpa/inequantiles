@@ -13,12 +13,13 @@ qri(y, weights = NULL, J = 100, type = 6, na.rm = TRUE)
 
 \item{J}{Integer, number of quantile ratios to average (default: 100)}
 
-\item{type}{Quantile estimation type: integer 4-9 or "HD" for Harrell-Davis (default: 6)}
+\item{type}{Quantile estimation type: integer 4-9 or HD for Harrell-Davis (default: 6).
+See \code{csquantile} documentation for a complete description.}
 
 \item{na.rm}{Logical, should missing values be removed? (default: TRUE)}
 }
 \value{
-A scalar numeric value representing the estimated quantile ratio index (QRI)
+A scalar numeric value representing the estimated inequality by the quantile ratio index (QRI).
 }
 \description{
 Computes the quantile ratio index (QRI) estimator for measuring inequality
@@ -33,7 +34,31 @@ where the estimated quantiles \eqn{\widehat{Q}(p)} are computed via the function
 quantile type. This allows \eqn{\widehat{QRI}} to be used both for simple
 random samples and for complex survey data with design weights.
 }
+\examples{
+
+data(synthouse)
+
+eq <- synthouse$eq_income ### Income data
+
+# Compute unweighted qri with default type 6 quantile estimator
+qri(y = eq)
+
+# Consider the sampling weights and change quantile estimation type
+w <- synthouse$weight
+qri(y = eq, weights = w, type = 5)
+
+# Compare QRI across macro-regions (NUTS1)
+tapply(1:nrow(synthouse), synthouse$NUTS1, function(area) {
+  qri(y = synthouse$eq_income[area],
+      weights = synthouse$weight[area],
+      type = 6)
+})
+
+}
 \references{
+Prendergast, L. A., and Staudte, R. G., (2018), “A simple and effective inequality measure”,
+\emph{The American Statistician}, 72, 328–343
+
 Scarpa, S., Ferrante, M. R., & Sperlich, S. (2025).
 "Inference for the Quantile Ratio Inequality Index in the Context of Survey Data."
 \emph{Journal of Survey Statistics and Methodology}.

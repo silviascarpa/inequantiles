@@ -5,10 +5,11 @@
 #' @param y A numeric vector of data values
 #' @param weights A numeric vector of sampling weights (optional)
 #' @param J Integer, number of quantile ratios to average (default: 100)
-#' @param type Quantile estimation type: integer 4-9 or "HD" for Harrell-Davis (default: 6)
+#' @param type Quantile estimation type: integer 4-9 or HD for Harrell-Davis (default: 6).
+#'         See \code{csquantile} documentation for a complete description.
 #' @param na.rm Logical, should missing values be removed? (default: TRUE)
 #'
-#' @return A scalar numeric value representing the estimated quantile ratio index (QRI)
+#' @return A scalar numeric value representing the estimated inequality by the quantile ratio index (QRI).
 #'
 #' @details
 #' The QRI estimator is defined as:
@@ -21,7 +22,32 @@
 #' random samples and for complex survey data with design weights.
 #'
 #'
+#' @examples
+#'
+#' data(synthouse)
+#'
+#' eq <- synthouse$eq_income ### Income data
+#'
+#' # Compute unweighted qri with default type 6 quantile estimator
+#' qri(y = eq)
+#'
+#' # Consider the sampling weights and change quantile estimation type
+#' w <- synthouse$weight
+#' qri(y = eq, weights = w, type = 5)
+#'
+#' # Compare QRI across macro-regions (NUTS1)
+#' tapply(1:nrow(synthouse), synthouse$NUTS1, function(area) {
+#'   qri(y = synthouse$eq_income[area],
+#'       weights = synthouse$weight[area],
+#'       type = 6)
+#' })
+#'
 #' @references
+#'
+#' Prendergast, L. A., and Staudte, R. G., (2018), “A simple and effective inequality measure”,
+#'    *The American Statistician*, 72, 328–343
+#'
+#'
 #' Scarpa, S., Ferrante, M. R., & Sperlich, S. (2025).
 #' "Inference for the Quantile Ratio Inequality Index in the Context of Survey Data."
 #' *Journal of Survey Statistics and Methodology*.

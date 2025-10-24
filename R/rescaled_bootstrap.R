@@ -90,6 +90,79 @@
 #'   \left( \hat{\theta}^{*(b)} - \bar{\theta}^{*} \right)^2.
 #' }
 #'
+#' @examples
+#'
+#' data(synthouse)
+#'
+#'
+#' # ================================================================
+#' # Example 1: Stratified Simple Random Sampling (SRS)
+#' # ================================================================
+#'
+#'
+#' # Use NUTS2 as strata
+#' set.seed(123)
+#'
+#' # Simulate population sizes per stratum (for FPC)
+#' N_values <- sample(2000:5000, length(unique(synthouse$NUTS2)), replace = TRUE)
+#' names(N_values) <- sort(unique(synthouse$NUTS2))
+#'
+#' # Define a simple mean estimator
+#' mean_estimator <- function(y) mean(y, na.rm = TRUE)
+#'
+#' # Apply the rescaled bootstrap under stratified SRS
+#' boot_srs <- rescaled_bootstrap(
+#'   data = synthouse,
+#'   y = "eq_income",
+#'   strata = "NUTS2",
+#'   N_h = N_values,
+#'   estimator = mean_estimator,
+#'   by_strata = TRUE,
+#'   B = 30,  # small number for illustration
+#'   seed = 123
+#' )
+#'
+#' # View results
+#' boot_srs$variance
+#'
+#'
+#' # ================================================================
+#' # Example 2: Two-stage Complex Design
+#' # ================================================================
+#'
+#' # PSU = municipality, Strata = NUTS2, weights = weight, y = eq_income
+#'
+#' # Define a weighted mean estimator
+#' wmean_estimator <- function(y, weights) {
+#'   sum(y * weights, na.rm = TRUE) / sum(weights, na.rm = TRUE)
+#' }
+#'
+#' boot_complex <- rescaled_bootstrap(
+#'   data = synthouse,
+#'   y = "eq_income",
+#'   strata = "NUTS2",
+#'   psu = "municipality",
+#'   weights = "weight",
+#'   estimator = wmean_estimator,
+#'   by_strata = TRUE,
+#'   B = 20,
+#'   seed = 456
+#' )
+#'
+#' # Display variance and bootstrap estimates
+#' summary(boot_complex$variance)
+#'
+#' # Strata and PSU summary
+#' boot_complex$strata_info
+#'
+#'
+#' # ================================================================
+#' # Note:
+#' # These examples use small B for speed. For actual analysis,
+#' # use B >= 200 for stable estimates.
+#' # ================================================================
+#
+#'
 #'
 #' @references
 #' Rao, J. N. K. and Wu, C. F. J. (1988). "Resampling inference with complex survey data."

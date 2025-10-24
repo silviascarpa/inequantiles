@@ -1,10 +1,8 @@
 #' Influence Function for Quantiles
 #'
 #' Computes the influence function of sample quantiles, allowing for both
-#' simple random sampling and complex survey designs with sampling weights.
-#' The quantiles are estimated using the function \code{csquantile()}, which
-#' accounts for sampling weights, and the density function is estimated via
-#' a Gaussian kernel estimator.
+#' simple random sampling and complex survey designs with sampling weights, in
+#' the context of finite population  (see Deville, 1999, for a full explanation).
 #'
 #'
 #' @param y A numeric vector of data values
@@ -13,10 +11,10 @@
 #' @param type Quantile estimation type: integer 4-9 or "HD" for Harrell-Davis (default: 6)
 #' @param na.rm Logical, should missing values be removed? (default: TRUE)
 #'
-#' @return A numeric vector containing the influence function values for each observation
+#' @return A numeric vector containing the estimtaed quantile influence function values for each observation.
 #'
 #' @details
-#' The population influence function of the quantile \eqn{Q(p)} is defined as:
+#' From the definiton in  Van der Vaart (2009), the population influence function of the quantile \eqn{Q(p)} is defined as:
 #'
 #' \deqn{IF(Q(p))_i = \frac{p - \mathbf{1}(y_i \leq Q(p))}{f(Q(p)) \, N},}
 #'
@@ -40,16 +38,34 @@
 #' with bandwidth \eqn{h = 0.79 \cdot IQR \cdot \widehat{N}^{-1/5}}
 #'
 #'
-#' @references
-#' Osier, G., (2009), “Variance estimation for complex indicators of poverty and inequality using
-#'  linearization techniques”, Survey Research Methods, 3, 167–195
+#' @examples
 #'
-#' Scarpa, S., Ferrante, M.R., & Sperlich, S. (2025). Inference for the Quantile Ratio
-#'   Inequality Index in the Context of Survey Data. \emph{Journal of Survey Statistics and Methodology}.
+#' # On synthetic data
+#' eq_synth <- rlnorm(30, 9, 0.7)
+#' IF_synth <- if_quantile(y = eq_synth, probs = 0.3)
+#'
+#' # On real data
+#' data(synthouse)
+#' eq <- synthouse$eq_income[1:30] ## Take some observations (as example)
+#' w <- synthouse$weight[1:30]
+#' IF_quantile <- if_quantile(y = eq, weights = w, type = 6, probs = 0.5)
+#'
+#'
+#'
+#' @references
+#'
+#' Deville, J.C., (1999), “Variance estimation for complex statistics and estimators:
+#' Linearization and residual techniques”, *Survey methodology*, 25, 193–204
+#'
+#' Van der Vaart, A. W., (2000),"Asymptotic statistics", (Vol. 3),
+#' Cambridge University Press
+#
+#'
+#' Osier, G., (2009), “Variance estimation for complex indicators of poverty and inequality using
+#'  linearization techniques”, *Survey Research Methods*, 3, 167–195
 #'
 #'
 #' @export
-
 if_quantile <- function(y, weights = NULL, probs, type = 6, na.rm = TRUE) {
 
   # Compute estimated population size
@@ -80,6 +96,7 @@ if_quantile <- function(y, weights = NULL, probs, type = 6, na.rm = TRUE) {
   # Compute influence function for each observation
   indicator <- ifelse(y <= q, 1, 0)
   IF <- (probs - indicator) * (1 / (hatN * fde))
+  IF <- unname(IF)
 
   return(IF)
 }

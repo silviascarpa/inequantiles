@@ -4,7 +4,7 @@
 \alias{csquantile}
 \title{Estimator of quantile in case of simple and complex sampling design}
 \usage{
-csquantile(y, weights = NULL, probs = seq(0, 1, 0.1), type = 5, na.rm = FALSE)
+csquantile(y, weights = NULL, probs = seq(0, 1, 0.1), type = 4, na.rm = FALSE)
 }
 \arguments{
 \item{y}{Numeric vector of observations.}
@@ -13,22 +13,109 @@ csquantile(y, weights = NULL, probs = seq(0, 1, 0.1), type = 5, na.rm = FALSE)
 
 \item{probs}{Numeric vector of probabilities (default = seq(0, 1, 0.1)).}
 
-\item{type}{Quantile algorithm: integer 4-9 or "HD" for Harrell-Davis (default: 5)}
+\item{type}{Quantile estimation algorithm: integer 4-9 or "HD" for Harrell-Davis (default: 4)}
 
-\item{na.rm}{Logical indicating whether to remove NA values (default: FALSE)}
+\item{na.rm}{Logical indicating whether to remove NA values (default: TRUE)}
 }
 \value{
-A named numeric vector of quantiles corresponding to \code{probs}.
+A named numeric vector of estimated quantiles corresponding to \code{probs}.
 }
 \description{
-Computes quantiles for weighted or unweighted data, allowing several interpolation, as studied by
-Scarpa et al (2025). Supports standard quantile types (4-9) and the
-Harrell-Davis estimator ("HD") when no weights are considered.
+Computes quantiles for weighted or unweighted data, allowing for sampling weights
+and several interpolation, as studied by Scarpa et al. (2025).
+The function extends the standard quantile definitions
+of Hyndman & Fan (1996) and of the Harrell & Davis (1982) estimator to the case of complex survey data by incorporating
+sampling weights into the computation of cumulative distribution function (CDF)
+and interpolation points.
+}
+\details{
+Consider a random sample \eqn{s}. Let \eqn{Y_1, \ldots, Y_n} be the sample observations from a finite population,
+with order statistics \eqn{Y_{(1)} \le \ldots \le Y_{(n)}} and corresponding sampling
+weights \eqn{w_1, \ldots, w_n}. Define the cumulative weights
+\eqn{W_j = \sum_{i \le j} w_i} and the total weight \eqn{W_n = \sum_{i=1}^n w_i}.
+The weighted quantile estimator is computed as a linear interpolation between
+adjacent order statistics:
+
+\deqn{
+  \widehat{Q}(p)
+  = Y_{(k-1)} +
+    (Y_{(k)} - Y_{(k-1)})
+    \frac{p - \widehat{r}_{k-1}}{\widehat{r}_k - \widehat{r}_{k-1}},
+}
+
+where \eqn{\widehat{r}_k} denotes the estimated cumulative distribution function
+(the “plotting position”), and the order \eqn{k} is such that
+\eqn{W_{k-1} - m_{k-1} < W_n p < W_k - m_k},
+with \eqn{m_k} determined by the interpolation method.
+
+The function supports several interpolation rules (types 4–9), extending the
+quantile definitions in Hyndman & Fan (1996) to incorporate sampling weights.
+
+The table below summarizes the six interpolation types (4–9) extended from
+Hyndman & Fan (1996) to incorporate sampling weights,
+as described in Scarpa et al. (2025).
+
+\tabular{llll}{
+\strong{Type} \tab \strong{Estimator \eqn{\widehat{r}_k}} \tab
+\strong{Interpolation \eqn{\widehat{m}_k}} \tab
+\strong{Selection rule for \eqn{k}} \cr
+4 \tab \eqn{W_k / W_n} \tab 0 \tab \eqn{W_{k-1} \le W_n p < W_k} \cr
+5 \tab \eqn{(W_k - \tfrac{1}{2} w_k) / W_n} \tab \eqn{w_k / 2} \tab
+\eqn{W_{k-1} - \tfrac{w_{k-1}}{2} \le W_n p < W_k - \tfrac{w_k}{2}} \cr
+6 \tab \eqn{W_k / (W_n + w_n)} \tab \eqn{w_n p} \tab
+\eqn{W_{k-1} \le (W_n + w_n)p < W_k} \cr
+7 \tab \eqn{W_{k-1} / W_{n-1}} \tab \eqn{w_k - w_n p} \tab
+\eqn{W_{k-2} \le W_{n-1}p < W_{k-1}} \cr
+8 \tab \eqn{(W_k - \tfrac{1}{3}w_k) / (W_n + \tfrac{w_n}{3})} \tab
+\eqn{\tfrac{w_k}{3} + \tfrac{w_n}{3}p} \tab
+\eqn{W_{k-1} - \tfrac{w_{k-1}}{3} \le (W_n - \tfrac{w_n}{3})p < W_k - \tfrac{w_k}{3}} \cr
+9 \tab \eqn{(W_k - \tfrac{3}{8}w_k) / (W_n + \tfrac{1}{4}w_n)} \tab
+\eqn{\tfrac{3}{8}w_k + \tfrac{w_n}{4}p} \tab
+\eqn{W_{k-1} - \tfrac{3w_{k-1}}{8} \le (W_n + \tfrac{w_n}{4})p < W_k - \tfrac{3w_k}{8}} \cr
+}
+
+For unweighted data, the function returns the standard R quantiles.
+
+The Harrell–Davis estimator ("HD") is also extended to the weighted case as
+proposed in Kreutzmann (2018), by redefining the weighting coefficients
+\eqn{\widehat{\mathcal{W}}_j(p)} for order statistics as:
+
+\deqn{
+\widehat{\mathcal{W}}_j(p)
+  = b_{(W_j / W_n)}\{(W_n + w_n)p, W_n - (W_n + w_n)p + w_n\}
+  - b_{(W_{j-1}/W_n)}\{(W_n + w_n)p, W_n - (W_n + w_n)p + w_n\},
+}
+
+where \eqn{b_x(a,b)} denotes the incomplete beta function.
+
+The resulting quantile estimator is
+\eqn{\widehat{Q}_{HD}(p) = \sum_{j \in s} \widehat{\mathcal{W}}_j(p) Y_{(j)}.}
+For unweighted data, the function returns the Harrell & Davis quantile estimator.
+}
+\examples{
+
+data(synthouse)
+
+y <- synthouse$eq_income ### Income data
+
+# Compute unweighted quantiles (default: type = 4)
+csquantile(y, probs = c(0.25, 0.5, 0.75), type = 6)
+
+# Consider the sampling weights
+w <- synthouse$weight
+csquantile(y, weight = w, probs = c(0.25, 0.5, 0.75), type = 6)
+
+
+
 }
 \references{
-Hyndman, R.J. & Fan, Y. (1996). Sample quantiles in statistical packages.
-\emph{The American Statistician}, 50(4), 361–365.
+Harrell, F. E., & Davis, C. E. (1982). "A new distribution-free quantile estimator".
+\emph{Biometrika}, 69(3), 635-640.
 
-Scarpa, S., Ferrante, M.R., & Sperlich, S. (2025). Inference for the Quantile Ratio
-Inequality Index in the Context of Survey Data. \emph{Journal of Survey Statistics and Methodology}.
+Hyndman, R.J. & Fan, Y. (1996). "Sample quantiles in statistical packages".
+\emph{{The American Statistician}}, 50(4), 361–365.
+
+Scarpa, S., Ferrante, M. R., & Sperlich, S. (2025).
+"Inference for the Quantile Ratio Inequality Index in the Context of Survey Data."
+\emph{Journal of Survey Statistics and Methodology}, smaf024.
 }
