@@ -57,9 +57,10 @@ A list containing:
 \item{call}{The matched function call.}
 }
 \description{
-Implements the rescaled bootstrap method for variance estimation in survey data,
+Implements the \emph{rescaled bootstrap} method for variance estimation in survey data,
 supporting both stratified simple random sampling and multistage complex designs.
-Based on Rao & Wu (1988, 1992) and Kolenikov (2010).
+The methodology is based on \insertCite{rao1992some;textual}{inequantiles} and
+\insertCite{kolenikov2010resampling;textual}{inequantiles}.
 }
 \details{
 The rescaled bootstrap is a resampling technique designed for complex survey data that preserves
@@ -192,18 +193,11 @@ boot_complex$strata_info
 # ================================================================
 
 
-}
-\references{
-Rao, J. N. K. and Wu, C. F. J. (1988). "Resampling inference with complex survey data."
-\emph{Journal of the American Statistical Association}, 83(401), 231–241.
+ @references
+\insertRef{rao1992some}{inequantiles}
 
-Rao, J. N. K., Wu, C. F. J. and Yue, K. (1992). "Some recent work on resampling methods for complex surveys."
-\emph{Survey Methodology}, 18(2), 209–217.
+\insertRef{kolenikov2010resampling}{inequantiles}
 
-Kolenikov, S. (2010). "Resampling variance estimation for complex survey data."
-\emph{The Stata Journal}, 10(2), 165–199.
+\insertRef{scarpa2025inference}{inequantiles}
 
-Scarpa, S., Ferrante, M. R., and Sperlich, S. (2025).
-"Inference for the Quantile Ratio Inequality Index in the Context of Survey Data."
-\emph{Journal of Survey Statistics and Methodology}, smaf024
 }

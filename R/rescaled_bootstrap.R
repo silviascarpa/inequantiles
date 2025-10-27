@@ -1,9 +1,10 @@
 #' Rescaled Bootstrap Variance Estimation
 #'
 #'
-#' Implements the rescaled bootstrap method for variance estimation in survey data,
+#' Implements the *rescaled bootstrap* method for variance estimation in survey data,
 #' supporting both stratified simple random sampling and multistage complex designs.
-#' Based on Rao & Wu (1988, 1992) and Kolenikov (2010).
+#' The methodology is based on \insertCite{rao1992some;textual}{inequantiles} and
+#' \insertCite{kolenikov2010resampling;textual}{inequantiles}.
 #'
 #' @param data A data frame containing the survey data.
 #' @param y A character string specifying the variable name to be used for the target variable.
@@ -164,19 +165,14 @@
 #
 #'
 #'
-#' @references
-#' Rao, J. N. K. and Wu, C. F. J. (1988). "Resampling inference with complex survey data."
-#'   *Journal of the American Statistical Association*, 83(401), 231–241.
+#'  @references
+#' \insertRef{rao1992some}{inequantiles}
 #'
-#' Rao, J. N. K., Wu, C. F. J. and Yue, K. (1992). "Some recent work on resampling methods for complex surveys."
-#'   *Survey Methodology*, 18(2), 209–217.
+#' \insertRef{kolenikov2010resampling}{inequantiles}
 #'
-#' Kolenikov, S. (2010). "Resampling variance estimation for complex survey data."
-#'   *The Stata Journal*, 10(2), 165–199.
+#' \insertRef{scarpa2025inference}{inequantiles}
 #'
-#' Scarpa, S., Ferrante, M. R., and Sperlich, S. (2025).
-#'   "Inference for the Quantile Ratio Inequality Index in the Context of Survey Data."
-#'   *Journal of Survey Statistics and Methodology*, smaf024
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #'
 #' @export

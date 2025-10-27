@@ -1,9 +1,14 @@
 Package: inequantiles
-Title: What the Package Does (One Line, Title Case)
+Title: Quantile-Based Inequality Indicators for Complex Survey Data
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person("Silvia", "Scarpa", , "silvia.scarpa@unimore.it", 
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0003-4003-1621"))
+Description: Provides functions for estimating quantile-based inequality 
+    indicators such as the quantile ratio index, quintile share ratio, Palma index
+    and quantiles or ratio of them from  complex sampling data. Influence function estimators and
+    estimator of the sampling variance via rescaled bootstrap is also provided.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -11,3 +16,8 @@ RoxygenNote: 7.3.3
 Depends: 
     R (>= 3.5)
 LazyData: true
+Imports:
+    Rdpack
+RdMacros:
+    Rdpack
+

@@ -1,11 +1,12 @@
 #' Estimator of quantile in case of simple and complex sampling design
 #'
 #' Computes quantiles for weighted or unweighted data, allowing for sampling weights
-#' and several interpolation, as studied by Scarpa et al. (2025).
-#' The function extends the standard quantile definitions
-#' of Hyndman & Fan (1996) and of the Harrell & Davis (1982) estimator to the case of complex survey data by incorporating
-#' sampling weights into the computation of cumulative distribution function (CDF)
-#' and interpolation points.
+#' and several interpolation types.
+#' The method extends the standard quantile
+#' definitions of \insertCite{hyndman1996sample;textual}{inequantiles} and
+#' \insertCite{harrell1982new;textual}{inequantiles} estimator to the case of complex survey data
+#' by incorporating sampling weights into the cumulative distribution function (CDF)
+#' and interpolation points, as proposed in \insertCite{scarpa2025inference;textual}{inequantiles}.
 #'
 #' @param y Numeric vector of observations.
 #' @param weights Optional numeric vector of sampling weights (default: NULL for equal weights)
@@ -14,7 +15,7 @@
 #' @param na.rm Logical indicating whether to remove NA values (default: TRUE)
 #'
 #' @details
-#' Consider a random sample \eqn{s}. Let \eqn{Y_1, \ldots, Y_n} be the sample observations from a finite population,
+#' Consider a random sample \eqn{s} of size \eqn{n}. Let \eqn{Y_1, \ldots, Y_n} be the sample observations from a finite population,
 #' with order statistics \eqn{Y_{(1)} \le \ldots \le Y_{(n)}} and corresponding sampling
 #' weights \eqn{w_1, \ldots, w_n}. Define the cumulative weights
 #' \eqn{W_j = \sum_{i \le j} w_i} and the total weight \eqn{W_n = \sum_{i=1}^n w_i}.
@@ -34,11 +35,11 @@
 #' with \eqn{m_k} determined by the interpolation method.
 #'
 #' The function supports several interpolation rules (types 4–9), extending the
-#' quantile definitions in Hyndman & Fan (1996) to incorporate sampling weights.
+#' quantile definitions in \insertCite{hyndman1996sample;textual}{inequantiles} to incorporate sampling weights.
 #'
 #' The table below summarizes the six interpolation types (4–9) extended from
-#' Hyndman & Fan (1996) to incorporate sampling weights,
-#' as described in Scarpa et al. (2025).
+#' \insertCite{hyndman1996sample;textual}{inequantiles} to incorporate sampling weights,
+#' as described in \insertCite{scarpa2025inference;textual}{inequantiles}.
 #'
 #' \tabular{llll}{
 #' \strong{Type} \tab \strong{Estimator \eqn{\widehat{r}_k}} \tab
@@ -97,15 +98,13 @@
 #' A named numeric vector of estimated quantiles corresponding to \code{probs}.
 #'
 #' @references
-#' Harrell, F. E., & Davis, C. E. (1982). "A new distribution-free quantile estimator".
-#' *Biometrika*, 69(3), 635-640.
+#' \insertRef{harrell1982new}{inequantiles}
 #'
-#' Hyndman, R.J. & Fan, Y. (1996). "Sample quantiles in statistical packages".
-#'   *{The American Statistician}*, 50(4), 361–365.
+#' \insertRef{hyndman1996sample}{inequantiles}
 #'
-#' Scarpa, S., Ferrante, M. R., & Sperlich, S. (2025).
-#' "Inference for the Quantile Ratio Inequality Index in the Context of Survey Data."
-#' *Journal of Survey Statistics and Methodology*, smaf024.
+#' \insertRef{scarpa2025inference}{inequantiles}
+#'
+#'
 #'
 #' @export
 

@@ -23,10 +23,13 @@ A numeric vector containing the estimtaed quantile influence function values for
 \description{
 Computes the influence function of sample quantiles, allowing for both
 simple random sampling and complex survey designs with sampling weights, in
-the context of finite population  (see Deville, 1999, for a full explanation).
+the context of finite population. See \insertCite{hampel1986robust;textual}{inequantiles}
+for an explanation of influence function and \insertCite{deville1999variance;textual}{inequantiles}
+for its definition in finite population theory.
 }
 \details{
-From the definiton in  Van der Vaart (2009), the population influence function of the quantile \eqn{Q(p)} is defined as:
+From the definiton in \insertCite{van2000asymptotic;textual}{inequantiles} and \insertCite{osier2009variance}{inequantiles},
+the population influence function of the quantile \eqn{Q(p)} is defined as:
 
 \deqn{IF(Q(p))_i = \frac{p - \mathbf{1}(y_i \leq Q(p))}{f(Q(p)) \, N},}
 
@@ -65,12 +68,11 @@ IF_quantile <- if_quantile(y = eq, weights = w, type = 6, probs = 0.5)
 
 }
 \references{
-Deville, J.C., (1999), “Variance estimation for complex statistics and estimators:
-Linearization and residual techniques”, \emph{Survey methodology}, 25, 193–204
+\insertRef{hampel1986robust}{inequantiles}
 
-Van der Vaart, A. W., (2000),"Asymptotic statistics", (Vol. 3),
-Cambridge University Press
+\insertRef{deville1999variance}{inequantiles}
 
-Osier, G., (2009), “Variance estimation for complex indicators of poverty and inequality using
-linearization techniques”, \emph{Survey Research Methods}, 3, 167–195
+\insertRef{van2000asymptotic}{inequantiles}
+
+\insertRef{osier2009variance}{inequantiles}
 }

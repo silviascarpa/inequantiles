@@ -21,6 +21,9 @@
 #' quantile type. This allows \eqn{\widehat{QRI}} to be used both for simple
 #' random samples and for complex survey data with design weights.
 #'
+#' This index was proposed by \insertCite{prendergast2018simple;textual}{inequantiles},
+#' and extended to survey data by \insertCite{scarpa2025inference;textual}{inequantiles}.
+#'
 #'
 #' @examples
 #'
@@ -43,14 +46,11 @@
 #' })
 #'
 #' @references
+#' \insertRef{prendergast2018simple}{inequantiles}
 #'
-#' Prendergast, L. A., and Staudte, R. G., (2018), “A simple and effective inequality measure”,
-#'    *The American Statistician*, 72, 328–343
+#' \insertRef{scarpa2025inference}{inequantiles}
 #'
-#'
-#' Scarpa, S., Ferrante, M. R., & Sperlich, S. (2025).
-#' "Inference for the Quantile Ratio Inequality Index in the Context of Survey Data."
-#' *Journal of Survey Statistics and Methodology*.
+#' @importFrom Rdpack reprompt
 #'
 #'
 #' @export

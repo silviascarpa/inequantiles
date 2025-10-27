@@ -1,8 +1,10 @@
 #' Influence Function for the quantile ratio index
 #'
 #' Computes the influence function of the quantile ratio index (QRI) in the context
-#' of finite population (see Deville, 1999, for a definition) for all observations,
-#' as defined in Scarpa et al. (2025), under simple and complex sampling.
+#' of finite population for all observations,
+#' as defined in \insertCite{scarpa2025inference;textual}{inequantiles}, under simple and complex sampling.
+#' See \insertCite{deville1999variance;textual}{inequantiles} for an introduction to the definition of influence
+#' function in finite population theory.
 #'
 #' @param y A numeric vector of data values
 #' @param weights A numeric vector of sampling weights (optional). If \code{NULL}, equal weights are assumed.
@@ -72,12 +74,9 @@
 #'
 #' @references
 #'
-#' Deville, J.C., (1999), “Variance estimation for complex statistics and estimators:
-#' Linearization and residual techniques”, *Survey methodology*, 25, 193–204
+#' \insertRef{deville1999variance}{inequantiles}
 #'
-#' Scarpa, S., Ferrante, M.R., & Sperlich, S. (2025). "Inference for the Quantile Ratio
-#'   Inequality Index in the Context of Survey Data".
-#'   *{Journal of Survey Statistics and Methodology}*, smaf024
+#' \insertRef{scarpa2025inference}{inequantiles}
 #'
 #' @export
 
