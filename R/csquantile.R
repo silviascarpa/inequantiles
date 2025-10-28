@@ -1,4 +1,4 @@
-#' Estimator of quantile in case of simple and complex sampling design
+#' Estimator of Quantile in case of Simple and Complex Sampling Design
 #'
 #' Computes quantiles for weighted or unweighted data, allowing for sampling weights
 #' and several interpolation types.
@@ -104,7 +104,7 @@
 #'
 #' \insertRef{scarpa2025inference}{inequantiles}
 #'
-#'
+#' @importFrom stats integrate pbeta quantile var
 #'
 #' @export
 

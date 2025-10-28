@@ -165,7 +165,8 @@
 #
 #'
 #'
-#'  @references
+#' @references
+#'
 #' \insertRef{rao1992some}{inequantiles}
 #'
 #' \insertRef{kolenikov2010resampling}{inequantiles}

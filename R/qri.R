@@ -1,6 +1,7 @@
-#' quantile ratio index estimator
+#' Quantile Ratio Index Estimator
 #'
 #' Computes the quantile ratio index (QRI) estimator for measuring inequality
+#'  on simple and complex sampling data
 #'
 #' @param y A numeric vector of data values
 #' @param weights A numeric vector of sampling weights (optional)
@@ -12,6 +13,8 @@
 #' @return A scalar numeric value representing the estimated inequality by the quantile ratio index (QRI).
 #'
 #' @details
+#' Consider a random sample \eqn{s} of size, where \eqn{w_j}, \eqn{j \in s}, defines
+#' the sampling weight associated to the \eqn{j}-th individual.
 #' The QRI estimator is defined as:
 #'
 #' \deqn{\widehat{QRI} = \frac{1}{M}\sum_{m=1}^M\left(1- \frac{\widehat{Q}(p_{m/2})}{\widehat{Q}(1 - p_{m/2})}\right)}
@@ -31,7 +34,7 @@
 #'
 #' eq <- synthouse$eq_income ### Income data
 #'
-#' # Compute unweighted qri with default type 6 quantile estimator
+#' # Compute unweighted QRI with default type 6 quantile estimator
 #' qri(y = eq)
 #'
 #' # Consider the sampling weights and change quantile estimation type
@@ -57,6 +60,24 @@
 
 
 qri <- function(y, weights = NULL, J = 100, type = 6, na.rm = TRUE) {
+
+  # Check for negative values
+  if (any(y < 0, na.rm = TRUE)) {
+    warning("The input vector 'y' contains negative values. ",
+            "The QRI is designed for non-negative distributions. ",
+            "Results may not be meaningful for data with negative values.",
+            call. = FALSE)
+  }
+
+  # Set weights to 1 if not provided
+  if (is.null(weights)) {
+    weights <- rep(1, length(y))
+  }
+
+  # Validate that y and weights have the same length
+  if (length(y) != length(weights)) {
+    stop("'y' and 'weights' must have the same length")
+  }
 
   # Generate probability points
   probs <- ((1:J) - 0.5) / J

@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 external_data/
+^R/package_imports\.R$
+

@@ -193,11 +193,11 @@ boot_complex$strata_info
 # ================================================================
 
 
- @references
+}
+\references{
 \insertRef{rao1992some}{inequantiles}
 
 \insertRef{kolenikov2010resampling}{inequantiles}
 
 \insertRef{scarpa2025inference}{inequantiles}
-
 }

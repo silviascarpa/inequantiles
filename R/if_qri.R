@@ -1,4 +1,4 @@
-#' Influence Function for the quantile ratio index
+#' Influence Function for the Quantile Ratio Index
 #'
 #' Computes the influence function of the quantile ratio index (QRI) in the context
 #' of finite population for all observations,

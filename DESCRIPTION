@@ -8,7 +8,7 @@ Authors@R:
 Description: Provides functions for estimating quantile-based inequality 
     indicators such as the quantile ratio index, quintile share ratio, Palma index
     and quantiles or ratio of them from  complex sampling data. Influence function estimators and
-    estimator of the sampling variance via rescaled bootstrap is also provided.
+    estimator of the sampling variance via rescaled bootstrap are also provided.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
