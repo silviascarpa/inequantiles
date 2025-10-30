@@ -1,5 +1,6 @@
 # Ignore external data folder
 external_data/
+R/package_imports.R
 
 # Common RStudio / temporary files
 .Rhistory
