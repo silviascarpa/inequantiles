@@ -3,8 +3,6 @@
 #'
 #' Implements the *rescaled bootstrap* method for variance estimation in survey data,
 #' supporting both stratified simple random sampling and multistage complex designs.
-#' The methodology is based on \insertCite{rao1992some;textual}{inequantiles} and
-#' \insertCite{kolenikov2010resampling;textual}{inequantiles}.
 #'
 #' @param data A data frame containing the survey data.
 #' @param y A character string specifying the variable name to be used for the target variable.
@@ -37,6 +35,9 @@
 #' The rescaled bootstrap is a resampling technique designed for complex survey data that preserves
 #' stratification and primary sampling unit (PSU) structure, providing consistent variance estimation
 #' for both smooth and non-smooth statistics.
+#' The methodology is based on \insertCite{rao1988resampling;textual}{inequantiles} and
+#' \insertCite{rao1992some;textual}{inequantiles}.
+#'
 #'
 #' \strong{(1) Stratified Simple Random Sampling}
 #'
@@ -166,6 +167,8 @@
 #'
 #'
 #' @references
+#'
+#' \insertRef{rao1988resampling}{inequantiles}
 #'
 #' \insertRef{rao1992some}{inequantiles}
 #'
