@@ -241,6 +241,7 @@ csquantile <- function(y,
       adjusted_weight <- total_weight - w[n]
       idx <- which(cumw <= w + adjusted_weight * p)
       l <- if(length(idx) > 0) max(idx) else 1
+      l <- max(l, 1)
       u <- min(n, l + 1)
       condition <- adjusted_weight * p > cumw[l - 1]
       numerator <- adjusted_weight * p - cumw[l - 1]
