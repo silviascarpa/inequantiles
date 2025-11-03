@@ -6,3 +6,6 @@ R/package_imports.R
 .Rhistory
 .RData
 .Rproj.user/
+
+# Ignore package imports file
+R/package_imports.R

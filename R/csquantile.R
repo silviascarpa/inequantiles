@@ -209,14 +209,18 @@ csquantile <- function(y,
 
     # Type-specific computations for l and interpolation parameters
     if (type == 4) {
-      l <- max(which(cumw <= total_weight * p), 2)
+      idx <- which(cumw <= total_weight * p)
+      l <- if(length(idx) > 0) max(idx) else 1
+      l <- max(l, 1)
       u <- min(n, l + 1)
       condition <- total_weight * p > cumw[l]
       numerator <- total_weight * p - cumw[l]
       denominator <- w[u]
 
     } else if (type == 5) {
-      l <- max(2, which(cumw <= w / 2 + total_weight * p))
+      idx <- which(cumw <= w / 2 + total_weight * p)
+      l <- if(length(idx) > 0) max(idx) else 1
+      l <- max(l, 1)
       if (l == length(w)) return(y[n])
       u <- min(n, l + 1)
       condition <- total_weight * p > (cumw[l] - w[l] / 2)
@@ -225,7 +229,9 @@ csquantile <- function(y,
 
     } else if (type == 6) {
       adjusted_weight <- total_weight + w[n]
-      l <- max(2, which(cumw <= adjusted_weight * p))
+      idx <- which(cumw <= adjusted_weight * p)
+      l <- if(length(idx) > 0) max(idx) else 1
+      l <- max(l, 1)
       u <- min(n, l + 1)
       condition <- adjusted_weight * p > cumw[l]
       numerator <- adjusted_weight * p - cumw[l]
@@ -233,7 +239,8 @@ csquantile <- function(y,
 
     } else if (type == 7) {
       adjusted_weight <- total_weight - w[n]
-      l <- max(2, max(which(cumw <= w + adjusted_weight * p)))
+      idx <- which(cumw <= w + adjusted_weight * p)
+      l <- if(length(idx) > 0) max(idx) else 1
       u <- min(n, l + 1)
       condition <- adjusted_weight * p > cumw[l - 1]
       numerator <- adjusted_weight * p - cumw[l - 1]
@@ -241,7 +248,9 @@ csquantile <- function(y,
 
     } else if (type == 8) {
       adjusted_weight <- total_weight + w[n] / 3
-      l <- max(2, which(cumw <= w / 3 + adjusted_weight * p))
+      idx <- which(cumw <= w / 3 + adjusted_weight * p)
+      l <- if(length(idx) > 0) max(idx) else 1
+      l <- max(l, 1)
       u <- min(n, l + 1)
       condition <- adjusted_weight * p > (cumw[l] - w[l] / 3)
       numerator <- adjusted_weight * p - (cumw[l] - w[l] / 3)
@@ -249,7 +258,9 @@ csquantile <- function(y,
 
     } else if (type == 9) {
       adjusted_weight <- total_weight + w[n] / 4
-      l <- max(2, which(cumw <= 3 * w / 8 + adjusted_weight * p))
+      idx <- which(cumw <= 3 * w / 8 + adjusted_weight * p)
+      l <- if(length(idx) > 0) max(idx) else 1
+      l <- max(l, 1)
       u <- min(n, l + 1)
       condition <- adjusted_weight * p > (cumw[l] - 3 * w[l] / 8)
       numerator <- adjusted_weight * p - (cumw[l] - 3 * w[l] / 8)
