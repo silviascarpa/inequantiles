@@ -6,8 +6,8 @@
 #'
 #' @param y A numeric vector of data values
 #' @param weights A numeric vector of sampling weights (optional)
-#' @param prob_top The percentile to be considered at the numerator (default \code{0.90})
-#' @param prob_bottom The percentile to be considered at the denominator (default \code{0.10}
+#' @param prob_numerator The percentile to be considered at the numerator (default \code{0.90})
+#' @param prob_denominator The percentile to be considered at the denominator (default \code{0.10}
 #' @param type Quantile estimation type: integer 4-9 or HD for Harrell-Davis (default: 6).
 #'         See \code{csquantile} documentation for a complete description.
 #' @param na.rm Logical, should missing values be removed? (default: TRUE)
@@ -41,7 +41,7 @@
 #'
 #' # Consider the sampling weights, change quantile estimation type and orders of quantiles
 #' w <- synthouse$weight
-#' ratio_quantiles(y = eq, weights = w, prob_top = 0.6, prob_bottom = 0.1, type = 5)
+#' ratio_quantiles(y = eq, weights = w, prob_numerator = 0.6, prob_denominator = 0.1, type = 5)
 #'
 #' # Compare the P90/P10 across macro-regions (NUTS1)
 #' tapply(1:nrow(synthouse), synthouse$NUTS1, function(area) {
@@ -56,8 +56,8 @@
 #' @export
 
 # ------- P90 / P10 ----------
-ratio_quantiles <- function(y, weights = NULL, prob_top = 0.90,
-                    prob_bottom = 0.10, type = 6, na.rm = FALSE){
+ratio_quantiles <- function(y, weights = NULL, prob_numerator = 0.90,
+                    prob_denominator = 0.10, type = 6, na.rm = FALSE){
 
   # Set weights to 1 if not provided
   if (is.null(weights)) {
@@ -69,12 +69,12 @@ ratio_quantiles <- function(y, weights = NULL, prob_top = 0.90,
     stop("'y' and 'weights' must have the same length")
   }
 
-  numerator <- unname(csquantile(y, probs = prob_top, weights = weights, type = type))
-  denominator <- unname(csquantile(y, probs = prob_bottom, weights = weights, type = type))
+  numerator <- unname(csquantile(y, probs = prob_numerator, weights = weights, type = type))
+  denominator <- unname(csquantile(y, probs = prob_denominator, weights = weights, type = type))
 
   # Check for zero denominator
   if (denominator == 0) {
-    warning("Denominator is zero: Q(", prob_bottom, ") = 0. Returning NA.")
+    warning("Denominator is zero: Q(", prob_denominator, ") = 0. Returning NA.")
     return(NA_real_)
   }
 

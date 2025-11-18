@@ -7,8 +7,8 @@
 ratio_quantiles(
   y,
   weights = NULL,
-  prob_top = 0.9,
-  prob_bottom = 0.1,
+  prob_numerator = 0.9,
+  prob_denominator = 0.1,
   type = 6,
   na.rm = FALSE
 )
@@ -18,9 +18,9 @@ ratio_quantiles(
 
 \item{weights}{A numeric vector of sampling weights (optional)}
 
-\item{prob_top}{The percentile to be considered at the numerator (default \code{0.90})}
+\item{prob_numerator}{The percentile to be considered at the numerator (default \code{0.90})}
 
-\item{prob_bottom}{The percentile to be considered at the denominator (default \code{0.10}}
+\item{prob_denominator}{The percentile to be considered at the denominator (default \code{0.10}}
 
 \item{type}{Quantile estimation type: integer 4-9 or HD for Harrell-Davis (default: 6).
 See \code{csquantile} documentation for a complete description.}
@@ -59,7 +59,7 @@ ratio_quantiles(y = eq)
 
 # Consider the sampling weights, change quantile estimation type and orders of quantiles
 w <- synthouse$weight
-ratio_quantiles(y = eq, weights = w, prob_top = 0.6, prob_bottom = 0.1, type = 5)
+ratio_quantiles(y = eq, weights = w, prob_numerator = 0.6, prob_denominator = 0.1, type = 5)
 
 # Compare the P90/P10 across macro-regions (NUTS1)
 tapply(1:nrow(synthouse), synthouse$NUTS1, function(area) {

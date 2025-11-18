@@ -4,11 +4,13 @@ author: "Silvia Scarpa"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to inequantiles}
+  %\VignetteIndexEntry{Introduction to inequantiles: Quantile-Based Inequality Measures for Survey Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-bibliography: references.bib
+bibliography: ../inst/REFERENCES.bib
 ---
+
+
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -21,16 +23,16 @@ knitr::opts_chunk$set(
 
 # Overview
 
-The **inequantiles** package provides tools for estimating quantile-based inequality indicators from survey data, with full support for complex sampling designs. These indicators offer robust alternatives to traditional moment-based measures like the Gini coefficient, particularly for skewed distributions with heavy tails.
+The **inequantiles** package provides tools for estimating quantiles and quantile-based inequality indicators from survey data, with full support for complex sampling designs. These indicators offer robust alternatives to traditional moment-based measures like the Gini coefficient, particularly for skewed distributions with heavy tails.
 
 ## Key Features
 
-- **Quantile Ratio Index (QRI)**: An inequality measure based on ratios of symmetric quantiles and considering the whole distribution
-- **Traditional indicators**: Quintile Share Ratio (QSR), Palma ratio, percentile ratios (e.g., P90/P10)
+- **Quantile ratio index (QRI)**: An inequality measure based on ratios of symmetric quantiles and considering the whole distribution
+- **Traditional indicators**: Quintile share ratio (QSR), Palma ratio, percentile ratios (e.g., P90/P10) estimators
 - **Weighted quantile estimation**: Multiple interpolation rules (types 4-9 plus HD) for the estimation of quantiles on complex sampling data
-- **Variance estimation**: Influence functions (for the QRI, QSR and Gini index) and rescaled bootstrap methods for complex surveys
-- **Grouped data support**: Estimation of quantiles and the qri from frequency tables when microdata are unavailable
-- **Gini coefficient with grouped data**: For grouped data with linear interpolation
+- **Variance estimation**: Rescaled bootstrap methods for complex surveys 
+- **Linearization techniques**: Influence function for the QRI, QSR, Gini and quantiles
+- **Grouped data support**: Estimation of quantiles, the QRI and the Gini coefficient from frequency tables and grouped data when microdata are unavailable
 
 ## Installation
 
@@ -41,6 +43,13 @@ devtools::install_github("silviascarpa/inequantiles")
 
 ```{r}
 library(inequantiles)
+```
+
+
+## Import synthetic survey data
+```{r}
+data(synthouse)
+head(synthouse)
 ```
 
 # Theoretical Background
@@ -81,15 +90,17 @@ superpop_qri(qweibull, shape = 1.5, scale = 30000)
 
 
 ### Finite Population framework
-Consider a finite pupulation $U = \{1, \ldots, N}$, from which a random sample $s$ of size $n$ is selected. Let $y_j$, $j \in s$, be the observed values of the variable of interest, with $y_{(1)}, \ldots, y_{(n)}$ denoting its order statistics. Assume that the sample is drawn according to a certain sampling scheme, with inclusion probability $\pi_j = Pr(j \in s)$. The corresponding sampling weight $w_j$ is obtained by the inversion of the inclusion probability, plus, when requireed, some adjustments for non-response and calibration.  Let $W_j = \sum_{i \in s} w_i \mathbbm{1}(i \leq j)$ denote the cumulative sum of weights up to observation $j$. For $p=0$ and $p=1$, define $\widehat{Q} (0)=y_{(1)}$ and $\widehat{Q}(1)=y_{(n)}$. The $p$ quantile estimator can be expressed as a weighted average of order statistics, 
-\begin{equation}
+Consider a finite population $U = \{1, \ldots, N}$, from which a random sample $s$ of size $n$ is selected. Let $y_j$, $j \in s$, be the observed values of the variable of interest, with $y_{(1)}, \ldots, y_{(n)}$ denoting its order statistics. Assume that the sample is drawn according to a certain sampling scheme, with inclusion probability $\pi_j = Pr(j \in s)$. The corresponding sampling weight $w_j$ is obtained by the inversion of the inclusion probability, plus, when required, some adjustments for non-response and calibration.  Let $W_j = \sum_{i \in s} w_i \mathbf{1}(i \leq j)$ denote the cumulative sum of weights up to observation $j$. For $p=0$ and $p=1$, define $\widehat{Q} (0)=y_{(1)}$ and $\widehat{Q}(1)=y_{(n)}$. The $p$ quantile estimator can be expressed as a weighted average of order statistics, 
+
+$$
 \widehat{Q}(p)=y_{(k-1)}+ \left(y_{(k )} - y_{(k- 1)}\right) \left(\frac{p - \widehat{r}_{k - 1 }}{\widehat{r}_{k} - \widehat{r}_{k - 1}} \right),
 \label{eq:quantiles complessi}
-\end{equation}
+$$
+
 where $\widehat{r}_{k}$ indicates the estimator of the cdf, namely the plotting position, and the selected order $k$ is such that $W_{k-1} - m_{k-1} < W_n p < W_{k} - m_k$, where $m_k$ is determined by the interpolation method between adjacent data points.
 Linear interpolation between the points $(\widehat r, y_{(k)})$ gives a quantile estimator for complex sampling data.
 
-The `csquantile()` function extends standard quantile estimation to survey data with weights. It implements the methods described in Hyndman and Fan (1996) adapted for weighted data, plus the Harrell-Davis estimator.
+The `csquantile()` function extends standard quantile estimation to survey data with weights. It implements the methods described in \insertCite{hyndman1996sample;textual}{inequantiles} adapted for weighted data, plus the Harrell-Davis estimator.
 
 ### Example: Computing Weighted Quantiles
 
@@ -106,7 +117,7 @@ csquantile(synthouse$eq_income, probs = c(0.25, 0.5, 0.75), type = 6)
 
 ### Harrell-Davis Estimator
 
-The Harrell-Davis estimator uses a weighted average of all order statistics:
+The Harrell-Davis estimator \insertCite{harrell1982new}{inequantiles} uses a weighted average of all order statistics:
 
 ```{r}
 # Harrell-Davis weighted median
@@ -120,7 +131,9 @@ csquantile(y = synthouse$eq_income,
 ## QRI estimator
 For survey data from a finite population, we approximate the QRI integral using a grid of $M$ points:
 
-$$\widehat{\text{QRI}} = \frac{1}{M} \sum_{m=1}^M \left(1 - \frac{\widehat{Q}(p_m/2)}{\widehat{Q}(1-p_m/2)}\right)$$
+$$
+\widehat{\text{QRI}} = \frac{1}{M} \sum_{m=1}^M \left(1 - \frac{\widehat{Q}(p_m/2)}{\widehat{Q}(1-p_m/2)}\right)
+$$
 
 where $p_m = (m-0.5)/M$ and $\widehat{Q}(p)$ is a weighted sample quantile. By default, $M = 100$.
 
@@ -137,12 +150,9 @@ qri(income)
 ```
 
 
-Real survey data, instead, typically includes sampling weights (see `synthouse` as an example of survey data, created synthetically for examples):
+Real survey data, instead, typically includes sampling weights (see `synthouse` as an example of survey data, here created synthetically for examples):
 
 ```{r}
-# Load example household survey data on income
-data(synthouse)
-
 
 # Compute weighted QRI
 qri(y = synthouse$eq_income, 
@@ -152,7 +162,7 @@ qri(y = synthouse$eq_income,
 
 ## Comparing Different Quantile Types
 
-The package supports multiple quantile estimation methods (types 4-9 and Harrell-Davis):
+The package supports multiple quantile estimation methods (types 4-9 and Harrell-Davis) into quantile-based inequality indicators estimators. Differences are particularly evident in small samples \insertCite{scarpa2025inference}{inequantiles}:
 
 ```{r}
 # Compare different quantile types by NUTS3
@@ -194,12 +204,14 @@ print(head(results_df, n = 10))
 
 The QSR compares the income share of the top 20% to the bottom 20%:
 
-$$\text{QSR} = \frac{\sum_{i: y_i \geq Q(0.8)} w_i y_i}{\sum_{i: y_i \leq Q(0.2)} w_i y_i}$$
+$$
+\text{QSR} = \frac{\sum_{i: y_i \geq Q(0.8)} w_i y_i}{\sum_{i: y_i \leq Q(0.2)} w_i y_i}
+$$
 
 ```{r}
 # Compute QSR
 qsr(y = synthouse$eq_income, 
-    weights = synthouse$weight)
+    weights = synthouse$weight, type = 4)
 ```
 
 ## Palma Ratio
@@ -209,7 +221,7 @@ The Palma ratio compares the top 10% to the bottom 40%:
 ```{r}
 # Compute Palma ratio
 palma_ratio(y = synthouse$eq_income, 
-            weights = synthouse$weight)
+            weights = synthouse$weight, type = 7)
 ```
 
 ## Percentile Ratios (e.g., P90/P10)
@@ -218,14 +230,15 @@ palma_ratio(y = synthouse$eq_income,
 # P90/P10 ratio
 ratio_quantiles(y = synthouse$eq_income,
                 weights = synthouse$weight,
-                prob_top = 0.90,
-                prob_bottom = 0.10)
+                prob_numerator = 0.90,
+                prob_denominator = 0.10,
+                type = 7)
 
 # P75/P25 ratio
 ratio_quantiles(y = synthouse$eq_income,
                 weights = synthouse$weight,
-                prob_top = 0.75,
-                prob_bottom = 0.25)
+                prob_numerator = 0.75,
+                prob_denominator = 0.25, type = 6)
 ```
 
 # Comparing Indicators Across Groups
@@ -321,177 +334,139 @@ qri_grouped(freq = wage_freq,
 
 The package provides influence functions for constructing variance estimators using linearization methods:
 
-```{r}
-# Influence function for quantiles
-if_q50 <- if_quantile(y = synthouse$eq_income[1:100],
-                      weights = synthouse$weight[1:100],
-                      probs = 0.5,
-                      type = 6)
+### Influence Function for quantiles
 
-# First few values
-head(if_q50)
 
-# Influence function for QRI
-if_qri_vals <- if_qri(y = synthouse$eq_income[1:100],
-                      weights = synthouse$weight[1:100],
-                      type = 6)
 
-head(if_qri_vals)
-```
 
-## Influence Function for QSR
+## Influence Function for some inequality indicators
 
 ```{r}
-# Influence function for Quintile Share Ratio
-if_qsr_vals <- if_qsr(y = synthouse$eq_income[1:100],
-                      weights = synthouse$weight[1:100],
-                      type = 4)
+# Select a subset for clearer visualization
+n_obs <- 200
+set.seed(123)
+idx <- sample(nrow(synthouse), n_obs)
 
-head(if_qsr_vals)
+# Extract data
+y_subset <- synthouse$eq_income[idx]
+w_subset <- synthouse$weight[idx]
+
+# Order income values (for ease of representation, see the plots later)
+order_idx <- order(y_subset)
+y_ordered <- y_subset[order_idx]      # Ordina i dati
+w_ordered <- w_subset[order_idx]      
+
+# Compute the IF for some indicators
+if_gini_vals <- if_gini(y_ordered, w_ordered)
+if_qri_vals <- if_qri(y_ordered, w_ordered, type = 6)
+if_qsr_vals <- if_qsr(y_ordered, w_ordered, type = 4)
+if_q50_vals <- if_quantile(y_ordered, w_ordered, probs = 0.5, type = 6)
+
 ```
-## Influence Function for Gini
+### Comparison of the influence function values
 
+```{r}
+# Create the plot
+library(ggplot2)
+library(scales)
 
-These influence functions can be used with design-based variance estimation methods (e.g., Taylor linearization) or as building blocks for bootstrap procedures.
+# 
+plot_df <- data.frame(
+  Income = rep(y_ordered, 4),
+  IF_Value = c(
+    if_qri_vals,   # ← Già ordinato
+    if_qsr_vals,   # ← Già ordinato
+    if_gini_vals,  # ← Già ordinato
+    if_q50_vals    # ← Già ordinato
+  ),
+  Indicator = rep(c("QRI", "QSR", "Gini", "Median"), each = n_obs)
+)
 
-### Using Influence Functions for Variance Estimation
-
-The influence function approach allows variance estimation that accounts for the sampling design. For stratified sampling:
-
-```{r, eval = FALSE}
-# Pseudo-code for Taylor linearization variance estimation
-# (requires design information)
-
-# 1. Compute influence function
-z <- if_qri(y = sample_data, weights = sample_weights)
-
-# 2. Use with survey package or similar
-library(survey)
-design <- svydesign(ids = ~psu, strata = ~stratum, 
-                    weights = ~weight, data = survey_data)
-
-# 3. Estimate variance using linearized variable
-# var_est <- svyvar(~z, design)
+ggplot(plot_df, aes(x = Income, y = IF_Value, color = Indicator)) +
+  geom_line(linewidth = 0.8, alpha = 0.7) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray40") +
+  facet_wrap(~ Indicator, scales = "free_y", ncol = 2) +
+  scale_x_continuous(labels = scales::comma) +
+  labs(
+    title = "Influence Functions: How Each Observation Affects the Estimate",
+    subtitle = paste("Based on", n_obs, "randomly sampled households"),
+    x = "Equivalized Income (ordered)",
+    y = "Influence Function Value",
+    caption = "Note: Higher absolute values indicate greater influence on the estimate"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    legend.position = "none",
+    strip.text = element_text(face = "bold", size = 11),
+    plot.title = element_text(face = "bold", size = 13),
+    plot.subtitle = element_text(color = "gray40"),
+    panel.grid.minor = element_blank()
+  )
 ```
 
-# Advanced Topics
+#### Key Observations
 
-## Choosing the Quantile Estimation Method
+**Gini Coefficient**:
+- Shows generally increasing pattern with income
+- Negative values for low incomes, positive for high incomes
 
-Different quantile types have different properties:
+**QRI (Quantile Ratio Index)**:
+- Balanced influence across the entire distribution
+- Jump around the median
+- More robust than the other inequality indicators
 
-- **Type 4**: Empirical CDF, discontinuous
-- **Type 5**: Midpoint of empirical CDF jumps
-- **Type 6**: Linear interpolation (default in many statistical packages)
-- **Type 7**: Default in R's `quantile()` function
-- **Type 8**: Approximately median-unbiased
-- **Type 9**: Approximately unbiased for normal distributions
-- **"HD"**: Harrell-Davis, smooth estimator using beta weights
+**QSR (Quintile Share Ratio)**:
+- Sharp discontinuities at $Q(0.2)$ and $Q(0.8)$
+- Near-zero influence in the middle 60% of distribution
+- High sensitivity to observations at boundary quantiles
 
-For survey data, **type 6** is often recommended as it provides a good balance between properties and is widely used in official statistics.
+**Median**:
+- Step function that admits only two values
+- Most robust but ignores most of the distribution
+
 
 ## Bootstrap Variance Estimation
 
-For complex surveys, the rescaled bootstrap method (Rao and Wu 1988; Rao et al. 1992) is recommended:
+For complex surveys, the rescaled bootstrap method \insertCite{rao1988resampling}{inequantiles}; \insertCite{rao1992some}{inequantiles} is recommended:
 
 ```{r, eval = FALSE}
-# Pseudo-code for rescaled bootstrap
-
-# 1. For each bootstrap replicate b = 1, ..., B:
-#    a. Draw m_h samples with replacement from each stratum h
-#    b. Rescale the bootstrap weights
-#    c. Compute QRI with rescaled weights
-
-# 2. Compute variance from bootstrap replicates
-
-# This is typically implemented in specialized survey packages
-# See the survey or srvyr packages for implementation
+# Pseudo-code for rescaled bootstrap for the estimation of the sampling variance of the QRI estimator
+var_qri <- rescaled_bootstrap(
+  data = synthouse,
+  y = "eq_income",
+  strata = "NUTS2",
+  psu = "municipality",
+  weights = "weight",
+  estimator = function(x, w) qri(y = x, weights = w, type = 6),
+  by_strata = TRUE,
+  B = 100,
+  seed = 456)
 ```
 
-## Robustness of the QRI
 
-The QRI is particularly robust compared to the Gini coefficient:
+## Getting Help
 
-```{r}
-# Create data with an outlier
-income_with_outlier <- c(synthouse$eq_income[1:99], 1e7)
-weights_subset <- synthouse$weight[1:100]
+If you encounter issues or have questions:
 
-# Compare Gini (if available) and QRI sensitivity
-qri_normal <- qri(synthouse$eq_income[1:100], 
-                  weights_subset, type = 6)
-qri_outlier <- qri(income_with_outlier, 
-                   weights_subset, type = 6)
+- Open an issue on [GitHub](https://github.com/silviascarpa/inequantiles/issues)
+- Check the function documentation: `?qri`, `?csquantile`, etc.
+- Contact the maintainer: silvia.scarpa@unimore.it
 
-cat("QRI without outlier:", round(qri_normal, 4), "\n")
-cat("QRI with outlier:", round(qri_outlier, 4), "\n")
-cat("Relative change:", 
-    round(100 * (qri_outlier - qri_normal) / qri_normal, 2), "%\n")
-```
-
-The QRI shows limited sensitivity to extreme outliers because it's based on quantiles rather than means.
-
-# Interpretation Guidelines
-
-## QRI Interpretation
-
-- **QRI = 0**: Perfect equality (everyone has the same income)
-- **QRI = 0.2**: Relatively low inequality
-- **QRI = 0.3-0.4**: Moderate inequality
-- **QRI = 0.5+**: High inequality
-- **QRI → 1**: Extreme inequality
-
-## QSR Interpretation
-
-- **QSR = 1**: Perfect equality
-- **QSR = 3-4**: Moderate inequality (common in developed countries)
-- **QSR = 5-6**: High inequality
-- **QSR > 7**: Very high inequality
-
-## Palma Ratio Interpretation
-
-- **Palma < 1**: Income distributed towards middle/lower classes
-- **Palma ≈ 1**: Balanced distribution
-- **Palma > 1**: Income concentrated in top 10%
-- **Palma = 2**: Top 10% has twice the income of bottom 40%
-
-# Practical Recommendations
-
-## For Sample Surveys
-
-1. **Always use sampling weights** when available
-2. **Choose type 6** for quantile estimation (balanced properties)
-3. **Use influence functions** for design-based variance estimation
-4. **Consider rescaled bootstrap** for complex designs
-5. **Report confidence intervals** along with point estimates
-
-## For Grouped Data
-
-1. **Define narrow classes** to minimize within-group heterogeneity
-2. **Be aware** that Gini from grouped data is a lower bound
-3. **Use QRI for grouped data** when possible, as it's less sensitive to class width
-4. **Handle open-ended classes** carefully
-
-## Comparing Over Time or Across Regions
-
-1. **Use the same quantile type** for consistency
-2. **Consider adjustment** for purchasing power parity when comparing regions
-3. **Account for sampling design** in variance estimation
-4. **Test for statistical significance** rather than relying on point estimates alone
 
 # References
 
-- Hyndman, R. J., & Fan, Y. (1996). Sample quantiles in statistical packages. *The American Statistician*, 50(4), 361-365.
+\insertRef{harrell1982new}{inequantiles}
 
-- Prendergast, L. A., & Staudte, R. G. (2018). A simple and effective inequality measure. *The American Statistician*, 72(4), 328-343.
+\insertRef{rao1988resampling}{inequantiles}
 
-- Scarpa, S., Ferrante, M. R., & Sperlich, S. (2025). Inference for the quantile ratio inequality index in the context of survey data. *Journal of Survey Statistics and Methodology*. Advance online publication.
+\insertRef{rao1992some}{inequantiles}
 
-- Rao, J. N. K., & Wu, C. F. J. (1988). Resampling inference with complex survey data. *Journal of the American Statistical Association*, 83(401), 231-241.
+\insertRef{hyndman1996sample}{inequantiles}
 
-- Rao, J. N. K., Wu, C. F. J., & Yue, K. (1992). Some recent work on resampling methods for complex surveys. *Survey Methodology*, 18(2), 209-217.
+\insertRef{prendergast2018simple}{inequantiles}
 
-- Langel, M., & Tillé, Y. (2013). Variance estimation of the Gini index: revisiting a result several times published. *Journal of the Royal Statistical Society: Series A*, 176(2), 521-540.
+\insertRef{scarpa2025inference}{inequantiles}
+
 
 # Session Info
 

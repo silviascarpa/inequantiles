@@ -17,7 +17,15 @@ Depends:
     R (>= 3.5)
 LazyData: true
 Imports:
-    Rdpack
+    Rdpack,
+    laeken
 RdMacros:
     Rdpack
+Suggests: 
+    knitr,
+    rmarkdown,
+    ggplot2,
+    scales
+VignetteBuilder: knitr
+
 

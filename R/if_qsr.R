@@ -4,7 +4,7 @@
 #' Computes the linearized variable (influence function) for the quintile share
 #' ratio (QSR) using the linearization approach based on
 #' \insertCite{deville1999variance;textual}{inequantiles}
-#'  and the derivation in \insertCite{langel2011quintile;textual}{inequantiles}
+#'  and the derivation in \insertCite{langel2011quintile;textual}{inequantiles}.
 #'
 #' @param y A numeric vector of income or other continuous variable.
 #' @param weights A numeric vector of sampling weights. If \code{NULL} (default),
@@ -97,6 +97,8 @@ if_qsr <- function(y, weights = NULL, type = 4) {
   # Calcola la funzione di influenza del QSR
   # z_k = (y_k - I(Y_0.8)_k) / Y_0.2 - (Y - Y_0.8) * I(Y_0.2)_k / Y_0.2^2
   z_k <- (y - I_Y08) / Y_02 - ((Y_tot - Y_08) * I_Y02) / (Y_02^2)
+
+  z_k <- unname(z_k)
 
   return(z_k)
 }

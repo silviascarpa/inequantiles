@@ -22,7 +22,7 @@ linearized variable \eqn{\widehat{z}_k} for each observation.
 Computes the linearized variable (influence function) for the quintile share
 ratio (QSR) using the linearization approach based on
 \insertCite{deville1999variance;textual}{inequantiles}
-and the derivation in \insertCite{langel2011quintile;textual}{inequantiles}
+and the derivation in \insertCite{langel2011quintile;textual}{inequantiles}.
 }
 \details{
 According to the definition by \insertCite{langel2011quintile;textual}{inequantiles} ,

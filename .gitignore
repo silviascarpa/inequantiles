@@ -9,3 +9,5 @@ R/package_imports.R
 
 # Ignore package imports file
 R/package_imports.R
+/doc/
+/Meta/

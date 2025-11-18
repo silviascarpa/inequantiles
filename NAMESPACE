@@ -2,6 +2,7 @@
 
 export(csquantile)
 export(gini_grouped)
+export(if_gini)
 export(if_qri)
 export(if_qsr)
 export(if_quantile)

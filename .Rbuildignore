@@ -4,3 +4,5 @@
 external_data/
 ^R/package_imports\.R$
 
+^doc$
+^Meta$
