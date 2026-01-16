@@ -1,0 +1,2 @@
+Converting Rd files to LaTeX Error in iconv(lines, encoding, "UTF-8", sub = "byte") : 
+  embedded nul in string: '(the b\0\034plotting positionb\0\035), and the order \\eqn{k} is such that'
