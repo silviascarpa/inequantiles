@@ -66,7 +66,7 @@ not considered.</p>
 <span>  <span class="va">freq</span>,</span>
 <span>  <span class="va">lower_bounds</span>,</span>
 <span>  <span class="va">upper_bounds</span>,</span>
-<span>  J <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  M <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  midpoints <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -88,7 +88,7 @@ not considered.</p>
 <dd><p>Numeric vector of upper class bounds.</p></dd>
 
 
-<dt id="arg-j">J<a class="anchor" aria-label="anchor" href="#arg-j"></a></dt>
+<dt id="arg-m">M<a class="anchor" aria-label="anchor" href="#arg-m"></a></dt>
 <dd><p>Integer, number of quantile ratios to average (default: 100).</p></dd>
 
 
@@ -110,12 +110,12 @@ quantile ratio index (QRI) for grouped data.</p>
     <h2>Details</h2>
     <p>Consider grouped data divided into \(L\) classes with known boundaries and
 observed frequencies \(f_1, \ldots, f_L\). The QRI estimator for grouped
-data is defined as:</p>
-<p>$$\widetilde{QRI}_{\text{grouped}} = \frac{1}{J}\sum_{j=1}^{J}\left(1 - \frac{\widetilde{Q}(p_j/2)}{\widetilde{Q}(1 - p_j/2)}\right)$$</p>
-<p>where:</p><ul><li><p>\(p_j = (j - 0.5)/J\) for \(j = 1, \ldots, J\)</p></li>
+data is approximated as:</p>
+<p>$${QRI} \approx \frac{1}{M}\sum_{m=1}^{M}\left(1 - \frac{\widetilde{Q}(p_m/2)}{\widetilde{Q}(1 - p_m/2)}\right)$$</p>
+<p>where:</p><ul><li><p>\(p_m = (m - 0.5)/M\) for \(m=1, \ldots, M\)</p></li>
 <li><p>\(\widetilde{Q}(p)\) denotes the \(p\)-th quantile computed from
 grouped data using linear interpolation (see <code><a href="quantile_grouped.html">quantile_grouped</a></code>)</p></li>
-<li><p>\(J\) is the number of quantile ratios to average (default: 100)</p></li>
+<li><p>\(M\) is the number of quantile ratios to average (default: 100)</p></li>
 </ul><p>The quantiles \(\widetilde{Q}(p)\) are computed via <code><a href="quantile_grouped.html">quantile_grouped()</a></code>,
 which uses linear interpolation within classes and automatically handles
 open-ended classes (with <code>-Inf</code> or <code>Inf</code> bounds).</p>

@@ -85,7 +85,7 @@ Note that it assumes equality within groups.</p>
     <p>Consider grouped data divided into \(L\) classes with known boundaries,
 observed frequencies \(f_1, \ldots, f_L\) and total amounts \(Y_1, \ldots, Y_J\).
 The Gini coefficient is approximated by linear interpolation of cumulative shares, as:</p>
-<p>$$G(s_j, u_j) \approx 1 - \sum_{j=1}^{J} (s_j + s_{j-1})(u_j - u_{j-1})$$</p>
+<p>$$G \approx 1 - \sum_{j=1}^{J} (s_j + s_{j-1})(u_j - u_{j-1})$$</p>
 <p>where:</p><ul><li><p>\(p_j = f_j / \sum_{i=1}^{J} f_i\) is the population share of group \(j\);</p></li>
 <li><p>\(c_j = Y_j / \sum_{i=1}^{J} Y_i\) is the share of the variable of interest in group \(j\);</p></li>
 <li><p>\(s_j = \sum_{k=1}^{j} c_k\) is the cumulative share of the variable up to group \(j\);</p></li>

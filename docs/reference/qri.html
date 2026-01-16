@@ -56,7 +56,7 @@ on simple and complex sampling data</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">qri</span><span class="op">(</span><span class="va">y</span>, weights <span class="op">=</span> <span class="cn">NULL</span>, J <span class="op">=</span> <span class="fl">100</span>, type <span class="op">=</span> <span class="fl">6</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">qri</span><span class="op">(</span><span class="va">y</span>, weights <span class="op">=</span> <span class="cn">NULL</span>, M <span class="op">=</span> <span class="fl">100</span>, type <span class="op">=</span> <span class="fl">6</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -71,7 +71,7 @@ on simple and complex sampling data</p>
 <dd><p>A numeric vector of sampling weights (optional)</p></dd>
 
 
-<dt id="arg-j">J<a class="anchor" aria-label="anchor" href="#arg-j"></a></dt>
+<dt id="arg-m">M<a class="anchor" aria-label="anchor" href="#arg-m"></a></dt>
 <dd><p>Integer, number of quantile ratios to average (default: 100)</p></dd>
 
 
@@ -94,7 +94,8 @@ See <code>csquantile</code> documentation for a complete description.</p></dd>
 the sampling weight associated to the \(j\)-th individual.
 The QRI estimator is defined as:</p>
 <p>$$\widehat{QRI} = \frac{1}{M}\sum_{m=1}^M\left(1- \frac{\widehat{Q}(p_{m/2})}{\widehat{Q}(1 - p_{m/2})}\right)$$</p>
-<p>where the estimated quantiles \(\widehat{Q}(p)\) are computed via the function
+<p>where \(p_m = p_m = (m-0.5)/M\).
+The estimated quantiles \(\widehat{Q}(p)\) are computed via the function
 <code><a href="csquantile.html">csquantile()</a></code>, which accounts for sampling weights and the specified
 quantile type. This allows \(\widehat{QRI}\) to be used both for simple
 random samples and for complex survey data with design weights.</p>
