@@ -9,7 +9,7 @@
 #' @param freq Numeric vector of class frequencies (counts). Must be non-negative.
 #' @param lower_bounds Numeric vector of lower class bounds.
 #' @param upper_bounds Numeric vector of upper class bounds.
-#' @param J Integer, number of quantile ratios to average (default: 100).
+#' @param M Integer, number of quantile ratios to average (default: 100).
 #' @param midpoints Optional numeric vector of class midpoints. Used only as
 #'   fallback when a quantile class has zero frequency.
 #' @param na.rm Logical, should missing values in frequencies be removed? (default: TRUE)
@@ -20,16 +20,16 @@
 #' @details
 #' Consider grouped data divided into \eqn{L} classes with known boundaries and
 #' observed frequencies \eqn{f_1, \ldots, f_L}. The QRI estimator for grouped
-#' data is defined as:
+#' data is approximated as:
 #'
-#' \deqn{\widetilde{QRI}_{\text{grouped}} = \frac{1}{J}\sum_{j=1}^{J}\left(1 - \frac{\widetilde{Q}(p_j/2)}{\widetilde{Q}(1 - p_j/2)}\right)}
+#' \deqn{{QRI} \approx \frac{1}{M}\sum_{m=1}^{M}\left(1 - \frac{\widetilde{Q}(p_m/2)}{\widetilde{Q}(1 - p_m/2)}\right)}
 #'
 #' where:
 #' \itemize{
-#'   \item \eqn{p_j = (j - 0.5)/J} for \eqn{j = 1, \ldots, J}
+#'   \item \eqn{p_m = (m - 0.5)/M} for \eqn{m=1, \ldots, M}
 #'   \item \eqn{\widetilde{Q}(p)} denotes the \eqn{p}-th quantile computed from
 #'     grouped data using linear interpolation (see \code{\link{quantile_grouped}})
-#'   \item \eqn{J} is the number of quantile ratios to average (default: 100)
+#'   \item \eqn{M} is the number of quantile ratios to average (default: 100)
 #' }
 #'
 #' The quantiles \eqn{\widetilde{Q}(p)} are computed via \code{quantile_grouped()},
@@ -86,15 +86,15 @@
 #'
 #' @export
 qri_grouped <- function(freq, lower_bounds, upper_bounds,
-                        J = 100, midpoints = NULL, na.rm = TRUE) {
+                        M = 100, midpoints = NULL, na.rm = TRUE) {
 
   # Input validation
   if (length(freq) != length(lower_bounds) || length(freq) != length(upper_bounds)) {
     stop("freq, lower_bounds, and upper_bounds must have the same length")
   }
 
-  if (!is.numeric(J) || length(J) != 1 || J < 1) {
-    stop("J must be a positive integer")
+  if (!is.numeric(M) || length(M) != 1 || M < 1) {
+    stop("M must be a positive integer")
   }
 
   if (any(freq < 0, na.rm = TRUE)) {
@@ -125,10 +125,10 @@ qri_grouped <- function(freq, lower_bounds, upper_bounds,
     return(NA_real_)
   }
 
-  # Generate probability points: p_j = (m - 0.5) / J for m = 1, ..., J
-  probs <- ((1:J) - 0.5) / J
+  # Generate probability points: p_m = (m - 0.5) / M for m = 1, ..., M
+  probs <- ((1:M) - 0.5) / M
 
-  # Compute lower quantiles: Q(p_j / 2)
+  # Compute lower quantiles: Q(p_m / 2)
   q_lower <- quantile_grouped(
     freq = freq,
     lower_bounds = lower_bounds,
@@ -137,7 +137,7 @@ qri_grouped <- function(freq, lower_bounds, upper_bounds,
     midpoints = midpoints
   )
 
-  # Compute upper quantiles: Q(1 - p_j / 2)
+  # Compute upper quantiles: Q(1 - p_m / 2)
   q_upper <- quantile_grouped(
     freq = freq,
     lower_bounds = lower_bounds,
@@ -146,7 +146,7 @@ qri_grouped <- function(freq, lower_bounds, upper_bounds,
     midpoints = midpoints
   )
 
-  # Compute quantile ratios: R_j = Q(p_j / 2) / Q(1 - p_j / 2)
+  # Compute quantile ratios: R_m = Q(p_m / 2) / Q(1 - p_m / 2)
   Rp <- q_lower / q_upper
 
   # Handle potential division issues
@@ -155,7 +155,7 @@ qri_grouped <- function(freq, lower_bounds, upper_bounds,
             "the class boundaries or frequencies.")
   }
 
-  # Compute QRI: average of (1 - R_j)
+  # Compute QRI: average of (1 - R_m)
   qri_value <- mean(1 - Rp, na.rm = TRUE)
 
   return(qri_value)

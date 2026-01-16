@@ -28,7 +28,7 @@ Consider grouped data divided into \eqn{L} classes with known boundaries,
 observed frequencies \eqn{f_1, \ldots, f_L} and total amounts \eqn{Y_1, \ldots, Y_J}.
 The Gini coefficient is approximated by linear interpolation of cumulative shares, as:
 
-\deqn{G(s_j, u_j) \approx 1 - \sum_{j=1}^{J} (s_j + s_{j-1})(u_j - u_{j-1})}
+\deqn{G \approx 1 - \sum_{j=1}^{J} (s_j + s_{j-1})(u_j - u_{j-1})}
 
 where:
 \itemize{

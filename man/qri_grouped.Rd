@@ -8,7 +8,7 @@ qri_grouped(
   freq,
   lower_bounds,
   upper_bounds,
-  J = 100,
+  M = 100,
   midpoints = NULL,
   na.rm = TRUE
 )
@@ -20,7 +20,7 @@ qri_grouped(
 
 \item{upper_bounds}{Numeric vector of upper class bounds.}
 
-\item{J}{Integer, number of quantile ratios to average (default: 100).}
+\item{M}{Integer, number of quantile ratios to average (default: 100).}
 
 \item{midpoints}{Optional numeric vector of class midpoints. Used only as
 fallback when a quantile class has zero frequency.}
@@ -41,16 +41,16 @@ not considered.
 \details{
 Consider grouped data divided into \eqn{L} classes with known boundaries and
 observed frequencies \eqn{f_1, \ldots, f_L}. The QRI estimator for grouped
-data is defined as:
+data is approximated as:
 
-\deqn{\widetilde{QRI}_{\text{grouped}} = \frac{1}{J}\sum_{j=1}^{J}\left(1 - \frac{\widetilde{Q}(p_j/2)}{\widetilde{Q}(1 - p_j/2)}\right)}
+\deqn{{QRI} \approx \frac{1}{M}\sum_{m=1}^{M}\left(1 - \frac{\widetilde{Q}(p_m/2)}{\widetilde{Q}(1 - p_m/2)}\right)}
 
 where:
 \itemize{
-\item \eqn{p_j = (j - 0.5)/J} for \eqn{j = 1, \ldots, J}
+\item \eqn{p_m = (m - 0.5)/M} for \eqn{m=1, \ldots, M}
 \item \eqn{\widetilde{Q}(p)} denotes the \eqn{p}-th quantile computed from
 grouped data using linear interpolation (see \code{\link{quantile_grouped}})
-\item \eqn{J} is the number of quantile ratios to average (default: 100)
+\item \eqn{M} is the number of quantile ratios to average (default: 100)
 }
 
 The quantiles \eqn{\widetilde{Q}(p)} are computed via \code{quantile_grouped()},

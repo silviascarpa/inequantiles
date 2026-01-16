@@ -121,7 +121,7 @@ The rescaled bootstrap variance estimate is then:
 }
 }
 \examples{
-
+\donttest{
 data(synthouse)
 
 
@@ -148,7 +148,7 @@ boot_srs <- rescaled_bootstrap(
   N_h = N_values,
   estimator = mean_estimator,
   by_strata = TRUE,
-  B = 30,  # small number for illustration
+  B = 50,  # small number for illustration
   seed = 123
 )
 
@@ -175,7 +175,7 @@ boot_complex <- rescaled_bootstrap(
   weights = "weight",
   estimator = wmean_estimator,
   by_strata = TRUE,
-  B = 20,
+  B = 50,
   seed = 456
 )
 
@@ -184,6 +184,7 @@ summary(boot_complex$variance)
 
 # Strata and PSU summary
 boot_complex$strata_info
+}
 
 
 # ================================================================

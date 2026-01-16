@@ -1,0 +1,26 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/inequantiles-intro.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/reference/csquantile.html</loc></url>
+<url><loc>/reference/gini_grouped.html</loc></url>
+<url><loc>/reference/if_gini.html</loc></url>
+<url><loc>/reference/if_qri.html</loc></url>
+<url><loc>/reference/if_qsr.html</loc></url>
+<url><loc>/reference/if_quantile.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/palma_ratio.html</loc></url>
+<url><loc>/reference/qri.html</loc></url>
+<url><loc>/reference/qri_grouped.html</loc></url>
+<url><loc>/reference/qsr.html</loc></url>
+<url><loc>/reference/quantile_grouped.html</loc></url>
+<url><loc>/reference/ratio_quantiles.html</loc></url>
+<url><loc>/reference/rescaled_bootstrap.html</loc></url>
+<url><loc>/reference/superpop_qri.html</loc></url>
+<url><loc>/reference/synthouse.html</loc></url>
+</urlset>
+

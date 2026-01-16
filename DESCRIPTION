@@ -25,7 +25,8 @@ Suggests:
     knitr,
     rmarkdown,
     ggplot2,
-    scales
+    scales,
+    kableExtra
 VignetteBuilder: knitr
 
 

@@ -93,7 +93,7 @@
 #' }
 #'
 #' @examples
-#'
+#' \donttest{
 #' data(synthouse)
 #'
 #'
@@ -120,7 +120,7 @@
 #'   N_h = N_values,
 #'   estimator = mean_estimator,
 #'   by_strata = TRUE,
-#'   B = 30,  # small number for illustration
+#'   B = 50,  # small number for illustration
 #'   seed = 123
 #' )
 #'
@@ -147,7 +147,7 @@
 #'   weights = "weight",
 #'   estimator = wmean_estimator,
 #'   by_strata = TRUE,
-#'   B = 20,
+#'   B = 50,
 #'   seed = 456
 #' )
 #'
@@ -156,6 +156,7 @@
 #'
 #' # Strata and PSU summary
 #' boot_complex$strata_info
+#' }
 #'
 #'
 #' # ================================================================

@@ -1,8 +1,7 @@
 ^inequantiles\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-external_data/
-^R/package_imports\.R$
-
+^external_data$
+^docs$
 ^doc$
 ^Meta$
