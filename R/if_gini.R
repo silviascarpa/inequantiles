@@ -1,3 +1,18 @@
+# Internal helper: weighted Gini coefficient.
+# Formula: Alfons & Templ (2012, laeken) / equation in Scarpa et al. (2025).
+# Not exported; used only by if_gini().
+.gini_coef <- function(y, weights = NULL) {
+  if (is.null(weights)) weights <- rep(1L, length(y))
+  ord  <- order(y)
+  y    <- y[ord]
+  w    <- weights[ord]
+  hatN <- sum(w)
+  hatY <- sum(w * y)
+  Wj   <- cumsum(w)
+  (2 * sum(w * y * Wj) - sum(w^2 * y)) / (hatN * hatY) - 1
+}
+
+
 #' Influence Function for the Gini Coefficient
 #'
 #' Computes the influence function for the Gini coefficient, useful for
@@ -40,6 +55,8 @@
 #'
 #' @seealso \code{\link{if_qsr}} for the quintile share ratio influence function
 #' and \code{\link{if_qri}} for the quantile ratio index influence function.
+#'
+#' @family influence functions
 #'
 #' @examples
 #'
@@ -98,7 +115,7 @@ if_gini <- function(y, weights = NULL, na.rm = TRUE) {
     Yk_mu <- Yk / Nk
 
     # Gini coefficient
-    G <- laeken::gini(inc = y)$value / 100
+    G <- .gini_coef(y)
 
     # Influence function (equation 12 from Langel & Tillé 2013)
     z <- (2 * Nk * (x - Yk_mu) + Y - N * x - G * (Y + x * N)) / (N * Y)
@@ -133,7 +150,7 @@ if_gini <- function(y, weights = NULL, na.rm = TRUE) {
     Yk_mu <- Yk / Nk
 
     # Gini coefficient
-    G <- laeken::gini(inc = y, weights = weights)$value / 100
+    G <- .gini_coef(y, weights)
 
     # Influence function (equation 12 from Langel & Tillé 2013)
     numerator <- 2 * Nk * (x - Yk_mu) + hatY - hatN * x -
