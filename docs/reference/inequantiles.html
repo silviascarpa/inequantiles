@@ -243,7 +243,15 @@ identical resamples and are directly comparable.</p>
 <span class="r-in"><span>             data <span class="op">=</span> <span class="va">synthouse</span>, strata <span class="op">=</span> <span class="st">"NUTS2"</span>,</span></span>
 <span class="r-in"><span>             psu <span class="op">=</span> <span class="st">"municipality"</span>,</span></span>
 <span class="r-in"><span>             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inequantiles(eq, weights = w, se = TRUE, B = 50, seed = 42, data = synthouse,     strata = "NUTS2", psu = "municipality", verbose = FALSE):</span> unused argument (verbose = FALSE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Quantile-based inequality indicators</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        Estimate     SE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> qri      0.5691 0.0046</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> qsr      7.0161 0.1757</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> palma    1.5787 0.0387</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> p90p10   5.9206 0.1638</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bootstrap replicates: 50</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

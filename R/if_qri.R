@@ -78,6 +78,8 @@
 #'
 #' \insertRef{scarpa2025inference}{inequantiles}
 #'
+#' @family influence functions
+#'
 #' @export
 
 if_qri <- function(y, weights = NULL, type = 6) {

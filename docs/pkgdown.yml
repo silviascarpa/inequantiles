@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   inequantiles-intro: inequantiles-intro.html
-last_built: 2026-04-14T15:14Z
+last_built: 2026-04-14T15:15Z
 urls:
   reference: https://silviascarpa.github.io/inequantiles/reference
   article: https://silviascarpa.github.io/inequantiles/articles

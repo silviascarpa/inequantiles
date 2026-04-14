@@ -1,0 +1,9 @@
+bibentry(
+  bibtype = "Manual",
+  key = "inequantiles",
+  title = "inequantiles: Tools for Inequality Quantiles",
+   author = person("Silvia", "Scarpa"),
+  year = "2026",
+  note = paste("R package version", packageVersion("inequantiles")),
+  url = "https://github.com/silviascarpa/inequantiles"
+)

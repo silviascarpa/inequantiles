@@ -1,15 +1,17 @@
 Package: inequantiles
-Title: Quantile-Based Inequality Indicators for Complex Survey Data
+Title: Quantile-Based Inequality Measures for Survey Data
 Version: 0.0.0.9000
 Authors@R: 
     person("Silvia", "Scarpa", , "silvia.scarpa@unimore.it", 
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0003-4003-1621"))
-Description: Provides functions for estimating quantile-based inequality 
-    indicators such as the quantile ratio index, quintile share ratio, Palma index
-    and quantiles or ratio of them from  complex sampling data. Influence function estimators and
-    estimator of the sampling variance via rescaled bootstrap are also provided.
+Description: Provides functions for estimating quantiles and quantile-based inequality indicators,
+    such as the quantile ratio index, quintile share ratio, Palma index, and ratios of quantiles,
+    from complex sampling data. Estimators of the influence function and
+    the sampling variance via rescaled bootstrap are also provided.
 License: MIT + file LICENSE
+URL: https://silviascarpa.github.io/inequantiles/, https://github.com/silviascarpa/inequantiles
+BugReports: https://github.com/silviascarpa/inequantiles/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
@@ -17,16 +19,17 @@ Depends:
     R (>= 3.5)
 LazyData: true
 Imports:
-    Rdpack,
-    laeken
+    Rdpack
 RdMacros:
     Rdpack
-Suggests: 
+Suggests:
     knitr,
     rmarkdown,
     ggplot2,
     scales,
-    kableExtra
+    kableExtra,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 VignetteBuilder: knitr
 
 

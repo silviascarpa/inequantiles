@@ -65,3 +65,12 @@ tapply(1:nrow(synthouse), synthouse$NUTS1, function(area) {
 \references{
 \insertRef{langel2011quintile}{inequantiles}
 }
+\seealso{
+Other inequality indicators based on quantiles: 
+\code{\link{inequantiles}()},
+\code{\link{palma_ratio}()},
+\code{\link{plot_inequality_curve}()},
+\code{\link{qri}()},
+\code{\link{ratio_quantiles}()}
+}
+\concept{inequality indicators based on quantiles}

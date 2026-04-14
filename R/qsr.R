@@ -56,6 +56,8 @@
 #'
 #' \insertRef{langel2011quintile}{inequantiles}
 #'
+#' @family inequality indicators based on quantiles
+#'
 #' @importFrom Rdpack reprompt
 #'
 #'

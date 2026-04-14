@@ -67,4 +67,10 @@ z_weighted <- if_gini(y = eq, weights = w)
 \seealso{
 \code{\link{if_qsr}} for the quintile share ratio influence function
 and \code{\link{if_qri}} for the quantile ratio index influence function.
+
+Other influence functions: 
+\code{\link{if_qri}()},
+\code{\link{if_qsr}()},
+\code{\link{if_quantile}()}
 }
+\concept{influence functions}

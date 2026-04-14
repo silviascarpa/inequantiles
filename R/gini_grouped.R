@@ -58,6 +58,8 @@
 #' @seealso
 #' \code{\link{qri_grouped}} for computing the quantile ratio index from grouped data.
 #'
+#' @family grouped data functions
+#'
 #' @export
 gini_grouped <- function(Y, freq) {
   # Input validation

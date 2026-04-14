@@ -3,7 +3,7 @@
 #' Computes the quantile ratio index (QRI) estimator for measuring inequality
 #'  on simple and complex sampling data
 #'
-#' @param y A numeric vector of data values
+#' @param y A numeric vector of strictly positive values (e.g. income, wealth, expenditure).
 #' @param weights A numeric vector of sampling weights (optional)
 #' @param M Integer, number of quantile ratios to average (default: 100)
 #' @param type Quantile estimation type: integer 4-9 or HD for Harrell-Davis (default: 6).
@@ -54,6 +54,13 @@
 #'
 #' \insertRef{scarpa2025inference}{inequantiles}
 #'
+#' @family inequality indicators based on quantiles
+#'
+#' @seealso
+#'   \code{\link{qri_grouped}} for QRI estimation from pre-aggregated (grouped/binned) data,
+#'   \code{\link{superpop_qri}} for the theoretical QRI of a parametric distribution,
+#'   \code{\link{if_qri}} for the influence function used in variance estimation.
+#'
 #' @importFrom Rdpack reprompt
 #'
 #'
@@ -91,6 +98,17 @@ qri <- function(y, weights = NULL, M = 100, type = 6, na.rm = TRUE) {
 
   # Compute ratios
   Rp <- q_lower / q_upper
+
+  # Warn if 0/0 terms are present (zero mass > 50%)
+  if (any(is.nan(Rp))) {
+    warning(
+      "Some quantile ratios Q(p/2)/Q(1-p/2) are 0/0 (NaN), ",
+      "typically because more than 50% of values are zero. ",
+      "The QRI formula is not designed for zero-inflated distributions. ",
+      "The returned value is NaN.",
+      call. = FALSE
+    )
+  }
 
   # Compute QRI
   qri_value <- mean(1 - Rp)

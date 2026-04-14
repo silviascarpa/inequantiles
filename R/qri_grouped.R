@@ -76,9 +76,8 @@
 #'
 #' @seealso
 #' \code{\link{qri}} for QRI estimation with microdata.
-#' \code{\link{quantile_grouped}} for quantile estimation from grouped data.
+#' \code{\link{superpop_qri}} for QRI computation on parametric distributions
 #'
-#' @family inequality measures
 #' @family grouped data functions
 #'
 #' @references

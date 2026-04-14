@@ -66,4 +66,9 @@ gini_grouped(Y = income_tot, freq = income_freq)
 }
 \seealso{
 \code{\link{qri_grouped}} for computing the quantile ratio index from grouped data.
+
+Other grouped data functions: 
+\code{\link{qri_grouped}()},
+\code{\link{quantile_grouped}()}
 }
+\concept{grouped data functions}

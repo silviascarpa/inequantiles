@@ -90,3 +90,10 @@ IF_qri <- if_qri(y = eq, weights = w, type = 6)
 
 \insertRef{scarpa2025inference}{inequantiles}
 }
+\seealso{
+Other influence functions: 
+\code{\link{if_gini}()},
+\code{\link{if_qsr}()},
+\code{\link{if_quantile}()}
+}
+\concept{influence functions}

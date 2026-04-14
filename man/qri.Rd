@@ -7,7 +7,7 @@
 qri(y, weights = NULL, M = 100, type = 6, na.rm = TRUE)
 }
 \arguments{
-\item{y}{A numeric vector of data values}
+\item{y}{A numeric vector of strictly positive values (e.g. income, wealth, expenditure).}
 
 \item{weights}{A numeric vector of sampling weights (optional)}
 
@@ -67,3 +67,16 @@ tapply(1:nrow(synthouse), synthouse$NUTS1, function(area) {
 
 \insertRef{scarpa2025inference}{inequantiles}
 }
+\seealso{
+\code{\link{qri_grouped}} for QRI estimation from pre-aggregated (grouped/binned) data,
+\code{\link{superpop_qri}} for the theoretical QRI of a parametric distribution,
+\code{\link{if_qri}} for the influence function used in variance estimation.
+
+Other inequality indicators based on quantiles: 
+\code{\link{inequantiles}()},
+\code{\link{palma_ratio}()},
+\code{\link{plot_inequality_curve}()},
+\code{\link{qsr}()},
+\code{\link{ratio_quantiles}()}
+}
+\concept{inequality indicators based on quantiles}

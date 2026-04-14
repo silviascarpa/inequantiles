@@ -50,6 +50,8 @@
 #' })
 #'
 #'
+#' @family inequality indicators based on quantiles
+#'
 #' @importFrom Rdpack reprompt
 #'
 #'
@@ -80,6 +82,11 @@ ratio_quantiles <- function(y, weights = NULL, prob_numerator = 0.90,
 
 
   ratio <- numerator / denominator
+
+  name_num <- prob_numerator * 100
+  name_denom <- prob_denominator * 100
+  names(ratio) <- paste0("P", name_num, "/", "P", name_denom)
+
   return(ratio)
 }
 

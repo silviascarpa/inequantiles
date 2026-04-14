@@ -71,3 +71,12 @@ tapply(1:nrow(synthouse), synthouse$NUTS1, function(area) {
 
 \insertRef{cobham2013all}{inequantiles}
 }
+\seealso{
+Other inequality indicators based on quantiles: 
+\code{\link{inequantiles}()},
+\code{\link{plot_inequality_curve}()},
+\code{\link{qri}()},
+\code{\link{qsr}()},
+\code{\link{ratio_quantiles}()}
+}
+\concept{inequality indicators based on quantiles}

@@ -62,4 +62,10 @@ z_weighted <- if_qsr(y = eq, weights = w)
 \seealso{
 \code{\link{qsr}} for the QSR estimator, \code{\link{csquantile}}
 for weighted quantile estimation.
+
+Other influence functions: 
+\code{\link{if_gini}()},
+\code{\link{if_qri}()},
+\code{\link{if_quantile}()}
 }
+\concept{influence functions}

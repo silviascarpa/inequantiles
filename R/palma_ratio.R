@@ -61,6 +61,8 @@
 #'
 #' \insertRef{cobham2013all}{inequantiles}
 #'
+#' @family inequality indicators based on quantiles
+#'
 #' @importFrom Rdpack reprompt
 #'
 #'

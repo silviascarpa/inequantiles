@@ -101,10 +101,10 @@ qri_grouped(wage_freq, wage_lower, wage_upper)
 }
 \seealso{
 \code{\link{qri}} for QRI estimation with microdata.
-\code{\link{quantile_grouped}} for quantile estimation from grouped data.
+\code{\link{superpop_qri}} for QRI computation on parametric distributions
 
 Other grouped data functions: 
+\code{\link{gini_grouped}()},
 \code{\link{quantile_grouped}()}
 }
 \concept{grouped data functions}
-\concept{inequality measures}

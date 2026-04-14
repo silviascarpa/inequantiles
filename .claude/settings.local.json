@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:r-pkgs.org)",
+      "WebFetch(domain:journal.r-project.org)",
+      "Bash(grep -E \"^\\\\.Rd2pdf|^git$|^docs$|^rd2pdf\")",
+      "Bash(Rscript -e \"devtools::document\\(\\)\")",
+      "Bash(\"C:/Program Files/R/R-4.4.1/bin/Rscript.exe\" -e \"devtools::document\\(\\)\")",
+      "Bash(\"C:/Program Files/R/R-4.4.1/bin/Rscript.exe\" -e \"devtools::check\\(\\)\")",
+      "Bash(\"C:/Program Files/R/R-4.4.1/bin/Rscript.exe\" -e \"devtools::check\\(build_args = ''--no-build-vignettes''\\)\")"
+    ]
+  }
+}

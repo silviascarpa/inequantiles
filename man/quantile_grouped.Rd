@@ -133,6 +133,7 @@ quantile_grouped(income_freq, income_lower, income_upper,
 \code{\link{quantile}} for quantiles of ungrouped data.
 
 Other grouped data functions: 
+\code{\link{gini_grouped}()},
 \code{\link{qri_grouped}()}
 }
 \concept{grouped data functions}

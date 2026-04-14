@@ -44,6 +44,8 @@
 #' @seealso \code{\link{qsr}} for the QSR estimator, \code{\link{csquantile}}
 #'   for weighted quantile estimation.
 #'
+#' @family influence functions
+#'
 #' @examples
 #'
 #' data(synthouse)

@@ -76,3 +76,10 @@ IF_quantile <- if_quantile(y = eq, weights = w, type = 6, probs = 0.5)
 
 \insertRef{osier2009variance}{inequantiles}
 }
+\seealso{
+Other influence functions: 
+\code{\link{if_gini}()},
+\code{\link{if_qri}()},
+\code{\link{if_qsr}()}
+}
+\concept{influence functions}

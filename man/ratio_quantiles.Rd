@@ -69,3 +69,12 @@ tapply(1:nrow(synthouse), synthouse$NUTS1, function(area) {
 
 
 }
+\seealso{
+Other inequality indicators based on quantiles: 
+\code{\link{inequantiles}()},
+\code{\link{palma_ratio}()},
+\code{\link{plot_inequality_curve}()},
+\code{\link{qri}()},
+\code{\link{qsr}()}
+}
+\concept{inequality indicators based on quantiles}

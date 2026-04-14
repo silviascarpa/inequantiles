@@ -15,7 +15,8 @@ rescaled_bootstrap(
   by_strata = TRUE,
   B = 200,
   m_h = NULL,
-  seed = NULL
+  seed = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -45,6 +46,8 @@ Required for complex designs with unequal inclusion probabilities.}
 If \code{NULL}, defaults to \eqn{m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor}.}
 
 \item{seed}{Optional integer for reproducibility.}
+
+\item{verbose}{Logical; if \code{TRUE} (default), displays a progress bar during bootstrap iterations.}
 }
 \value{
 A list containing:
@@ -52,7 +55,7 @@ A list containing:
 \item{boot_estimates}{Vector of B bootstrap estimates}
 \item{B}{Number of bootstrap replicates}
 \item{by_strata}{if variance is computed by stratum or overall}
-\item{design}{if the sampling design is complex (with sampling weights) or simple}
+\item{design}{if the sampling design is complex or simple}
 \item{strata_info}{Returns information about number of observations/PSUs per stratum}
 \item{call}{The matched function call.}
 }
@@ -67,10 +70,12 @@ for both smooth and non-smooth statistics.
 The methodology is based on \insertCite{rao1988resampling;textual}{inequantiles} and
 \insertCite{rao1992some;textual}{inequantiles}.
 
-\strong{(1) Stratified Simple Random Sampling}
+\strong{(1) Stratified Simple Random Sampling design}
 
 Consider a finite population divided into \eqn{H} strata, each of size \eqn{N_h}, with a sample of size \eqn{n_h}
-selected independently in each stratum. For each \eqn{b} bootstrap replicate, \eqn{b = \ldots, B}:
+selected independently in each \eqn{h} stratum. Suppose to be interested on some \eqn{\theta} parameter,
+with  \eqn{\hat{\theta}} sampling estimator.
+For each \eqn{b} bootstrap replicate, \eqn{b = \ldots, B}:
 \enumerate{
 \item Draw a bootstrap sample of size \eqn{m_h} with replacement from the \eqn{n_h} sampled units.
 By default, \eqn{m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor \approx n_h - 3}.
@@ -79,7 +84,8 @@ By default, \eqn{m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor \approx n_h - 3}.
           \tilde{y}_{hj}^{*(b)} = \bar{y}_h +
           \sqrt{\frac{m_h(1-f_h)}{n_h - 1}}
           (y_{hj}^{*(b)} - \bar{y}_h), }
-where \eqn{y_{hj}^*} is the bootstrap observation \eqn{f_h = n_h / N_h} is the sampling fraction and \eqn{\bar{y}_h} is the sample stratum mean.
+where \eqn{y_{hj}^*} is the bootstrap observation, \eqn{f_h = n_h / N_h} is the sampling fraction and
+\eqn{\bar{y}_h} is the sample stratum mean.
 \item Compute the statistic of interest \eqn{\hat{\theta}^{*(b)}} using rescaled values.
 }
 
@@ -87,12 +93,12 @@ The bootstrap variance is then given by:
 \deqn{
   \widehat{V}_{boot}(\hat{\theta}) =
   \frac{1}{B-1} \sum_{b=1}^{B}
-  \left( \hat{\theta}^{*(b)} - \bar{\theta}^{*} \right)^2,
+  \left( \hat{\theta}^{*(b)} - \hat{\bar{\theta}}^{*} \right)^2,
   \qquad
-  \bar{\theta}^{*} = \frac{1}{B} \sum_{b=1}^{B} \hat{\theta}^{*(b)}.
+  \hat{\bar{\theta}}^{*} = \frac{1}{B} \sum_{b=1}^{B} \hat{\theta}^{*(b)}.
 }
 
-\strong{(2) Two-Stage Stratified Sampling (Complex Designs)}
+\strong{(2) Two-Stage Stratified Sampling design}
 
 For designs with PSUs and sampling weights:
 \enumerate{
@@ -119,6 +125,17 @@ The rescaled bootstrap variance estimate is then:
   \frac{1}{B-1} \sum_{b=1}^{B}
   \left( \hat{\theta}^{*(b)} - \bar{\theta}^{*} \right)^2.
 }
+
+\strong{Multiple estimators}
+
+The \code{estimator} argument accepts any function with signature
+\code{f(y, weights)} (complex design) or \code{f(y)} (simple design),
+including functions from this package and user-defined ones.
+When \code{estimator} returns a \emph{named numeric vector}, variances are
+computed for all outputs simultaneously from the same bootstrap replicates,
+so the resulting standard errors are directly comparable across indicators.
+For a convenience wrapper that automatically computes all package inequality
+indicators and their standard errors in a single call, see \code{\link{inequantiles}}.
 }
 \examples{
 \donttest{
@@ -149,7 +166,8 @@ boot_srs <- rescaled_bootstrap(
   estimator = mean_estimator,
   by_strata = TRUE,
   B = 50,  # small number for illustration
-  seed = 123
+  seed = 123,
+  verbose = FALSE
 )
 
 # View results
@@ -160,30 +178,58 @@ boot_srs$variance
 # Example 2: Two-stage Complex Design
 # ================================================================
 
-# PSU = municipality, Strata = NUTS2, weights = weight, y = eq_income
-
-# Define a weighted mean estimator
-wmean_estimator <- function(y, weights) {
-  sum(y * weights, na.rm = TRUE) / sum(weights, na.rm = TRUE)
-}
-
+# Estimate the QRI estimator sampling variance.
 boot_complex <- rescaled_bootstrap(
   data = synthouse,
   y = "eq_income",
   strata = "NUTS2",
   psu = "municipality",
   weights = "weight",
-  estimator = wmean_estimator,
+  estimator = qri,
   by_strata = TRUE,
   B = 50,
-  seed = 456
+  seed = 456,
+  verbose = FALSE
 )
 
 # Display variance and bootstrap estimates
 summary(boot_complex$variance)
 
 # Strata and PSU summary
-boot_complex$strata_info
+
+
+
+# ================================================================
+# Example 3: Multiple estimators in a single bootstrap loop
+# ================================================================
+
+# Create a function returning a named vector of estimates,
+# including package functions and user-defined ones. All indicators share
+# the same bootstrap replicates, ensuring directly comparable standard errors.
+
+multi_estimator <- function(y, weights) {
+  c(
+    w_mean = sum(y * weights) / sum(weights),   # custom: weighted mean
+    qri    = qri(y, weights = weights),          # package function
+    qsr    = qsr(y, weights = weights)           # package function
+  )
+}
+
+boot_multi <- rescaled_bootstrap(
+  data      = synthouse,
+  y         = "eq_income",
+  strata    = "NUTS2",
+  psu       = "municipality",
+  weights   = "weight",
+  estimator = multi_estimator,
+  by_strata = FALSE,
+  B         = 50,
+  seed      = 42,
+  verbose   = FALSE
+)
+
+# One variance per indicator, all from the same replicates
+boot_multi$variance
 }
 
 

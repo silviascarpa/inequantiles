@@ -63,9 +63,8 @@
 #' \insertRef{van2000asymptotic}{inequantiles}
 #'
 #' \insertRef{osier2009variance}{inequantiles}
-#
-#
 #'
+#' @family influence functions
 #'
 #' @export
 if_quantile <- function(y, weights = NULL, probs, type = 6, na.rm = TRUE) {
