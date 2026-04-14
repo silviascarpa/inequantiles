@@ -43,6 +43,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/silviascarpa/inequantiles/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -55,51 +56,149 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p><strong>inequantiles</strong> provides R functions for the estimation of quantile-based inequality indicators, such as the <em>quantile ratio index (QRI)</em>, and quantiles, also allowing for complex sampling data.</p>
+<p><strong>inequantiles</strong> is an R package for estimating quantile-based inequality indicators from survey microdata, with full support for complex sampling designs and weighted quantile estimation.</p>
+<p>📖 <strong>Documentation and vignette</strong>: <a href="https://silviascarpa.github.io/inequantiles/">silviascarpa.github.io/inequantiles</a></p>
+<div class="section level2">
+<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
+</h2>
+<ul>
+<li>
+<strong>Quantile ratio index (QRI)</strong>: estimation from survey data, parametric distributions, and grouped data</li>
+<li>
+<strong>Traditional indicators</strong>: quintile share ratio (QSR), Palma ratio, percentile ratios (e.g., P90/P10)</li>
+<li>
+<strong>Weighted quantile estimation</strong>: multiple interpolation rules (types 4–9 and Harrell-Davis) for complex survey data</li>
+<li>
+<strong>Influence functions</strong>: linearization-based techniques for QRI, QSR, Gini and quantiles</li>
+<li>
+<strong>Grouped data</strong>: quantiles, QRI and Gini from frequency tables (e.g., fiscal/administrative data)</li>
+<li>
+<strong>Variance estimation</strong>: rescaled bootstrap for complex sampling designs</li>
+</ul>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <strong>inequantiles</strong> from GitHub with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")   # run this line if you don't have it yet</span></span>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"silviascarpa/inequantiles"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">inequantiles</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://silviascarpa.github.io/inequantiles/">inequantiles</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">synthouse</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Example: compute a quantile ratio index (QRI)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>  <span class="co"># simulated income data</span></span>
+<span><span class="co"># Weighted quantiles</span></span>
+<span><span class="fu"><a href="reference/csquantile.html">csquantile</a></span><span class="op">(</span>y       <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
+<span>           weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>,</span>
+<span>           probs   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span>,</span>
+<span>           type    <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/qri.html">qri</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="co">## Estimate the QRI on a srs</span></span>
+<span><span class="co"># Quantile ratio index</span></span>
+<span><span class="fu"><a href="reference/qri.html">qri</a></span><span class="op">(</span>y       <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
+<span>    weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># On (synthetic) survey data</span></span>
+<span><span class="co"># All indicators at once</span></span>
+<span><span class="fu"><a href="reference/inequantiles.html">inequantiles</a></span><span class="op">(</span>y          <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
+<span>             weights    <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>,</span>
+<span>             indicators <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">synthouse</span><span class="op">)</span> <span class="co"># Import household survey dataset</span></span>
+<span><span class="co"># Inequality curve</span></span>
+<span><span class="fu"><a href="reference/plot_inequality_curve.html">plot_inequality_curve</a></span><span class="op">(</span>y       <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
+<span>                      weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>,</span>
+<span>                      main    <span class="op">=</span> <span class="st">"Inequality curve — synthouse"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="variance-estimation">Variance Estimation<a class="anchor" aria-label="anchor" href="#variance-estimation"></a>
+</h2>
+<p>Standard errors for all indicators can be estimated simultaneously via the rescaled bootstrap, using a single bootstrap loop for directly comparable results:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/inequantiles.html">inequantiles</a></span><span class="op">(</span></span>
+<span>  y          <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
+<span>  weights    <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>,</span>
+<span>  indicators <span class="op">=</span> <span class="st">"all"</span>,</span>
+<span>  se         <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  data       <span class="op">=</span> <span class="va">synthouse</span>,</span>
+<span>  strata     <span class="op">=</span> <span class="st">"NUTS2"</span>,</span>
+<span>  psu        <span class="op">=</span> <span class="st">"municipality"</span>,</span>
+<span>  B          <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>  seed       <span class="op">=</span> <span class="fl">42</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>For custom estimators or more control over the bootstrap, use <code><a href="reference/rescaled_bootstrap.html">rescaled_bootstrap()</a></code> directly.</p>
+</div>
+<div class="section level2">
+<h2 id="influence-functions">Influence Functions<a class="anchor" aria-label="anchor" href="#influence-functions"></a>
+</h2>
+<p>Influence functions measure how much each observation affects an estimate — useful for analytical variance estimation and diagnosing influential observations.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Influence function for the QRI</span></span>
+<span><span class="fu"><a href="reference/if_qri.html">if_qri</a></span><span class="op">(</span>y       <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
+<span>       weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/csquantile.html">csquantile</a></span><span class="op">(</span><span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, weight <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> <span class="co">### Estimate quantiles on survey data</span></span>
+<span><span class="co"># Influence function for the QSR</span></span>
+<span><span class="fu"><a href="reference/if_qsr.html">if_qsr</a></span><span class="op">(</span>y       <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
+<span>       weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## QRI estimation on survey data with type 6</span></span>
-<span><span class="fu"><a href="reference/qri.html">qri</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, weight <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, </span>
-<span>type <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> </span>
+<span><span class="co"># Influence function for the Gini coefficient</span></span>
+<span><span class="fu"><a href="reference/if_gini.html">if_gini</a></span><span class="op">(</span>y       <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
+<span>        weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## Palma index estimation on survey data</span></span>
-<span><span class="fu"><a href="reference/palma_ratio.html">palma_ratio</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, weight <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, </span>
-<span>type <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> </span>
+<span><span class="co"># Influence function for the median</span></span>
+<span><span class="fu"><a href="reference/if_quantile.html">if_quantile</a></span><span class="op">(</span>y       <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
+<span>            weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>,</span>
+<span>            probs   <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="grouped-data">Grouped Data<a class="anchor" aria-label="anchor" href="#grouped-data"></a>
+</h2>
+<p>When only frequency tables are available (e.g., tax records):</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">income_freq</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">120</span>, <span class="fl">180</span>, <span class="fl">150</span>, <span class="fl">80</span>, <span class="fl">40</span>, <span class="fl">20</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">income_tot</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18800</span>, <span class="fl">16300</span>, <span class="fl">44700</span>, <span class="fl">33900</span>, <span class="fl">21500</span>, <span class="fl">22100</span>, <span class="fl">98300</span><span class="op">)</span></span>
+<span><span class="va">income_lower</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">15000</span>, <span class="fl">30000</span>, <span class="fl">45000</span>, <span class="fl">60000</span>, <span class="fl">80000</span>, <span class="fl">100000</span><span class="op">)</span></span>
+<span><span class="va">income_upper</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15000</span>, <span class="fl">30000</span>, <span class="fl">45000</span>, <span class="fl">60000</span>, <span class="fl">80000</span>, <span class="fl">100000</span>, <span class="fl">150000</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## P90/P10 ratio estimation on survey data</span></span>
-<span><span class="fu"><a href="reference/ratio_quantiles.html">ratio_quantiles</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, weight <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, </span>
-<span>prob_numerator <span class="op">=</span> <span class="fl">0.90</span>, prob_denominator <span class="op">=</span> <span class="fl">0.10</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="reference/quantile_grouped.html">quantile_grouped</a></span><span class="op">(</span>freq <span class="op">=</span> <span class="va">income_freq</span>,</span>
+<span>                 lower_bounds <span class="op">=</span> <span class="va">income_lower</span>,</span>
+<span>                 upper_bounds <span class="op">=</span> <span class="va">income_upper</span>,</span>
+<span>                 probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## Influence function estimation of the QRI (on some observations, as example)</span></span>
-<span><span class="fu"><a href="reference/if_qri.html">if_qri</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, weight <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/qri_grouped.html">qri_grouped</a></span><span class="op">(</span>freq <span class="op">=</span> <span class="va">income_freq</span>,</span>
+<span>            lower_bounds <span class="op">=</span> <span class="va">income_lower</span>,</span>
+<span>            upper_bounds <span class="op">=</span> <span class="va">income_upper</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/gini_grouped.html">gini_grouped</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income_tot</span>, freq <span class="op">=</span> <span class="va">income_freq</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>If you use <strong>inequantiles</strong> in your research, please cite:</p>
+<blockquote>
+<p>Scarpa, S. (2025). <em>inequantiles: Quantile-Based Inequality Measures for Survey Data</em>. R package. <a href="https://github.com/silviascarpa/inequantiles" class="external-link uri">https://github.com/silviascarpa/inequantiles</a></p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2 id="getting-help">Getting Help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h2>
+<ul>
+<li>📋 <a href="https://github.com/silviascarpa/inequantiles/issues" class="external-link">Open an issue</a>
+</li>
+<li>📧 <a href="mailto:silvia.scarpa@unimore.it" class="email">silvia.scarpa@unimore.it</a>
+</li>
+</ul>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/silviascarpa/inequantiles/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/silviascarpa/inequantiles/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>

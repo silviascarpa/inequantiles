@@ -24,6 +24,7 @@ supporting both stratified simple random sampling and multistage complex designs
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/silviascarpa/inequantiles/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -33,7 +34,7 @@ supporting both stratified simple random sampling and multistage complex designs
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Rescaled Bootstrap Variance Estimation</h1>
-
+      <small class="dont-index">Source: <a href="https://github.com/silviascarpa/inequantiles/blob/HEAD/R/rescaled_bootstrap.R" class="external-link"><code>R/rescaled_bootstrap.R</code></a></small>
       <div class="d-none name"><code>rescaled_bootstrap.Rd</code></div>
     </div>
 
@@ -128,7 +129,7 @@ If <code>NULL</code>, defaults to \(m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloo
 <dd><p>if variance is computed by stratum or overall</p></dd>
 
 <dt>design</dt>
-<dd><p>if the sampling design is complex (with sampling weights) or simple</p></dd>
+<dd><p>if the sampling design is complex or simple</p></dd>
 
 <dt>strata_info</dt>
 <dd><p>Returns information about number of observations/PSUs per stratum</p></dd>
@@ -146,26 +147,29 @@ The methodology is based on Rao and Wu (1988)
  and
 Rao et al. (1992)
 .</p>
-<p><strong>(1) Stratified Simple Random Sampling</strong></p>
+<p><strong>(1) Stratified Simple Random Sampling design</strong></p>
 <p>Consider a finite population divided into \(H\) strata, each of size \(N_h\), with a sample of size \(n_h\)
-selected independently in each stratum. For each \(b\) bootstrap replicate, \(b = \ldots, B\):</p><ol><li><p>Draw a bootstrap sample of size \(m_h\) with replacement from the \(n_h\) sampled units.
+selected independently in each \(h\) stratum. Suppose to be interested on some \(\theta\) parameter,
+with  \(\hat{\theta}\) sampling estimator.
+For each \(b\) bootstrap replicate, \(b = \ldots, B\):</p><ol><li><p>Draw a bootstrap sample of size \(m_h\) with replacement from the \(n_h\) sampled units.
 By default, \(m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor \approx n_h - 3\).</p></li>
 <li><p>Compute rescaled bootstrap values:
 $$
           \tilde{y}_{hj}^{*(b)} = \bar{y}_h +
           \sqrt{\frac{m_h(1-f_h)}{n_h - 1}}
           (y_{hj}^{*(b)} - \bar{y}_h), $$
-where \(y_{hj}^*\) is the bootstrap observation \(f_h = n_h / N_h\) is the sampling fraction and \(\bar{y}_h\) is the sample stratum mean.</p></li>
+where \(y_{hj}^*\) is the bootstrap observation, \(f_h = n_h / N_h\) is the sampling fraction and
+\(\bar{y}_h\) is the sample stratum mean.</p></li>
 <li><p>Compute the statistic of interest \(\hat{\theta}^{*(b)}\) using rescaled values.</p></li>
 </ol><p>The bootstrap variance is then given by:
 $$
   \widehat{V}_{boot}(\hat{\theta}) =
   \frac{1}{B-1} \sum_{b=1}^{B}
-  \left( \hat{\theta}^{*(b)} - \bar{\theta}^{*} \right)^2,
+  \left( \hat{\theta}^{*(b)} - \hat{\bar{\theta}}^{*} \right)^2,
   \qquad
-  \bar{\theta}^{*} = \frac{1}{B} \sum_{b=1}^{B} \hat{\theta}^{*(b)}.
+  \hat{\bar{\theta}}^{*} = \frac{1}{B} \sum_{b=1}^{B} \hat{\theta}^{*(b)}.
 $$</p>
-<p><strong>(2) Two-Stage Stratified Sampling (Complex Designs)</strong></p>
+<p><strong>(2) Two-Stage Stratified Sampling design</strong></p>
 <p>For designs with PSUs and sampling weights:</p><ol><li><p>Within each stratum \(h\), draw \(m_h\) PSUs with replacement from the \(n_h\) sampled PSUs.
 By default, \(m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor \approx n_h - 3\).</p></li>
 <li><p>Let \(m_{hi}^{(b)}\) denote the number of times PSU \(i\) is selected in replicate \(b\).
@@ -265,20 +269,14 @@ indicators and their standard errors in a single call, see <code><a href="inequa
 <span class="r-in"><span><span class="co"># Example 2: Two-stage Complex Design</span></span></span>
 <span class="r-in"><span><span class="co"># ================================================================</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># PSU = municipality, Strata = NUTS2, weights = weight, y = eq_income</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Define a weighted mean estimator</span></span></span>
-<span class="r-in"><span><span class="va">wmean_estimator</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>, <span class="va">weights</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">y</span> <span class="op">*</span> <span class="va">weights</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">weights</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Estimate the QRI estimator sampling variance.</span></span></span>
 <span class="r-in"><span><span class="va">boot_complex</span> <span class="op">&lt;-</span> <span class="fu">rescaled_bootstrap</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">synthouse</span>,</span></span>
 <span class="r-in"><span>  y <span class="op">=</span> <span class="st">"eq_income"</span>,</span></span>
 <span class="r-in"><span>  strata <span class="op">=</span> <span class="st">"NUTS2"</span>,</span></span>
 <span class="r-in"><span>  psu <span class="op">=</span> <span class="st">"municipality"</span>,</span></span>
 <span class="r-in"><span>  weights <span class="op">=</span> <span class="st">"weight"</span>,</span></span>
-<span class="r-in"><span>  estimator <span class="op">=</span> <span class="va">wmean_estimator</span>,</span></span>
+<span class="r-in"><span>  estimator <span class="op">=</span> <span class="va">qri</span>,</span></span>
 <span class="r-in"><span>  by_strata <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  B <span class="op">=</span> <span class="fl">50</span>,</span></span>
 <span class="r-in"><span>  seed <span class="op">=</span> <span class="fl">456</span></span></span>
@@ -287,49 +285,18 @@ indicators and their standard errors in a single call, see <code><a href="inequa
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Display variance and bootstrap estimates</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">boot_complex</span><span class="op">$</span><span class="va">variance</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   677932  1868471  2541061  3578920  4590571 10589595 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.0003333 0.0006152 0.0007907 0.0008676 0.0010729 0.0016656 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Strata and PSU summary</span></span></span>
-<span class="r-in"><span><span class="va">boot_complex</span><span class="op">$</span><span class="va">strata_info</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      stratum n_psu m_psu</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C01      C01    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C02      C02    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C03      C03    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C04      C04    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C05      C05    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C06      C06    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> N01      N01    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> N02      N02    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> N03      N03    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> N04      N04    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> N05      N05    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> N06      N06    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NE01    NE01    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NE02    NE02    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NE03    NE03    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NE04    NE04    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NE05    NE05    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NE06    NE06    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NO01    NO01    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NO02    NO02    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NO03    NO03    35    32</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NO04    NO04    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NO05    NO05    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NO06    NO06    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S01      S01    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S02      S02    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S03      S03    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S04      S04    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S05      S05    36    33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S06      S06    36    33</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ================================================================</span></span></span>
 <span class="r-in"><span><span class="co"># Example 3: Multiple estimators in a single bootstrap loop</span></span></span>
 <span class="r-in"><span><span class="co"># ================================================================</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The estimator argument accepts any function returning a named vector,</span></span></span>
+<span class="r-in"><span><span class="co"># Create a function returning a named vector of estimates,</span></span></span>
 <span class="r-in"><span><span class="co"># including package functions and user-defined ones. All indicators share</span></span></span>
 <span class="r-in"><span><span class="co"># the same bootstrap replicates, ensuring directly comparable standard errors.</span></span></span>
 <span class="r-in"><span></span></span>
