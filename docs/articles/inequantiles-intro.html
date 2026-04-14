@@ -87,7 +87,7 @@ with flexible quantile estimator selection</li>
 quantiles choosing among multiple interpolation rules (types 4-9 plus
 HD) on complex sampling data</li>
 <li>
-<strong>Linearization techniques</strong>: Estimation of nfluence
+<strong>Linearization techniques</strong>: Estimation of influence
 function for QRI, QSR, Gini coefficient and quantiles</li>
 <li>
 <strong>Grouped data support</strong>: Estimation of quantiles, QRI
@@ -95,7 +95,7 @@ and Gini coefficient from frequency tables and grouped data when
 microdata are unavailable (e.g., fiscal data)</li>
 <li>
 <strong>Sampling variance estimation</strong> for the cited
-indicators via rescaled bootstrap method</li>
+indicators (and custom functions) via rescaled bootstrap method</li>
 </ul>
 <p>All functions are demonstrated using synthetic survey data included
 in the package.</p>
@@ -148,32 +148,41 @@ income.</p>
 <p>Unlike moment-based inequality indicators (e.g., the Gini
 coefficient), which are highly sensitive to large values in the long
 tails, indicators which are based solely on quantiles are remarkably
-resistant to anomalous observations and high skewness.</p>
+resistant to anomalous observations and high distribution skewness.</p>
 <p>The core of the <strong>inequantiles</strong> package is the quantile
 ratio index (QRI), an indicator that provides a robust measure of
-inequality, even in small samples. It considers the entire distribution
-and is solely based on quantiles.</p>
+inequality, even in small samples, as it considers the entire
+distribution and is solely based on quantiles.</p>
 <div class="section level3">
 <h3 id="the-quantile-ratio-index-qri">The Quantile Ratio Index (QRI)<a class="anchor" aria-label="anchor" href="#the-quantile-ratio-index-qri"></a>
 </h3>
 <p>The QRI was introduced by <span class="citation">Prendergast and
 Staudte (<a href="#ref-prendergast2018simple">2018</a>)</span> as a
-simple, effective inequality measure. The QRI</p>
+simple, effective inequality measure of economic inequality. The QRI</p>
 <ul>
 <li>Considers the entire distribution</li>
 <li>Depends solely on quantiles</li>
 <li>Is robust to extreme values</li>
 <li>Does not require <em>a priori</em> choice of specific
 percentiles</li>
+<li>Is nonparametric</li>
 </ul>
-<p>For a continuous random variable
+<p>For a continuous non-negative random variable
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
-with cdf
+with cumulative distribution function
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">F(y)</annotation></semantics></math>
 and quantile function
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>F</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Q(p) = F^{-1}(p)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>p</mi><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 \leq p \leq 1</annotation></semantics></math>,
 define the ratio between symmetric quantiles as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mi>p</mi><mo>∈</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">R(p) = \frac{Q(p/2)}{Q(1-p/2)}, \quad p \in (0,1).</annotation></semantics></math></p>
+<p><span class="math display">$$R(p) = \frac{Q(p/2)}{Q(1-p/2)},
+\quad  \leq p \leq 1$.$$</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">R(p)</annotation></semantics></math>
+in a non-decreasing function between 0 and 1, which takes value 1 for
+any
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>p</mi><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 \leq p \leq 1</annotation></semantics></math>
+when income (or another economic variable with poisitive support) is
+equally distributed among the individuals.</p>
 <p>The QRI is then defined as:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">QRI</mtext><mo>=</mo><mn>1</mn><mo>−</mo><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mi>d</mi><mi>p</mi><mo>=</mo><mn>1</mn><mo>−</mo><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><mfrac><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mspace width="0.167em"></mspace><mi>d</mi><mi>p</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">\text{QRI} = 1 - \int_0^1 R(p) \, dp = 1 - \int_0^1 \frac{Q(p/2)}{Q(1-p/2)} \, dp.</annotation></semantics></math></p>
 <p>The QRI ranges from 0 (perfect equality) to 1 (maximum inequality).
@@ -181,20 +190,20 @@ It measures the area between the equi-distribution line
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R(p) = 1</annotation></semantics></math>
 for all
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>)
-and the actual inequality curve. This can be easily visualised in the
+and the actual inequality curve. This can be easily visualised by the
 following plots:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Log-Normal distribution</span></span>
 <span><span class="fu"><a href="../reference/plot_inequality_curve.html">plot_inequality_curve</a></span><span class="op">(</span>qfunction <span class="op">=</span> <span class="va">qlnorm</span>, qfun_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>meanlog <span class="op">=</span> <span class="fl">9</span>, sdlog <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span>,</span>
-<span>                      col   <span class="op">=</span> <span class="st">"tomato"</span>, lty <span class="op">=</span> <span class="fl">2</span>, label <span class="op">=</span> <span class="st">"LogN(sdlog=0.3)"</span><span class="op">)</span></span>
+<span>                      col   <span class="op">=</span> <span class="st">"tomato"</span>, lty <span class="op">=</span> <span class="fl">2</span>, label <span class="op">=</span> <span class="st">"LogN(sigma=0.3)"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_inequality_curve.html">plot_inequality_curve</a></span><span class="op">(</span>qfunction <span class="op">=</span> <span class="va">qlnorm</span>, qfun_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>meanlog <span class="op">=</span> <span class="fl">9</span>, sdlog <span class="op">=</span> <span class="fl">1.9</span><span class="op">)</span>,</span>
-<span>                      col   <span class="op">=</span> <span class="st">"blue"</span>, lty <span class="op">=</span> <span class="fl">2</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, label <span class="op">=</span> <span class="st">"LogN(sdlog=1.9)"</span><span class="op">)</span></span>
+<span>                      col   <span class="op">=</span> <span class="st">"blue"</span>, lty <span class="op">=</span> <span class="fl">2</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, label <span class="op">=</span> <span class="st">"LogN(sigma=1.9)"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_inequality_curve.html">plot_inequality_curve</a></span><span class="op">(</span>qfunction <span class="op">=</span> <span class="va">qlnorm</span>, qfun_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>meanlog <span class="op">=</span> <span class="fl">9</span>, sdlog <span class="op">=</span> <span class="fl">3.9</span><span class="op">)</span>,</span>
-<span>                      col   <span class="op">=</span> <span class="st">"green"</span>, lty <span class="op">=</span> <span class="fl">2</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, label <span class="op">=</span> <span class="st">"LogN(sdlog=3.9)"</span><span class="op">)</span></span></code></pre></div>
+<span>                      col   <span class="op">=</span> <span class="st">"green"</span>, lty <span class="op">=</span> <span class="fl">2</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, label <span class="op">=</span> <span class="st">"LogN(sigma=3.9)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="inequantiles-intro_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672"></p>
 <p>For superpopulation models defined by theoretical parametric
 distributions with known quantile functions, you can compute the exact
-QRI a:</p>
+QRI as:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Log-normal distribution</span></span>
 <span><span class="fu"><a href="../reference/superpop_qri.html">superpop_qri</a></span><span class="op">(</span>qfunction <span class="op">=</span> <span class="va">qlnorm</span>, meanlog <span class="op">=</span> <span class="fl">9</span>, sdlog <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
@@ -215,7 +224,10 @@ from which a random sample
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
 of size
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-is selected. Let
+is selected, typically collected with a complex sampling design
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>P</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>S</mi><mo>=</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p(s) = Pr(S = s)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>s</mi><mo>⊆</mo><mi>U</mi></mrow><annotation encoding="application/x-tex">\forall s \subseteq  U</annotation></semantics></math>.
+Let
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>j</mi></msub><annotation encoding="application/x-tex">y_j</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">j \in s</annotation></semantics></math>,
 be the observed values of the variable of interest, with
@@ -237,16 +249,18 @@ be the
 quantile estimator; how to estimate the quantiles on complex sampling
 data will be treated in the following sections. For survey data from a
 finite population, <span class="citation">Scarpa, Ferrante, and Sperlich
-(<a href="#ref-scarpa2025inference">2025</a>)</span> approximate the QRI
-integral using a grid of
+(<a href="#ref-scarpa2025inference">2025</a>)</span> estimate the QRI
+using a grid of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
-points as</p>
+points on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0, 1)</annotation></semantics></math>
+as</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mtext mathvariant="normal">QRI</mtext><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mn>1</mn><mi>M</mi></mfrac><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mi>M</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mi>m</mi></msub><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>m</mi></msub><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
 \widehat{\text{QRI}} = \frac{1}{M} \sum_{m=1}^M \left(1 - \frac{\widehat{Q}(p_m/2)}{\widehat{Q}(1-p_m/2)}\right)
 </annotation></semantics></math></p>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>m</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>m</mi><mo>−</mo><mn>0.5</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mi>M</mi></mrow><annotation encoding="application/x-tex">p_m = (m-0.5)/M</annotation></semantics></math>.
-By default,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>m</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>m</mi><mo>−</mo><mn>0.5</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mi>M</mi></mrow><annotation encoding="application/x-tex">p_m = (m-0.5)/M</annotation></semantics></math>,
+for $ m = 1, , M$. By default,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">M = 100</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/qri.html">qri</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, M <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
@@ -294,7 +308,7 @@ data. The possible interpolation rules are summarised in the table below
 (see <span class="citation">Scarpa, Ferrante, and Sperlich (<a href="#ref-scarpa2025inference">2025</a>)</span> for further details):
 <table class="table table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Quantile estimators incorporating sampling weights.
+<b>Table 1:</b> Quantile estimators incorporating sampling weights.
 </caption>
 <thead><tr>
 <th style="text-align:center;font-weight: bold;">
@@ -397,6 +411,7 @@ Estimator
 </tr>
 </tbody>
 </table>
+<p>They can be easily compued on survey data, as:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute weighted quartiles</span></span>
 <span><span class="fu"><a href="../reference/csquantile.html">csquantile</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
@@ -486,44 +501,6 @@ biased estimates.</p>
 <span>    weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, </span>
 <span>    type <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>  <span class="co"># Type 6 quantile estimator (default)</span></span>
 <span><span class="co">#&gt; [1] 0.5690895</span></span></code></pre></div>
-<p>Differences in estimation are more evident in small samples:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Compare different quantile types by NUTS3</span></span>
-<span><span class="va">types</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="st">"HD"</span><span class="op">)</span></span>
-<span><span class="va">areas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">synthouse</span><span class="op">$</span><span class="va">NUTS3</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Function to compute QRI for all types in one area</span></span>
-<span><span class="va">compare_qri</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">region_code</span>, <span class="va">data</span> <span class="op">=</span> <span class="va">synthouse</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">NUTS3</span> <span class="op">==</span> <span class="va">region_code</span><span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">types</span>, <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="../reference/qri.html">qri</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">eq_income</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span>, </span>
-<span>        weights <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">weight</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span>, </span>
-<span>        type <span class="op">=</span> <span class="va">t</span><span class="op">)</span></span>
-<span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="co"># Compute for all areas</span></span>
-<span><span class="va">results_qri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">areas</span>, <span class="va">compare_qri</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">results_qri</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">types</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">results_qri</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">areas</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># === QRI by Quantile Type for Each NUTS3 Region ===</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">results_qri</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                 4         5         6         7         8         9        HD</span></span>
-<span><span class="co">#&gt; N01005  0.5949780 0.5942985 0.5963463 0.5930279 0.5948852 0.5947540 0.5937224</span></span>
-<span><span class="co">#&gt; NE06004 0.6027608 0.6029655 0.6035349 0.6023394 0.6032227 0.6031437 0.6021197</span></span>
-<span><span class="co">#&gt; N05003  0.5796526 0.5817831 0.5806345 0.5823600 0.5815257 0.5815893 0.5810594</span></span>
-<span><span class="co">#&gt; NE06002 0.4633240 0.4641063 0.4637624 0.4647093 0.4640727 0.4641066 0.4641930</span></span>
-<span><span class="co">#&gt; N02004  0.4772340 0.4757844 0.4776209 0.4744547 0.4763412 0.4762049 0.4761747</span></span>
-<span><span class="co">#&gt; NO02004 0.5149638 0.5130350 0.5162534 0.5096980 0.5142736 0.5139116 0.5126820</span></span>
-<span><span class="co">#&gt; NO03002 0.5633048 0.5622163 0.5663644 0.5582589 0.5635166 0.5631801 0.5619292</span></span>
-<span><span class="co">#&gt; N06004  0.6269838 0.6261242 0.6278492 0.6246125 0.6266669 0.6265087 0.6254449</span></span>
-<span><span class="co">#&gt; NE02004 0.6158412 0.6147918 0.6166331 0.6131734 0.6154180 0.6152612 0.6161466</span></span>
-<span><span class="co">#&gt; S04005  0.5889493 0.5895140 0.5894409 0.5893739 0.5894665 0.5894842 0.5890552</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="qri-estimator-sampling-variance">QRI estimator sampling variance<a class="anchor" aria-label="anchor" href="#qri-estimator-sampling-variance"></a>
@@ -535,7 +512,7 @@ as demonstrated by <span class="citation">Scarpa, Ferrante, and Sperlich
 (<a href="#ref-scarpa2025inference">2025</a>)</span>. This can be easily
 estimated on data collected through two-stage stratified sampling design
 as</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Pseudo-code for rescaled bootstrap for the estimation of the sampling variance of the QRI estimator</span></span>
 <span><span class="va">var_qri</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rescaled_bootstrap.html">rescaled_bootstrap</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">synthouse</span>,</span>
@@ -553,7 +530,9 @@ as</p>
 </h3>
 <p>Most common quantile-based inequality indicators in the literature
 are the quintile share ratio (QSR), the Palma ratio and the interdecile
-ratios.</p>
+ratios. All estimators implemented in this package allow the user to
+choose the quantile estimation method via the <code>type</code>
+argument.</p>
 <div class="section level4">
 <h4 id="quintile-share-ratio-qsr">Quintile Share Ratio (QSR)<a class="anchor" aria-label="anchor" href="#quintile-share-ratio-qsr"></a>
 </h4>
@@ -562,7 +541,7 @@ Its estimator is defined as</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mrow><mi>Q</mi><mi>S</mi><mi>R</mi></mrow><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></munder><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">{</mo><msub><mi>y</mi><mi>j</mi></msub><mo>≥</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></munder><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">{</mo><msub><mi>y</mi><mi>j</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow></mfrac><mspace width="0.222em"></mspace><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \widehat{{QSR}} = \frac{\sum_{j \in s}w_j y_j \mathbf{1}\left\{ y_j \geq \widehat{Q}(0.8)\right\} }{\sum_{j \in s} w_j y_j\mathbf{1}\left\{ y_j \leq \widehat{Q}(0.2)\right\} } \ .
 </annotation></semantics></math></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute QSR</span></span>
 <span><span class="fu"><a href="../reference/qsr.html">qsr</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, </span>
 <span>    weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, type <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
@@ -576,7 +555,7 @@ income:
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mrow><mi>P</mi><mi>a</mi><mi>l</mi><mi>m</mi><mi>a</mi></mrow><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></munder><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">{</mo><msub><mi>y</mi><mi>j</mi></msub><mo>≥</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.9</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></munder><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">{</mo><msub><mi>y</mi><mi>j</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.4</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow></mfrac><mspace width="0.222em"></mspace><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \widehat{{Palma}} = \frac{\sum_{j \in s}w_j y_j \mathbf{1}\left\{ y_j \geq \widehat{Q}(0.9)\right\} }{\sum_{j \in s} w_j y_j\mathbf{1}\left\{ y_j \leq \widehat{Q}(0.4)\right\} } \ .
 </annotation></semantics></math></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute Palma ratio</span></span>
 <span><span class="fu"><a href="../reference/palma_ratio.html">palma_ratio</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, </span>
 <span>            weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, type <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
@@ -591,7 +570,7 @@ ratios between percentiles, for example:
 \widehat{{P}90/{P}10} = \frac{\widehat{Q}(p=0.9)}{\widehat{Q}(p=0.1)}  
 </annotation></semantics></math></p>
 <p>Default the P90/P10 is estimated.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># P90/P10 ratio</span></span>
 <span><span class="fu"><a href="../reference/ratio_quantiles.html">ratio_quantiles</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
 <span>                weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>,</span>
@@ -612,7 +591,7 @@ ratios between percentiles, for example:
 <h3 id="comparing-indicators-across-groups">Comparing Indicators Across Groups<a class="anchor" aria-label="anchor" href="#comparing-indicators-across-groups"></a>
 </h3>
 <p>Multiple inequality indicators exist in the literature, each
-capturing different aspects of the income distribution. Different
+capturing different aspects of the economic distribution. Different
 indicators may provide complementary perspectives on inequality, so
 researchers should choose the most appropriate measure based on their
 specific research questions and the distributional features of
@@ -620,7 +599,7 @@ interest.</p>
 <p>The <code><a href="../reference/inequantiles.html">inequantiles()</a></code> function computes all quantile-based
 indicators at once, or any subset of them, among QRI, QSR, Palma ratio
 and interquantiles ratio.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compare all indicators</span></span>
 <span><span class="fu"><a href="../reference/inequantiles.html">inequantiles</a></span><span class="op">(</span>y          <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
 <span>             weights    <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>,</span>
@@ -636,11 +615,11 @@ and interquantiles ratio.</p>
 <code>se = TRUE</code>. Note that this requires specifying the survey
 design variables (<code>strata</code>, and optionally <code>psu</code>
 and <code>N_h</code>).</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Standard errors for one region via rescaled bootstrap</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># QRI and QSR with their standard errors for one region via rescaled bootstrap</span></span>
 <span><span class="va">nord</span> <span class="op">&lt;-</span> <span class="va">synthouse</span><span class="op">[</span><span class="va">synthouse</span><span class="op">$</span><span class="va">NUTS1</span> <span class="op">==</span> <span class="st">"N"</span>, <span class="op">]</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/inequantiles.html">inequantiles</a></span><span class="op">(</span></span>
+<span><span class="va">qri_qsr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inequantiles.html">inequantiles</a></span><span class="op">(</span></span>
 <span>  y       <span class="op">=</span> <span class="va">nord</span><span class="op">$</span><span class="va">eq_income</span>,</span>
 <span>  weights <span class="op">=</span> <span class="va">nord</span><span class="op">$</span><span class="va">weight</span>,</span>
 <span>  indicators <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"qri"</span>, <span class="st">"qsr"</span><span class="op">)</span>,</span>
@@ -664,15 +643,20 @@ function estimation for some measures.</p>
 </annotation></semantics></math> where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>F</mi><mo accent="true">̂</mo></mover><mi>′</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mover><mi>N</mi><mo accent="true">̂</mo></mover></mfrac><mfrac><mn>1</mn><mrow><mi>h</mi><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt></mrow></mfrac><msub><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></msub><msub><mi>w</mi><mi>j</mi></msub><mo>exp</mo><mrow><mo stretchy="true" form="prefix">{</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><msub><mi>y</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>h</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">}</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat{F}'(y) = \frac{1}{\widehat N}\frac{1}{h \sqrt{2 \pi}} \sum_{j \in s} w_j \operatorname{exp} \left\{-\frac{(y - y_j)^2}{2h^2} \right\}</annotation></semantics></math>.</p>
 <p>The QSR estimator IF, as demonstrated by <span class="citation">Langel and Tillé (<a href="#ref-langel2011quintile">2011</a>)</span>, can be computed as
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><msub><mrow><mo stretchy="true" form="prefix">(</mo><mover><mrow><mi>Q</mi><mi>S</mi><mi>R</mi></mrow><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>y</mi><mi>k</mi></msub><mo>−</mo><mrow><mo stretchy="true" form="prefix">{</mo><mn>0.8</mn><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>y</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><msub><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mn>0.2</mn></msub></mfrac><mo>−</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mo>−</mo><msub><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mn>0.8</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">{</mo><mn>0.2</mn><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>y</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><msubsup><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mn>0.2</mn><mn>2</mn></msubsup></mfrac></mrow><annotation encoding="application/x-tex">
-I(\widehat{QSR})_{k}=\frac{y_k-\left\{0.8 \widehat{Q}(0.8)-\left(\widehat{Q}(0.8)-y_k\right) \mathbf{1}\left[y_k \leq \widehat{Q}(0.8)\right]\right\}}{\widehat{Y}_{0.2}}-\frac{\left(\widehat{Y}-\widehat{Y}_{0.8}\right)\left\{0.2 \widehat{Q}(0.2)-\left(\widehat{Q}(0.2)-y_k\right) \mathbf{1}\left[y_k \leq \widehat{Q}(0.2)\right]\right\}}{\widehat{Y}_{0.2}^2}
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>I</mi><msub><mrow><mo stretchy="true" form="prefix">(</mo><mover><mrow><mi>Q</mi><mi>S</mi><mi>R</mi></mrow><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><msub><mi>y</mi><mi>k</mi></msub><mo>−</mo><mrow><mo stretchy="true" form="prefix">{</mo><mn>0.8</mn><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>y</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><msub><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mn>0.2</mn></msub></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mspace width="1.0em"></mspace><mo>−</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mo>−</mo><msub><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mn>0.8</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">{</mo><mn>0.2</mn><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>y</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><msubsup><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mn>0.2</mn><mn>2</mn></msubsup></mfrac></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{split}
+I(\widehat{QSR})_{k} &amp;= \frac{y_k-\left\{0.8 \widehat{Q}(0.8)-\left(\widehat{Q}(0.8)-y_k\right) \mathbf{1}\left[y_k \leq \widehat{Q}(0.8)\right]\right\}}{\widehat{Y}_{0.2}} \\
+&amp;\quad - \frac{\left(\widehat{Y}-\widehat{Y}_{0.8}\right)\left\{0.2 \widehat{Q}(0.2)-\left(\widehat{Q}(0.2)-y_k\right) \mathbf{1}\left[y_k \leq \widehat{Q}(0.2)\right]\right\}}{\widehat{Y}_{0.2}^2}
+\end{split}
 </annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mi>α</mi></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></msub><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{Y}_{\alpha} = \sum_{j \in s} w_j y_j \mathbf{1}[y_k \leq \widehat{Q}(\alpha)]</annotation></semantics></math>.</p>
 <p><span class="citation">Scarpa, Ferrante, and Sperlich (<a href="#ref-scarpa2025inference">2025</a>)</span> demonstrated that the
 QRI IF can be estimated as
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><msub><mrow><mo stretchy="true" form="prefix">(</mo><mover><mrow><mi>Q</mi><mi>R</mi><mi>I</mi></mrow><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msub><mo>=</mo><mi>−</mi><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mfrac><mi>p</mi><mn>2</mn></mfrac><mo>−</mo><mn>𝟙</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>F</mi><mo accent="true">̂</mo></mover><mi>′</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>N</mi><mo accent="true">̂</mo></mover></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mfrac><mi>p</mi><mn>2</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mn>𝟙</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>F</mi><mo accent="true">̂</mo></mover><mi>′</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>N</mi><mo accent="true">̂</mo></mover></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac><mi>d</mi><mi>p</mi><mspace width="0.222em"></mspace><mi>.</mi></mrow><annotation encoding="application/x-tex">
-{I}(\widehat{QRI})_{k} = - \int_0^1 \frac{\left(\frac{\frac{p}{2} - \mathbb{1}(y_k \leq \widehat{Q}(p/2))}{\widehat{F}'(\widehat{Q}(p/2))  \widehat N}\right) \widehat{Q}(1-p/2) - \left(\frac{(1 - \frac{p}{2}) - \mathbb{1}(y_k \leq \widehat{Q}(1-p/2))}{\widehat{F}'(\widehat{Q}(1-p/2)) \widehat N}\right) \widehat{Q}(p/2)}{ \widehat{Q}(1-p/2)^2}dp \ .
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>I</mi><msub><mrow><mo stretchy="true" form="prefix">(</mo><mover><mrow><mi>Q</mi><mi>R</mi><mi>I</mi></mrow><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mi>−</mi><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mfrac><mi>p</mi><mn>2</mn></mfrac><mo>−</mo><mn>𝟙</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>F</mi><mo accent="true">̂</mo></mover><mi>′</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>N</mi><mo accent="true">̂</mo></mover></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mfrac><mi>p</mi><mn>2</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mn>𝟙</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>F</mi><mo accent="true">̂</mo></mover><mi>′</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>N</mi><mo accent="true">̂</mo></mover></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac><mi>d</mi><mi>p</mi><mspace width="0.222em"></mspace><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{split}
+{I}(\widehat{QRI})_{k} &amp;=  - \int_0^1 \frac{\left(\frac{\frac{p}{2} - \mathbb{1}(y_k \leq \widehat{Q}(p/2))}{\widehat{F}'(\widehat{Q}(p/2))  \widehat N}\right) \widehat{Q}(1-p/2) - \left(\frac{(1 - \frac{p}{2}) - \mathbb{1}(y_k \leq \widehat{Q}(1-p/2))}{\widehat{F}'(\widehat{Q}(1-p/2)) \widehat N}\right) \widehat{Q}(p/2)}{ \widehat{Q}(1-p/2)^2}dp \ .
+\end{split}
 </annotation></semantics></math></p>
 <p>The Gini coefficient IF can be approximated as (see <span class="citation">Langel and Tillé (<a href="#ref-langel2013variance">2013</a>)</span>) as
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><msub><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>G</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mover><mi>N</mi><mo accent="true">̂</mo></mover><mover><mi>Y</mi><mo accent="true">̂</mo></mover></mrow></mfrac><mrow><mo stretchy="true" form="prefix">{</mo><mn>2</mn><msub><mi>W</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>k</mi></msub><mo>−</mo><msub><mover><mover><mi>Y</mi><mo accent="true">‾</mo></mover><mo accent="true">̂</mo></mover><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mo>−</mo><mover><mi>N</mi><mo accent="true">̂</mo></mover><msub><mi>y</mi><mi>k</mi></msub><mo>−</mo><mover><mi>G</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mo>+</mo><msub><mi>y</mi><mi>k</mi></msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><annotation encoding="application/x-tex">
@@ -683,7 +667,7 @@ QRI IF can be estimated as
 <div class="section level4">
 <h4 id="comparison-of-the-influence-function-values">Comparison of the influence function values<a class="anchor" aria-label="anchor" href="#comparison-of-the-influence-function-values"></a>
 </h4>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Select a subset for clearer visualization</span></span>
 <span><span class="va">n_obs</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
@@ -703,7 +687,7 @@ QRI IF can be estimated as
 <span><span class="va">if_qri_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_qri.html">if_qri</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span>, type <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">if_qsr_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_qsr.html">if_qsr</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span>, type <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="va">if_q50_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_quantile.html">if_quantile</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span>, probs <span class="op">=</span> <span class="fl">0.5</span>, type <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create the plot</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: package 'ggplot2' was built under R version 4.4.3</span></span>
@@ -730,9 +714,8 @@ QRI IF can be estimated as
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Influence Functions: How Each Observation Affects the Estimate"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Based on"</span>, <span class="va">n_obs</span>, <span class="st">"randomly sampled households"</span><span class="op">)</span>,</span>
-<span>    x <span class="op">=</span> <span class="st">"Equivalized Income (ordered)"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Equivalized Income"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Influence Function Value"</span>,</span>
-<span>    caption <span class="op">=</span> <span class="st">"Note: Higher absolute values indicate greater influence on the estimate"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">11</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
@@ -742,21 +725,35 @@ QRI IF can be estimated as
 <span>    plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"gray40"</span><span class="op">)</span>,</span>
 <span>    panel.grid.minor <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="inequantiles-intro_files/figure-html/unnamed-chunk-19-1.png" alt="" width="672"></p>
+<p><img src="inequantiles-intro_files/figure-html/unnamed-chunk-18-1.png" alt="" width="672"></p>
 <p>We observe that</p>
-<p><strong>Gini Coefficient</strong>: - Shows generally increasing
-unbounded pattern with income - Less sensitive to low incomes</p>
-<p><strong>QRI</strong>: - Balanced influence across the entire
-distribution - Jump around the median - Upper bound as income increases
-- More robust than the other inequality indicators</p>
-<p><strong>Median</strong>: - Step function that admits only two values
-- Robust but ignores most of the distribution</p>
-<p><strong>QSR</strong>: - Sharp discontinuities at
+<p><strong>Gini Coefficient</strong>:</p>
+<ul>
+<li>Shows generally increasing unbounded pattern with income</li>
+<li>Less sensitive to low incomes</li>
+</ul>
+<p><strong>QRI</strong>:</p>
+<ul>
+<li>Balanced influence across the entire distribution</li>
+<li>Jump around the median</li>
+<li>Upper bound as income increases</li>
+<li>More robust than the other inequality indicators</li>
+</ul>
+<p><strong>Median</strong>:</p>
+<ul>
+<li>Step function that admits only two values</li>
+<li>Robust but ignores most of the distribution</li>
+</ul>
+<p><strong>QSR</strong>:</p>
+<ul>
+<li>Sharp discontinuities at
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Q(0.2)</annotation></semantics></math>
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Q(0.8)</annotation></semantics></math>
-- Near-zero influence in the middle 60% of distribution - High
-sensitivity to observations at boundary quantiles</p>
+</li>
+<li>Near-zero influence in the middle 60% of distribution</li>
+<li>High sensitivity to observations at boundary quantiles</li>
+</ul>
 </div>
 </div>
 <div class="section level2">
@@ -820,7 +817,7 @@ is the cumulative population share up to group
 by convention</li>
 </ul>
 <p>For example</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example: Income distribution in frequency table format</span></span>
 <span><span class="va">income_freq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">120</span>, <span class="fl">180</span>, <span class="fl">150</span>, <span class="fl">80</span>, <span class="fl">40</span>, <span class="fl">20</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">income_tot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18800</span>, <span class="fl">16300</span>, <span class="fl">44700</span>, <span class="fl">33900</span>, <span class="fl">21500</span>, <span class="fl">22100</span>, <span class="fl">98300</span><span class="op">)</span></span>
@@ -845,7 +842,7 @@ is then estimated by linear interpolation within the quantile class:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>Q</mi><mo accent="true">̃</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>L</mi><mi>l</mi></msub><mo>+</mo><mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>N</mi><mo>−</mo><msub><mi>C</mi><mrow><mi>l</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>f</mi><mi>l</mi></msub></mfrac><mo>⋅</mo><msub><mi>h</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">
 {\widetilde{Q}(p) = L_l + \frac{(pN - C_{l-1})}{f_l} \cdot h_l}
 </annotation></semantics></math></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Estimate quantiles from grouped data</span></span>
 <span><span class="fu"><a href="../reference/quantile_grouped.html">quantile_grouped</a></span><span class="op">(</span>freq <span class="op">=</span> <span class="va">income_freq</span>,</span>
 <span>                 lower_bounds <span class="op">=</span> <span class="va">income_lower</span>,</span>
@@ -862,7 +859,7 @@ approximated as:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi>Q</mi><mi>R</mi><mi>I</mi></mrow><mo>≈</mo><mfrac><mn>1</mn><mi>M</mi></mfrac><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mi>M</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mover><mi>Q</mi><mo accent="true">̃</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mi>m</mi></msub><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>Q</mi><mo accent="true">̃</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>m</mi></msub><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
 {{QRI}} \approx \frac{1}{M}\sum_{m=1}^{M}\left(1 - \frac{\widetilde{Q}(p_m/2)}{\widetilde{Q}(1 - p_m/2)}\right)
 </annotation></semantics></math></p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute QRI from grouped data</span></span>
 <span><span class="fu"><a href="../reference/qri_grouped.html">qri_grouped</a></span><span class="op">(</span>freq <span class="op">=</span> <span class="va">income_freq</span>, </span>
 <span>            lower_bounds <span class="op">=</span> <span class="va">income_lower</span>, </span>
@@ -878,7 +875,7 @@ cumulative shares, as:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>≈</mo><mn>1</mn><mo>−</mo><munderover><mo>∑</mo><mrow><mi>l</mi><mo>=</mo><mn>1</mn></mrow><mi>L</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>s</mi><mi>l</mi></msub><mo>+</mo><msub><mi>s</mi><mrow><mi>l</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>u</mi><mi>l</mi></msub><mo>−</mo><msub><mi>u</mi><mrow><mi>l</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
 {G \approx 1 - \sum_{l=1}^{L} (s_l + s_{l-1})(u_l - u_{l-1})}
 </annotation></semantics></math></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Estimate quantiles from grouped data</span></span>
 <span><span class="fu"><a href="../reference/gini_grouped.html">gini_grouped</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income_tot</span>, freq <span class="op">=</span> <span class="va">income_freq</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.5787167</span></span></code></pre></div>
@@ -904,7 +901,7 @@ cumulative shares, as:</p>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.4.1 (2024-06-14 ucrt)</span></span>
 <span><span class="co">#&gt; Platform: x86_64-w64-mingw32/x64</span></span>
