@@ -40,6 +40,7 @@
 #'   the finite population correction. See \code{\link{rescaled_bootstrap}}.
 #' @param m_h Optional vector of bootstrap sample sizes per stratum.
 #'   Defaults to the Rao-Wu formula. See \code{\link{rescaled_bootstrap}}.
+#' @param verbose Logical; if \code{TRUE} (default), displays a progress bar during bootstrap iterations.
 #'
 #' @returns A list with components:
 #'   \item{estimates}{Numeric vector of point estimates of inequality indicators.}
@@ -81,9 +82,10 @@
 #' \donttest{
 #' # With bootstrap standard errors (complex design)
 #' inequantiles(eq, weights = w,
-#'              se = TRUE, B = 100, seed = 42,
+#'              se = TRUE, B = 50, seed = 42,
 #'              data = synthouse, strata = "NUTS2",
-#'              psu = "municipality")
+#'              psu = "municipality",
+#'              verbose = FALSE)
 #' }
 #'
 #' @export
@@ -103,7 +105,8 @@ inequantiles <- function(y,
                          strata     = NULL,
                          psu        = NULL,
                          N_h        = NULL,
-                         m_h        = NULL) {
+                         m_h        = NULL,
+                         verbose    = TRUE) {
 
   # =========================================================================
   # VALIDATE indicators
@@ -195,7 +198,8 @@ inequantiles <- function(y,
       estimator = multi_est,
       by_strata = FALSE,
       B         = B,
-      seed      = seed
+      seed      = seed,
+      verbose   = verbose
     )
 
     se_values <- sqrt(boot_result$variance)

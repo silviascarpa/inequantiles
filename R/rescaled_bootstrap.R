@@ -20,6 +20,7 @@
 #' @param m_h Optional vector of bootstrap sample sizes per stratum (PSUs for complex designs).
 #'   If \code{NULL}, defaults to \eqn{m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor}.
 #' @param seed Optional integer for reproducibility.
+#' @param verbose Logical; if \code{TRUE} (default), displays a progress bar during bootstrap iterations.
 #'
 #'
 #' @return A list containing:
@@ -135,7 +136,8 @@
 #'   estimator = mean_estimator,
 #'   by_strata = TRUE,
 #'   B = 50,  # small number for illustration
-#'   seed = 123
+#'   seed = 123,
+#'   verbose = FALSE
 #' )
 #'
 #' # View results
@@ -156,7 +158,8 @@
 #'   estimator = qri,
 #'   by_strata = TRUE,
 #'   B = 50,
-#'   seed = 456
+#'   seed = 456,
+#'   verbose = FALSE
 #' )
 #'
 #' # Display variance and bootstrap estimates
@@ -191,7 +194,8 @@
 #'   estimator = multi_estimator,
 #'   by_strata = FALSE,
 #'   B         = 50,
-#'   seed      = 42
+#'   seed      = 42,
+#'   verbose   = FALSE
 #' )
 #'
 #' # One variance per indicator, all from the same replicates
@@ -232,7 +236,8 @@ rescaled_bootstrap <- function(data,
                                by_strata = TRUE,
                                B = 200,
                                m_h = NULL,
-                               seed = NULL) {
+                               seed = NULL,
+                               verbose = TRUE) {
 
   # Set seed if provided
   if (!is.null(seed)) {
@@ -386,7 +391,7 @@ rescaled_bootstrap <- function(data,
   }
 
   # Progress bar
-  pb <- txtProgressBar(min = 0, max = B, style = 3)
+  if (verbose) pb <- txtProgressBar(min = 0, max = B, style = 3)
 
   # ========================================================================
   # BOOTSTRAP LOOP
@@ -465,7 +470,7 @@ rescaled_bootstrap <- function(data,
         boot_estimates[b, ] <- est_result
       }
 
-      setTxtProgressBar(pb, b)
+      if (verbose) setTxtProgressBar(pb, b)
     }
 
   } else {
@@ -514,11 +519,11 @@ rescaled_bootstrap <- function(data,
         boot_estimates[b, ] <- est_result
       }
 
-      setTxtProgressBar(pb, b)
+      if (verbose) setTxtProgressBar(pb, b)
     }
   }
 
-  close(pb)
+  if (verbose) close(pb)
 
   # ========================================================================
   # CALCULATE VARIANCE
