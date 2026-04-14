@@ -3,3 +3,6 @@ template:
   bootstrap: 5
   math-rendering: mathjax
 
+examples:
+  run_dont_test: false
+

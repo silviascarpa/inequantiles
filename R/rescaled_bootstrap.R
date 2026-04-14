@@ -127,17 +127,15 @@
 #' mean_estimator <- function(y) mean(y, na.rm = TRUE)
 #'
 #' # Apply the rescaled bootstrap under stratified SRS
-#' capture.output(
-#'   boot_srs <- rescaled_bootstrap(
-#'     data = synthouse,
-#'     y = "eq_income",
-#'     strata = "NUTS2",
-#'     N_h = N_values,
-#'     estimator = mean_estimator,
-#'     by_strata = TRUE,
-#'     B = 50,  # small number for illustration
-#'     seed = 123
-#'   )
+#' boot_srs <- rescaled_bootstrap(
+#'   data = synthouse,
+#'   y = "eq_income",
+#'   strata = "NUTS2",
+#'   N_h = N_values,
+#'   estimator = mean_estimator,
+#'   by_strata = TRUE,
+#'   B = 50,  # small number for illustration
+#'   seed = 123
 #' )
 #'
 #' # View results
@@ -149,18 +147,16 @@
 #' # ================================================================
 #'
 #' # Estimate the QRI estimator sampling variance.
-#' capture.output(
-#'   boot_complex <- rescaled_bootstrap(
-#'     data = synthouse,
-#'     y = "eq_income",
-#'     strata = "NUTS2",
-#'     psu = "municipality",
-#'     weights = "weight",
-#'     estimator = qri,
-#'     by_strata = TRUE,
-#'     B = 50,
-#'     seed = 456
-#'   )
+#' boot_complex <- rescaled_bootstrap(
+#'   data = synthouse,
+#'   y = "eq_income",
+#'   strata = "NUTS2",
+#'   psu = "municipality",
+#'   weights = "weight",
+#'   estimator = qri,
+#'   by_strata = TRUE,
+#'   B = 50,
+#'   seed = 456
 #' )
 #'
 #' # Display variance and bootstrap estimates
@@ -186,18 +182,16 @@
 #'   )
 #' }
 #'
-#' capture.output(
-#'   boot_multi <- rescaled_bootstrap(
-#'     data      = synthouse,
-#'     y         = "eq_income",
-#'     strata    = "NUTS2",
-#'     psu       = "municipality",
-#'     weights   = "weight",
-#'     estimator = multi_estimator,
-#'     by_strata = FALSE,
-#'     B         = 50,
-#'     seed      = 42
-#'   )
+#' boot_multi <- rescaled_bootstrap(
+#'   data      = synthouse,
+#'   y         = "eq_income",
+#'   strata    = "NUTS2",
+#'   psu       = "municipality",
+#'   weights   = "weight",
+#'   estimator = multi_estimator,
+#'   by_strata = FALSE,
+#'   B         = 50,
+#'   seed      = 42
 #' )
 #'
 #' # One variance per indicator, all from the same replicates

@@ -80,12 +80,10 @@
 #'
 #' \donttest{
 #' # With bootstrap standard errors (complex design)
-#' capture.output(
-#'   inequantiles(eq, weights = w,
-#'                se = TRUE, B = 100, seed = 42,
-#'                data = synthouse, strata = "NUTS2",
-#'                psu = "municipality")
-#' )
+#' inequantiles(eq, weights = w,
+#'              se = TRUE, B = 100, seed = 42,
+#'              data = synthouse, strata = "NUTS2",
+#'              psu = "municipality")
 #' }
 #'
 #' @export
