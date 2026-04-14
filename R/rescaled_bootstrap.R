@@ -27,7 +27,7 @@
 #'   \item{boot_estimates}{Vector of B bootstrap estimates}
 #'   \item{B}{Number of bootstrap replicates}
 #'   \item{by_strata}{if variance is computed by stratum or overall}
-#'   \item{design}{if the sampling design is complex (with sampling weights) or simple}
+#'   \item{design}{if the sampling design is complex or simple}
 #'   \item{strata_info}{Returns information about number of observations/PSUs per stratum}
 #'   \item{call}{The matched function call.}
 #'
@@ -39,10 +39,12 @@
 #' \insertCite{rao1992some;textual}{inequantiles}.
 #'
 #'
-#' \strong{(1) Stratified Simple Random Sampling}
+#' \strong{(1) Stratified Simple Random Sampling design}
 #'
 #' Consider a finite population divided into \eqn{H} strata, each of size \eqn{N_h}, with a sample of size \eqn{n_h}
-#' selected independently in each stratum. For each \eqn{b} bootstrap replicate, \eqn{b = \ldots, B}:
+#' selected independently in each \eqn{h} stratum. Suppose to be interested on some \eqn{\theta} parameter,
+#' with  \eqn{\hat{\theta}} sampling estimator.
+#' For each \eqn{b} bootstrap replicate, \eqn{b = \ldots, B}:
 #' \enumerate{
 #'   \item Draw a bootstrap sample of size \eqn{m_h} with replacement from the \eqn{n_h} sampled units.
 #'         By default, \eqn{m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor \approx n_h - 3}.
@@ -51,7 +53,8 @@
 #'           \tilde{y}_{hj}^{*(b)} = \bar{y}_h +
 #'           \sqrt{\frac{m_h(1-f_h)}{n_h - 1}}
 #'           (y_{hj}^{*(b)} - \bar{y}_h), }
-#'         where \eqn{y_{hj}^*} is the bootstrap observation \eqn{f_h = n_h / N_h} is the sampling fraction and \eqn{\bar{y}_h} is the sample stratum mean.
+#'         where \eqn{y_{hj}^*} is the bootstrap observation, \eqn{f_h = n_h / N_h} is the sampling fraction and
+#'         \eqn{\bar{y}_h} is the sample stratum mean.
 #'   \item Compute the statistic of interest \eqn{\hat{\theta}^{*(b)}} using rescaled values.
 #' }
 #'
@@ -59,12 +62,12 @@
 #' \deqn{
 #'   \widehat{V}_{boot}(\hat{\theta}) =
 #'   \frac{1}{B-1} \sum_{b=1}^{B}
-#'   \left( \hat{\theta}^{*(b)} - \bar{\theta}^{*} \right)^2,
+#'   \left( \hat{\theta}^{*(b)} - \hat{\bar{\theta}}^{*} \right)^2,
 #'   \qquad
-#'   \bar{\theta}^{*} = \frac{1}{B} \sum_{b=1}^{B} \hat{\theta}^{*(b)}.
+#'   \hat{\bar{\theta}}^{*} = \frac{1}{B} \sum_{b=1}^{B} \hat{\theta}^{*(b)}.
 #' }
 #'
-#' \strong{(2) Two-Stage Stratified Sampling (Complex Designs)}
+#' \strong{(2) Two-Stage Stratified Sampling design}
 #'
 #' For designs with PSUs and sampling weights:
 #' \enumerate{
@@ -92,6 +95,17 @@
 #'   \left( \hat{\theta}^{*(b)} - \bar{\theta}^{*} \right)^2.
 #' }
 #'
+#' \strong{Multiple estimators}
+#'
+#' The \code{estimator} argument accepts any function with signature
+#' \code{f(y, weights)} (complex design) or \code{f(y)} (simple design),
+#' including functions from this package and user-defined ones.
+#' When \code{estimator} returns a \emph{named numeric vector}, variances are
+#' computed for all outputs simultaneously from the same bootstrap replicates,
+#' so the resulting standard errors are directly comparable across indicators.
+#' For a convenience wrapper that automatically computes all package inequality
+#' indicators and their standard errors in a single call, see \code{\link{inequantiles}}.
+#'
 #' @examples
 #' \donttest{
 #' data(synthouse)
@@ -113,15 +127,17 @@
 #' mean_estimator <- function(y) mean(y, na.rm = TRUE)
 #'
 #' # Apply the rescaled bootstrap under stratified SRS
-#' boot_srs <- rescaled_bootstrap(
-#'   data = synthouse,
-#'   y = "eq_income",
-#'   strata = "NUTS2",
-#'   N_h = N_values,
-#'   estimator = mean_estimator,
-#'   by_strata = TRUE,
-#'   B = 50,  # small number for illustration
-#'   seed = 123
+#' capture.output(
+#'   boot_srs <- rescaled_bootstrap(
+#'     data = synthouse,
+#'     y = "eq_income",
+#'     strata = "NUTS2",
+#'     N_h = N_values,
+#'     estimator = mean_estimator,
+#'     by_strata = TRUE,
+#'     B = 50,  # small number for illustration
+#'     seed = 123
+#'   )
 #' )
 #'
 #' # View results
@@ -132,30 +148,60 @@
 #' # Example 2: Two-stage Complex Design
 #' # ================================================================
 #'
-#' # PSU = municipality, Strata = NUTS2, weights = weight, y = eq_income
-#'
-#' # Define a weighted mean estimator
-#' wmean_estimator <- function(y, weights) {
-#'   sum(y * weights, na.rm = TRUE) / sum(weights, na.rm = TRUE)
-#' }
-#'
-#' boot_complex <- rescaled_bootstrap(
-#'   data = synthouse,
-#'   y = "eq_income",
-#'   strata = "NUTS2",
-#'   psu = "municipality",
-#'   weights = "weight",
-#'   estimator = wmean_estimator,
-#'   by_strata = TRUE,
-#'   B = 50,
-#'   seed = 456
+#' # Estimate the QRI estimator sampling variance.
+#' capture.output(
+#'   boot_complex <- rescaled_bootstrap(
+#'     data = synthouse,
+#'     y = "eq_income",
+#'     strata = "NUTS2",
+#'     psu = "municipality",
+#'     weights = "weight",
+#'     estimator = qri,
+#'     by_strata = TRUE,
+#'     B = 50,
+#'     seed = 456
+#'   )
 #' )
 #'
 #' # Display variance and bootstrap estimates
 #' summary(boot_complex$variance)
 #'
 #' # Strata and PSU summary
-#' boot_complex$strata_info
+#'
+#'
+#'
+#' # ================================================================
+#' # Example 3: Multiple estimators in a single bootstrap loop
+#' # ================================================================
+#'
+#' # Create a function returning a named vector of estimates,
+#' # including package functions and user-defined ones. All indicators share
+#' # the same bootstrap replicates, ensuring directly comparable standard errors.
+#'
+#' multi_estimator <- function(y, weights) {
+#'   c(
+#'     w_mean = sum(y * weights) / sum(weights),   # custom: weighted mean
+#'     qri    = qri(y, weights = weights),          # package function
+#'     qsr    = qsr(y, weights = weights)           # package function
+#'   )
+#' }
+#'
+#' capture.output(
+#'   boot_multi <- rescaled_bootstrap(
+#'     data      = synthouse,
+#'     y         = "eq_income",
+#'     strata    = "NUTS2",
+#'     psu       = "municipality",
+#'     weights   = "weight",
+#'     estimator = multi_estimator,
+#'     by_strata = FALSE,
+#'     B         = 50,
+#'     seed      = 42
+#'   )
+#' )
+#'
+#' # One variance per indicator, all from the same replicates
+#' boot_multi$variance
 #' }
 #'
 #'
@@ -314,7 +360,7 @@ rescaled_bootstrap <- function(data,
     # Complex: Rao & Wu formula for PSU sampling
     m_h <- ifelse(n_h <= 3,
                   n_h,
-                  floor((n_h - 2)^2 / (n_h - 1)))
+                  round((n_h - 2)^2 / (n_h - 1)))
     m_h <- pmax(m_h, 2)
   } else {
     if (length(m_h) == 1) {
@@ -334,7 +380,15 @@ rescaled_bootstrap <- function(data,
     boot_estimates <- matrix(NA, nrow = B, ncol = n_strata)
     colnames(boot_estimates) <- strata_levels
   } else {
-    boot_estimates <- numeric(B)
+    # Pilot call to learn the number and names of outputs (supports vector-valued
+    # estimators, e.g. multiple indicators or csquantile with several probs)
+    if (is_complex) {
+      pilot <- estimator(data$y, data$weight_var)
+    } else {
+      pilot <- estimator(data$y)
+    }
+    boot_estimates <- matrix(NA, nrow = B, ncol = length(pilot),
+                             dimnames = list(NULL, names(pilot)))
   }
 
   # Progress bar
@@ -414,7 +468,7 @@ rescaled_bootstrap <- function(data,
         }
       } else {
         est_result <- estimator(data_boot$y, data_boot$weight_rescaled)
-        boot_estimates[b] <- est_result
+        boot_estimates[b, ] <- est_result
       }
 
       setTxtProgressBar(pb, b)
@@ -463,7 +517,7 @@ rescaled_bootstrap <- function(data,
         }
       } else {
         est_result <- estimator(boot_data$y_rescaled)
-        boot_estimates[b] <- est_result
+        boot_estimates[b, ] <- est_result
       }
 
       setTxtProgressBar(pb, b)
@@ -476,13 +530,8 @@ rescaled_bootstrap <- function(data,
   # CALCULATE VARIANCE
   # ========================================================================
 
-  if (by_strata) {
-    variance <- apply(boot_estimates, 2, var)
-    se <- sqrt(variance)
-  } else {
-    variance <- var(boot_estimates)
-    se <- sqrt(variance)
-  }
+  variance <- apply(boot_estimates, 2, var)
+  se <- sqrt(variance)
 
   # ========================================================================
   # PREPARE OUTPUT
@@ -509,7 +558,7 @@ rescaled_bootstrap <- function(data,
     boot_estimates = boot_estimates,
     B = B,
     by_strata = by_strata,
-    design = ifelse(is_complex, "complex", "simple"),
+    design = ifelse(is_complex, "two-stage stratified", "stratified SRS"),
     strata_info = strata_info,
     call = match.call()
   )

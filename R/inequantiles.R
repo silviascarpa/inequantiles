@@ -1,7 +1,7 @@
 #' Quantile-based inequality indicators
 #'
-#' Computes one or more quantile-based inequality indicators simultaneously —
-#' QRI, QSR, Palma ratio, and percentile ratio — optionally with standard
+#' Computes one or more quantile-based inequality indicators simultaneously among
+#' QRI, QSR, Palma ratio, and percentile ratio, optionally with standard
 #' errors (estimated from the same set of bootstrap replicates), ensuring full
 #' comparability across indicators.
 #'
@@ -12,7 +12,7 @@
 #'   Use \code{"all"} (default) for all four, or any subset of
 #'   \code{"qri"}, \code{"qsr"}, \code{"palma"}, \code{"ratio_quantiles"}.
 #' @param se Logical; if \code{TRUE}, standard errors are estimated via the
-#'   rescaled bootstrap. Requires \code{data} and \code{strata} (see below).
+#'   rescaled bootstrap; see \code{\link{rescaled_bootstrap}}. Requires \code{data} and \code{strata} (see below).
 #' @param type Quantile estimation type (integer 4--9 or \code{"HD"} for
 #'   Harrell-Davis). Default: \code{6}. See \code{\link{csquantile}}.
 #' @param na.rm Logical; remove missing values before computing? Default:
@@ -20,9 +20,11 @@
 #' @param M Integer; number of quantile-ratio grid points for the QRI
 #'   (default: \code{100}). Only used when the QRI is estimated; see \code{\link{qri}}.
 #' @param prob_num Numeric in \eqn{(0,1)}; numerator quantile for the
-#'   percentile ratio (default: \code{0.90}).
+#'   percentile ratio (default: \code{0.90}). Only used when percentiles ratio is estimated;
+#'   see \code{\link{ratio_quantiles}}.
 #' @param prob_den Numeric in \eqn{(0,1)}; denominator quantile for the
-#'   percentile ratio (default: \code{0.10}).
+#'   percentile ratio (default: \code{0.10}). Only used when percentiles ratio is estimated;
+#'   see \code{\link{ratio_quantiles}}.
 #' @param se Logical; if \code{TRUE}, bootstrap standard errors are computed.
 #' @param B Integer; number of bootstrap replicates (default: \code{200}).
 #'   Only used when \code{se = TRUE}.
@@ -39,15 +41,15 @@
 #' @param m_h Optional vector of bootstrap sample sizes per stratum.
 #'   Defaults to the Rao-Wu formula. See \code{\link{rescaled_bootstrap}}.
 #'
-#' @returns A list of class \code{"inequantiles"} with components:
-#'   \item{estimates}{Named numeric vector of point estimates.}
-#'   \item{se}{Named numeric vector of standard errors, or \code{NULL} when
+#' @returns A list with components:
+#'   \item{estimates}{Numeric vector of point estimates of inequality indicators.}
+#'   \item{se}{Numeric vector of standard errors, or \code{NULL} when
 #'     \code{se = FALSE}.}
 #'   \item{B}{Number of bootstrap replicates used, or \code{NULL}.}
 #'   \item{call}{The matched function call.}
 #'
 #' @details
-#' All indicators are computed from the same \code{\link{csquantile}} type
+#' All indicators are computed from the same specified \code{\link{csquantile}} type.
 #' When \code{se = TRUE}, a \emph{single} bootstrap loop is run through rescaled
 #' bootstrap method (see details in \code{\link{rescaled_bootstrap}}) and all
 #' indicators are evaluated on each replicate, so standard errors are based on
@@ -78,10 +80,12 @@
 #'
 #' \donttest{
 #' # With bootstrap standard errors (complex design)
-#' inequantiles(eq, weights = w,
-#'              se = TRUE, B = 100, seed = 42,
-#'              data = synthouse, strata = "NUTS2",
-#'              psu = "municipality")
+#' capture.output(
+#'   inequantiles(eq, weights = w,
+#'                se = TRUE, B = 100, seed = 42,
+#'                data = synthouse, strata = "NUTS2",
+#'                psu = "municipality")
+#' )
 #' }
 #'
 #' @export
@@ -162,8 +166,7 @@ inequantiles <- function(y,
       w_col <- NULL
     }
 
-    # Multi-valued estimator: evaluated on each bootstrap replicate
-    # Captures indicators, type, M, prob_num, prob_den, na.rm from parent scope
+    # Evaluate each indicator on each bootstrap replicate
     multi_est <- function(y_b, w_b = NULL) {
       c(
         if ("qri" %in% indicators)
@@ -198,6 +201,7 @@ inequantiles <- function(y,
     )
 
     se_values <- sqrt(boot_result$variance)
+    design <- boot_result$design
   }
 
   # =========================================================================
@@ -208,6 +212,7 @@ inequantiles <- function(y,
     estimates  = estimates,
     se         = se_values,
     B          = if (se) B else NULL,
+    design     = if (se) design else NULL,
     call       = match.call()
   )
 
