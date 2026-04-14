@@ -6,7 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Introduction to inequantiles: Quantile-Based Inequality Measures for Survey Data • inequantiles</title>
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
+  window.MathJax = {
+    chtml: {
+      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
+    }
+  };
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -167,31 +173,21 @@ simple, effective inequality measure of economic inequality. The QRI</p>
 percentiles</li>
 <li>Is nonparametric</li>
 </ul>
-<p>For a continuous non-negative random variable
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
-with cumulative distribution function
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">F(y)</annotation></semantics></math>
-and quantile function
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>F</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Q(p) = F^{-1}(p)</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>p</mi><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 \leq p \leq 1</annotation></semantics></math>,
-define the ratio between symmetric quantiles as:</p>
-<p><span class="math display">$$R(p) = \frac{Q(p/2)}{Q(1-p/2)},
-\quad  \leq p \leq 1$.$$</span>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">R(p)</annotation></semantics></math>
+<p>For a continuous non-negative random variable <span class="math inline">\(Y\)</span> with cumulative distribution function
+<span class="math inline">\(F(y)\)</span> and quantile function <span class="math inline">\(Q(p) = F^{-1}(p)\)</span>, <span class="math inline">\(0 \leq p \leq 1\)</span>, define the ratio between
+symmetric quantiles as:</p>
+<p><span class="math display">\[R(p) = \frac{Q(p/2)}{Q(1-p/2)},
+\quad  \leq p \leq 1.\]</span> <span class="math inline">\(R(p)\)</span>
 in a non-decreasing function between 0 and 1, which takes value 1 for
-any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>p</mi><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 \leq p \leq 1</annotation></semantics></math>
-when income (or another economic variable with poisitive support) is
-equally distributed among the individuals.</p>
+any <span class="math inline">\(0 \leq p \leq 1\)</span> when income (or
+another economic variable with poisitive support) is equally distributed
+among the individuals.</p>
 <p>The QRI is then defined as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">QRI</mtext><mo>=</mo><mn>1</mn><mo>−</mo><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mi>d</mi><mi>p</mi><mo>=</mo><mn>1</mn><mo>−</mo><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><mfrac><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mspace width="0.167em"></mspace><mi>d</mi><mi>p</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">\text{QRI} = 1 - \int_0^1 R(p) \, dp = 1 - \int_0^1 \frac{Q(p/2)}{Q(1-p/2)} \, dp.</annotation></semantics></math></p>
+<p><span class="math display">\[\text{QRI} = 1 - \int_0^1 R(p) \, dp = 1
+- \int_0^1 \frac{Q(p/2)}{Q(1-p/2)} \, dp.\]</span></p>
 <p>The QRI ranges from 0 (perfect equality) to 1 (maximum inequality).
-It measures the area between the equi-distribution line
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R(p) = 1</annotation></semantics></math>
-for all
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>)
-and the actual inequality curve. This can be easily visualised by the
-following plots:</p>
+It measures the area between the equi-distribution line (<span class="math inline">\(R(p) = 1\)</span> for all <span class="math inline">\(p\)</span>) and the actual inequality curve. This
+can be easily visualised by the following plots:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Log-Normal distribution</span></span>
 <span><span class="fu"><a href="../reference/plot_inequality_curve.html">plot_inequality_curve</a></span><span class="op">(</span>qfunction <span class="op">=</span> <span class="va">qlnorm</span>, qfun_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>meanlog <span class="op">=</span> <span class="fl">9</span>, sdlog <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span>,</span>
@@ -218,88 +214,55 @@ QRI as:</p>
 <span><span class="co">#&gt; [1] 0.522862</span></span>
 <span><span class="fu"><a href="../reference/superpop_qri.html">superpop_qri</a></span><span class="op">(</span>qfunction <span class="op">=</span> <span class="va">qweibull</span>, shape <span class="op">=</span> <span class="fl">1.5</span>, scale <span class="op">=</span> <span class="fl">30000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.6003122</span></span></code></pre></div>
-<p>Consider now a finite population
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>N</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">U = \{1, \ldots, N\}</annotation></semantics></math>,
-from which a random sample
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
-of size
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-is selected, typically collected with a complex sampling design
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>P</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>S</mi><mo>=</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p(s) = Pr(S = s)</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∀</mo><mi>s</mi><mo>⊆</mo><mi>U</mi></mrow><annotation encoding="application/x-tex">\forall s \subseteq  U</annotation></semantics></math>.
-Let
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>j</mi></msub><annotation encoding="application/x-tex">y_j</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">j \in s</annotation></semantics></math>,
-be the observed values of the variable of interest, with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></msub></mrow><annotation encoding="application/x-tex">y_{(1)}, \ldots, y_{(n)}</annotation></semantics></math>
-denoting its order statistics. Assume that the sample is drawn according
-to a certain sampling scheme, with inclusion probability
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mi>j</mi></msub><mo>=</mo><mi>P</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>j</mi><mo>∈</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi_j = Pr(j \in s)</annotation></semantics></math>.
-The corresponding sampling weight
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mi>j</mi></msub><annotation encoding="application/x-tex">w_j</annotation></semantics></math>
-is obtained by the inversion of the inclusion probability, plus, when
-required, some adjustments for non-response and calibration. Let
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mi>j</mi></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>i</mi><mo>∈</mo><mi>s</mi></mrow></msub><msub><mi>w</mi><mi>i</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>i</mi><mo>≤</mo><mi>j</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">W_j = \sum_{i \in s} w_i \mathbf{1}(i \leq j)</annotation></semantics></math>
-denote the cumulative sum of weights up to ordered observation
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>.
-Let
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat{Q}(p)</annotation></semantics></math>
-be the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
-quantile estimator; how to estimate the quantiles on complex sampling
-data will be treated in the following sections. For survey data from a
-finite population, <span class="citation">Scarpa, Ferrante, and Sperlich
-(<a href="#ref-scarpa2025inference">2025</a>)</span> estimate the QRI
-using a grid of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
-points on
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0, 1)</annotation></semantics></math>
-as</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mtext mathvariant="normal">QRI</mtext><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mn>1</mn><mi>M</mi></mfrac><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mi>M</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mi>m</mi></msub><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>m</mi></msub><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
-\widehat{\text{QRI}} = \frac{1}{M} \sum_{m=1}^M \left(1 - \frac{\widehat{Q}(p_m/2)}{\widehat{Q}(1-p_m/2)}\right)
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>m</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>m</mi><mo>−</mo><mn>0.5</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mi>M</mi></mrow><annotation encoding="application/x-tex">p_m = (m-0.5)/M</annotation></semantics></math>,
-for $ m = 1, , M$. By default,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">M = 100</annotation></semantics></math>.</p>
+<p>Consider now a finite population <span class="math inline">\(U = \{1,
+\ldots, N\}\)</span>, from which a random sample <span class="math inline">\(s\)</span> of size <span class="math inline">\(n\)</span> is selected, typically collected with a
+complex sampling design <span class="math inline">\(p(s) = Pr(S =
+s)\)</span>, <span class="math inline">\(\forall s
+\subseteq  U\)</span>. Let <span class="math inline">\(y_j\)</span>,
+<span class="math inline">\(j \in s\)</span>, be the observed values of
+the variable of interest, with <span class="math inline">\(y_{(1)},
+\ldots, y_{(n)}\)</span> denoting its order statistics. Assume that the
+sample is drawn according to a certain sampling scheme, with inclusion
+probability <span class="math inline">\(\pi_j = Pr(j \in s)\)</span>.
+The corresponding sampling weight <span class="math inline">\(w_j\)</span> is obtained by the inversion of the
+inclusion probability, plus, when required, some adjustments for
+non-response and calibration. Let <span class="math inline">\(W_j =
+\sum_{i \in s} w_i \mathbf{1}(i \leq j)\)</span> denote the cumulative
+sum of weights up to ordered observation <span class="math inline">\(j\)</span>. Let <span class="math inline">\(\widehat{Q}(p)\)</span> be the <span class="math inline">\(p\)</span> quantile estimator; how to estimate the
+quantiles on complex sampling data will be treated in the following
+sections. For survey data from a finite population, <span class="citation">Scarpa, Ferrante, and Sperlich (<a href="#ref-scarpa2025inference">2025</a>)</span> estimate the QRI using
+a grid of <span class="math inline">\(M\)</span> points on <span class="math inline">\((0, 1)\)</span> as</p>
+<p><span class="math display">\[
+\widehat{\text{QRI}} = \frac{1}{M} \sum_{m=1}^M \left(1 -
+\frac{\widehat{Q}(p_m/2)}{\widehat{Q}(1-p_m/2)}\right)
+\]</span></p>
+<p>where <span class="math inline">\(p_m = (m-0.5)/M\)</span>, for $ m =
+1, , M$. By default, <span class="math inline">\(M = 100\)</span>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/qri.html">qri</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, M <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.5690895</span></span></code></pre></div>
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mtext mathvariant="normal">QRI</mtext><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\widehat{\text{QRI}}</annotation></semantics></math>
-is strictly sensitive to the choice of the quantile estimator,
-especially in small samples.</p>
+<p><span class="math inline">\(\widehat{\text{QRI}}\)</span> is strictly
+sensitive to the choice of the quantile estimator, especially in small
+samples.</p>
 </div>
 <div class="section level3">
 <h3 id="quantile-estimators">Quantile estimators<a class="anchor" aria-label="anchor" href="#quantile-estimators"></a>
 </h3>
-<p>The
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
-quantile estimator can be expressed as a weighted average of order
-statistics,</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msub><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msub><mo>−</mo><msub><mi>y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>p</mi><mo>−</mo><msub><mover><mi>r</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mrow><msub><mover><mi>r</mi><mo accent="true">̂</mo></mover><mi>k</mi></msub><mo>−</mo><msub><mover><mi>r</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">
-\widehat{Q}(p)=y_{(k-1)}+ \left(y_{(k )} - y_{(k- 1)}\right) \left(\frac{p - \widehat{r}_{k - 1 }}{\widehat{r}_{k} - \widehat{r}_{k - 1}} \right),
+<p>The <span class="math inline">\(p\)</span> quantile estimator can be
+expressed as a weighted average of order statistics,</p>
+<p><span class="math display">\[
+\widehat{Q}(p)=y_{(k-1)}+ \left(y_{(k )} - y_{(k- 1)}\right)
+\left(\frac{p - \widehat{r}_{k - 1 }}{\widehat{r}_{k} - \widehat{r}_{k -
+1}} \right),
 \label{eq:quantiles complessi}
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>r</mi><mo accent="true">̂</mo></mover><mi>k</mi></msub><annotation encoding="application/x-tex">\widehat{r}_{k}</annotation></semantics></math>
-indicates the estimator of the cdf, namely the plotting position, and
-the selected order
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-is such that
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>m</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>&lt;</mo><msub><mi>W</mi><mi>n</mi></msub><mi>p</mi><mo>&lt;</mo><msub><mi>W</mi><mi>k</mi></msub><mo>−</mo><msub><mi>m</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">W_{k-1} - m_{k-1} &lt; W_n p &lt; W_{k} - m_k</annotation></semantics></math>,
-where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>k</mi></msub><annotation encoding="application/x-tex">m_k</annotation></semantics></math>
-is determined by the interpolation method between adjacent data points.
-Linear interpolation between the points
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>r</mi><mo accent="true">̂</mo></mover><mo>,</mo><msub><mi>y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\widehat r, y_{(k)})</annotation></semantics></math>
-gives a quantile estimator for complex sampling data. For
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">p=0</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">p=1</annotation></semantics></math>,
-define
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{Q} (0)=y_{(1)}</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{Q}(1)=y_{(n)}</annotation></semantics></math>.</p>
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{r}_{k}\)</span> indicates
+the estimator of the cdf, namely the plotting position, and the selected
+order <span class="math inline">\(k\)</span> is such that <span class="math inline">\(W_{k-1} - m_{k-1} &lt; W_n p &lt; W_{k} -
+m_k\)</span>, where <span class="math inline">\(m_k\)</span> is
+determined by the interpolation method between adjacent data points.
+Linear interpolation between the points <span class="math inline">\((\widehat r, y_{(k)})\)</span> gives a quantile
+estimator for complex sampling data. For <span class="math inline">\(p=0\)</span> and <span class="math inline">\(p=1\)</span>, define <span class="math inline">\(\widehat{Q} (0)=y_{(1)}\)</span> and <span class="math inline">\(\widehat{Q}(1)=y_{(n)}\)</span>.</p>
 The <code><a href="../reference/csquantile.html">csquantile()</a></code> function extends standard quantile
 estimation through the R function <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile()</a></code> to survey
 data. It adapts the methods described in <span class="citation">Hyndman
@@ -315,98 +278,101 @@ data. The possible interpolation rules are summarised in the table below
 Estimator
 </th>
 <th style="text-align:left;font-weight: bold;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>r</mi><mo accent="true">̂</mo></mover><mi>k</mi></msub><annotation encoding="application/x-tex">\widehat{r}_k</annotation></semantics></math>
+<span class="math inline">\(\widehat{r}_k\)</span>
 </th>
 <th style="text-align:left;font-weight: bold;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>m</mi><mo accent="true">̂</mo></mover><mi>k</mi></msub><annotation encoding="application/x-tex">\widehat{m}_k</annotation></semantics></math>
+<span class="math inline">\(\widehat{m}_k\)</span>
 </th>
 <th style="text-align:left;font-weight: bold;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+<span class="math inline">\(k\)</span>
 </th>
 </tr></thead>
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mn>4</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat{Q}_4(p)</annotation></semantics></math>
+<span class="math inline">\(\widehat{Q}_4(p)\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><msub><mi>W</mi><mi>k</mi></msub><msub><mi>W</mi><mi>n</mi></msub></mfrac><annotation encoding="application/x-tex">\frac{W_k}{W_n}</annotation></semantics></math>
+<span class="math inline">\(\frac{W_k}{W_n}\)</span>
 </td>
 <td style="text-align:left;">
 0
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>≤</mo><msub><mi>W</mi><mi>n</mi></msub><mi>p</mi><mo>&lt;</mo><msub><mi>W</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">W_{k-1} \le W_n p \lt W_k</annotation></semantics></math>
+<span class="math inline">\(W_{k-1} \le W_n p \lt W_k\)</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mn>5</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat{Q}_5(p)</annotation></semantics></math>
+<span class="math inline">\(\widehat{Q}_5(p)\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><msub><mi>W</mi><mi>k</mi></msub><mo>−</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msub><mi>w</mi><mi>k</mi></msub></mrow><msub><mi>W</mi><mi>n</mi></msub></mfrac><annotation encoding="application/x-tex">\frac{W_k-\frac{1}{2}w_k}{W_n}</annotation></semantics></math>
+<span class="math inline">\(\frac{W_k-\frac{1}{2}w_k}{W_n}\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><msub><mi>w</mi><mi>k</mi></msub><mn>2</mn></mfrac><annotation encoding="application/x-tex">\frac{w_k}{2}</annotation></semantics></math>
+<span class="math inline">\(\frac{w_k}{2}\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><mfrac><msub><mi>w</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mn>2</mn></mfrac><mo>≤</mo><msub><mi>W</mi><mi>n</mi></msub><mi>p</mi><mo>&lt;</mo><msub><mi>W</mi><mi>k</mi></msub><mo>−</mo><mfrac><msub><mi>w</mi><mi>k</mi></msub><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">W_{k-1} - \frac{w_{k-1}}{2} \le W_n p \lt W_{k} - \frac{w_{k}}{2}</annotation></semantics></math>
+<span class="math inline">\(W_{k-1} - \frac{w_{k-1}}{2} \le W_n p \lt
+W_{k} - \frac{w_{k}}{2}\)</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mn>6</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat{Q}_6(p)</annotation></semantics></math>
+<span class="math inline">\(\widehat{Q}_6(p)\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><msub><mi>W</mi><mi>k</mi></msub><mrow><msub><mi>W</mi><mi>n</mi></msub><mo>+</mo><msub><mi>w</mi><mi>n</mi></msub></mrow></mfrac><annotation encoding="application/x-tex">\frac{W_k}{W_n+w_n}</annotation></semantics></math>
+<span class="math inline">\(\frac{W_k}{W_n+w_n}\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>w</mi><mi>n</mi></msub><mi>p</mi></mrow><annotation encoding="application/x-tex">w_np</annotation></semantics></math>
+<span class="math inline">\(w_np\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>≤</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>W</mi><mi>n</mi></msub><mo>+</mo><msub><mi>w</mi><mi>n</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>p</mi><mo>&lt;</mo><msub><mi>W</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">W_{k-1} \le (W_n + w_n)p \lt W_{k}</annotation></semantics></math>
+<span class="math inline">\(W_{k-1} \le (W_n + w_n)p \lt W_{k}\)</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mn>7</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat{Q}_7(p)</annotation></semantics></math>
+<span class="math inline">\(\widehat{Q}_7(p)\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><msub><mi>W</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><msub><mi>W</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub></mfrac><annotation encoding="application/x-tex">\frac{W_{k-1}}{W_{n-1}}</annotation></semantics></math>
+<span class="math inline">\(\frac{W_{k-1}}{W_{n-1}}\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>w</mi><mi>k</mi></msub><mo>−</mo><msub><mi>w</mi><mi>n</mi></msub><mi>p</mi></mrow><annotation encoding="application/x-tex">w_k - w_np</annotation></semantics></math>
+<span class="math inline">\(w_k - w_np\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>k</mi><mo>−</mo><mn>2</mn></mrow></msub><mo>≤</mo><msub><mi>W</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mi>p</mi><mo>&lt;</mo><msub><mi>W</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">W_{k-2} \le W_{n-1}p \lt W_{k-1}</annotation></semantics></math>
+<span class="math inline">\(W_{k-2} \le W_{n-1}p \lt W_{k-1}\)</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mn>8</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat{Q}_8(p)</annotation></semantics></math>
+<span class="math inline">\(\widehat{Q}_8(p)\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><msub><mi>W</mi><mi>k</mi></msub><mo>−</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><msub><mi>w</mi><mi>k</mi></msub></mrow><mrow><msub><mi>W</mi><mi>n</mi></msub><mo>+</mo><mi>r</mi><mi>a</mi><mi>c</mi><msub><mi>w</mi><mi>n</mi></msub><mn>3</mn></mrow></mfrac><annotation encoding="application/x-tex">\frac{W_k-\frac{1}{3}w_k}{W_n+rac{w_n}{3}}</annotation></semantics></math>
+<span class="math inline">\(\frac{W_k-\frac{1}{3}w_k}{W_n+rac{w_n}{3}}\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>w</mi><mi>k</mi></msub><mn>3</mn></mfrac><mo>+</mo><mfrac><msub><mi>w</mi><mi>n</mi></msub><mn>3</mn></mfrac><mi>p</mi></mrow><annotation encoding="application/x-tex">\frac{w_k}{3} + \frac{w_n}{3}p</annotation></semantics></math>
+<span class="math inline">\(\frac{w_k}{3} + \frac{w_n}{3}p\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><mfrac><msub><mi>w</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mn>3</mn></mfrac><mo>≤</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>W</mi><mi>n</mi></msub><mo>−</mo><mfrac><msub><mi>w</mi><mi>n</mi></msub><mn>3</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>p</mi><mo>&lt;</mo><msub><mi>W</mi><mi>k</mi></msub><mo>−</mo><mfrac><msub><mi>w</mi><mi>k</mi></msub><mn>3</mn></mfrac></mrow><annotation encoding="application/x-tex">W_{k-1} - \frac{w_{k-1}}{3} \le (W_{n} - \frac{w_n}{3})p \lt W_{k} - \frac{w_k}{3}</annotation></semantics></math>
+<span class="math inline">\(W_{k-1} - \frac{w_{k-1}}{3} \le (W_{n} -
+\frac{w_n}{3})p \lt W_{k} - \frac{w_k}{3}\)</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mn>9</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat{Q}_9(p)</annotation></semantics></math>
+<span class="math inline">\(\widehat{Q}_9(p)\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><msub><mi>W</mi><mi>k</mi></msub><mo>−</mo><mfrac><mn>3</mn><mn>8</mn></mfrac><msub><mi>w</mi><mi>k</mi></msub></mrow><mrow><msub><mi>W</mi><mi>n</mi></msub><mo>+</mo><mi>r</mi><mi>a</mi><mi>c</mi><mn>1</mn><mn>4</mn><msub><mi>w</mi><mi>n</mi></msub></mrow></mfrac><annotation encoding="application/x-tex">\frac{W_k-\frac{3}{8}w_k}{W_n+rac{1}{4}w_n}</annotation></semantics></math>
+<span class="math inline">\(\frac{W_k-\frac{3}{8}w_k}{W_n+rac{1}{4}w_n}\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>3</mn><mn>8</mn></mfrac><msub><mi>w</mi><mi>k</mi></msub><mo>+</mo><mfrac><msub><mi>w</mi><mi>n</mi></msub><mn>4</mn></mfrac><mi>p</mi></mrow><annotation encoding="application/x-tex">\frac{3}{8}w_k + \frac{w_n}{4}p</annotation></semantics></math>
+<span class="math inline">\(\frac{3}{8}w_k + \frac{w_n}{4}p\)</span>
 </td>
 <td style="text-align:left;">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>−</mo><mfrac><mrow><mn>3</mn><msub><mi>w</mi><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><mn>8</mn></mfrac><mo>≤</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>W</mi><mi>n</mi></msub><mo>+</mo><mfrac><msub><mi>w</mi><mi>n</mi></msub><mn>4</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>p</mi><mo>&lt;</mo><msub><mi>W</mi><mi>k</mi></msub><mo>−</mo><mfrac><mrow><mn>3</mn><msub><mi>w</mi><mi>k</mi></msub></mrow><mn>8</mn></mfrac></mrow><annotation encoding="application/x-tex">W_{k-1} - \frac{3w_{k-1}}{8} \le (W_{n} + \frac{w_{n}}{4})p \lt W_{k} - \frac{3w_{k}}{8}</annotation></semantics></math>
+<span class="math inline">\(W_{k-1} - \frac{3w_{k-1}}{8} \le (W_{n} +
+\frac{w_{n}}{4})p \lt W_{k} - \frac{3w_{k}}{8}\)</span>
 </td>
 </tr>
 </tbody>
@@ -432,15 +398,15 @@ Estimator
 <span><span class="co">#&gt;      25%      50%      75% </span></span>
 <span><span class="co">#&gt; 12910.30 20428.45 32528.88</span></span></code></pre></div>
 <p>An extension of the Harrell-Davis estimator to survey data is also
-provided, as
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mi>H</mi><mi>D</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></msub><msub><mover><mi>𝒲</mi><mo accent="true">̂</mo></mover><mi>j</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>j</mi><mo stretchy="true" form="postfix">)</mo></mrow></msub></mrow><annotation encoding="application/x-tex">\widehat{Q}_{HD}(p)=\sum_{j \in s} \widehat{\mathcal{W}}_{j}(p) y_{(j)}</annotation></semantics></math>,
-where</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mover><mi>𝒲</mi><mo accent="true">̂</mo></mover><mi>j</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mspace width="0.167em"></mspace><msub><mi>b</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>W</mi><mi>j</mi></msub><mi>/</mi><msub><mi>W</mi><mi>n</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></msub><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>W</mi><mi>n</mi></msub><mo>+</mo><msub><mi>w</mi><mi>n</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>p</mi><mo>,</mo><msub><mi>W</mi><mi>n</mi></msub><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>W</mi><mi>n</mi></msub><mo>+</mo><msub><mi>w</mi><mi>n</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>p</mi><mo>+</mo><msub><mi>w</mi><mi>n</mi></msub><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mi>−</mi><msub><mi>b</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>W</mi><mrow><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub><mi>/</mi><msub><mi>W</mi><mi>n</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></msub><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>W</mi><mi>n</mi></msub><mo>+</mo><msub><mi>w</mi><mi>n</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>p</mi><mo>,</mo><msub><mi>W</mi><mi>n</mi></msub><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>W</mi><mi>n</mi></msub><mo>+</mo><msub><mi>w</mi><mi>n</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>p</mi><mo>+</mo><msub><mi>w</mi><mi>n</mi></msub><mo stretchy="false" form="postfix">}</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">
+provided, as <span class="math inline">\(\widehat{Q}_{HD}(p)=\sum_{j \in
+s} \widehat{\mathcal{W}}_{j}(p) y_{(j)}\)</span>, where</p>
+<p><span class="math display">\[
 \begin{aligned}
-\widehat{\mathcal{W}}_{j}(p) = &amp; \, b_{(W_{j} / W_n)}\{(W_n+ w_n) p, W_n - (W_n+ w_n)p + w_n\} \\
+\widehat{\mathcal{W}}_{j}(p) = &amp; \, b_{(W_{j} / W_n)}\{(W_n+ w_n) p,
+W_n - (W_n+ w_n)p + w_n\} \\
 &amp; - b_{(W_{j - 1}/ W_n)}\{(W_n+ w_n) p, W_n - (W_n+ w_n)p + w_n\}
 \end{aligned}
-</annotation></semantics></math></p>
+\]</span></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Harrell-Davis weighted median</span></span>
 <span><span class="fu"><a href="../reference/csquantile.html">csquantile</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
@@ -538,9 +504,11 @@ argument.</p>
 </h4>
 <p>The QSR compares the income share of the top 20% to the bottom 20%.
 Its estimator is defined as</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mrow><mi>Q</mi><mi>S</mi><mi>R</mi></mrow><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></munder><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">{</mo><msub><mi>y</mi><mi>j</mi></msub><mo>≥</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></munder><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">{</mo><msub><mi>y</mi><mi>j</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow></mfrac><mspace width="0.222em"></mspace><mi>.</mi></mrow><annotation encoding="application/x-tex">
-\widehat{{QSR}} = \frac{\sum_{j \in s}w_j y_j \mathbf{1}\left\{ y_j \geq \widehat{Q}(0.8)\right\} }{\sum_{j \in s} w_j y_j\mathbf{1}\left\{ y_j \leq \widehat{Q}(0.2)\right\} } \ .
-</annotation></semantics></math></p>
+<p><span class="math display">\[
+\widehat{{QSR}} = \frac{\sum_{j \in s}w_j y_j \mathbf{1}\left\{ y_j \geq
+\widehat{Q}(0.8)\right\} }{\sum_{j \in s} w_j y_j\mathbf{1}\left\{ y_j
+\leq \widehat{Q}(0.2)\right\} } \ .
+\]</span></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute QSR</span></span>
 <span><span class="fu"><a href="../reference/qsr.html">qsr</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, </span>
@@ -551,10 +519,11 @@ Its estimator is defined as</p>
 <h4 id="palma-ratio">Palma Ratio<a class="anchor" aria-label="anchor" href="#palma-ratio"></a>
 </h4>
 <p>The Palma ratio compares the top 10% to the bottom 40% aggregated
-income:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mrow><mi>P</mi><mi>a</mi><mi>l</mi><mi>m</mi><mi>a</mi></mrow><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></munder><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">{</mo><msub><mi>y</mi><mi>j</mi></msub><mo>≥</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.9</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></munder><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">{</mo><msub><mi>y</mi><mi>j</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.4</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow></mfrac><mspace width="0.222em"></mspace><mi>.</mi></mrow><annotation encoding="application/x-tex">
-\widehat{{Palma}} = \frac{\sum_{j \in s}w_j y_j \mathbf{1}\left\{ y_j \geq \widehat{Q}(0.9)\right\} }{\sum_{j \in s} w_j y_j\mathbf{1}\left\{ y_j \leq \widehat{Q}(0.4)\right\} } \ .
-</annotation></semantics></math></p>
+income: <span class="math display">\[
+\widehat{{Palma}} = \frac{\sum_{j \in s}w_j y_j \mathbf{1}\left\{ y_j
+\geq \widehat{Q}(0.9)\right\} }{\sum_{j \in s} w_j y_j\mathbf{1}\left\{
+y_j \leq \widehat{Q}(0.4)\right\} } \ .
+\]</span></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute Palma ratio</span></span>
 <span><span class="fu"><a href="../reference/palma_ratio.html">palma_ratio</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, </span>
@@ -565,10 +534,9 @@ income:
 <h4 id="percentile-ratios">Percentile Ratios<a class="anchor" aria-label="anchor" href="#percentile-ratios"></a>
 </h4>
 <p>Very often National Statistical Offices measure inequality using
-ratios between percentiles, for example:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mrow><mi>P</mi><mn>90</mn><mi>/</mi><mi>P</mi><mn>10</mn></mrow><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo>=</mo><mn>0.9</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo>=</mo><mn>0.1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+ratios between percentiles, for example: <span class="math display">\[
 \widehat{{P}90/{P}10} = \frac{\widehat{Q}(p=0.9)}{\widehat{Q}(p=0.1)}  
-</annotation></semantics></math></p>
+\]</span></p>
 <p>Default the P90/P10 is estimated.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># P90/P10 ratio</span></span>
@@ -637,33 +605,46 @@ and <code>N_h</code>).</p>
 </h2>
 <p>The package provides linearization methods using the influence
 function estimation for some measures.</p>
-<p>The quantile estimator influence function (IF) is measured in <span class="citation">Osier (<a href="#ref-osier2009variance">2009</a>)</span> as
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><msub><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msub><mo>=</mo><mfrac><mrow><mi>p</mi><mo>−</mo><mn>𝟙</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>F</mi><mo accent="true">̂</mo></mover><mi>′</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mi>N</mi></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">
-{I}(\widehat{Q}(p))_{k} = \frac{p - \mathbb{1}(y_k \leq \widehat{Q}(p)) }{\widehat{F}'(\widehat{Q}(p)) N},
-</annotation></semantics></math> where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>F</mi><mo accent="true">̂</mo></mover><mi>′</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mover><mi>N</mi><mo accent="true">̂</mo></mover></mfrac><mfrac><mn>1</mn><mrow><mi>h</mi><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt></mrow></mfrac><msub><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></msub><msub><mi>w</mi><mi>j</mi></msub><mo>exp</mo><mrow><mo stretchy="true" form="prefix">{</mo><mi>−</mi><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>−</mo><msub><mi>y</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>h</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">}</mo></mrow></mrow><annotation encoding="application/x-tex">\widehat{F}'(y) = \frac{1}{\widehat N}\frac{1}{h \sqrt{2 \pi}} \sum_{j \in s} w_j \operatorname{exp} \left\{-\frac{(y - y_j)^2}{2h^2} \right\}</annotation></semantics></math>.</p>
+<p>The quantile estimator influence function (IF) is measured in <span class="citation">Osier (<a href="#ref-osier2009variance">2009</a>)</span> as <span class="math display">\[
+{I}(\widehat{Q}(p))_{k} = \frac{p - \mathbb{1}(y_k \leq \widehat{Q}(p))
+}{\widehat{F}'(\widehat{Q}(p)) N},
+\]</span> where <span class="math inline">\(\widehat{F}'(y) =
+\frac{1}{\widehat N}\frac{1}{h \sqrt{2 \pi}} \sum_{j \in s} w_j
+\operatorname{exp} \left\{-\frac{(y - y_j)^2}{2h^2}
+\right\}\)</span>.</p>
 <p>The QSR estimator IF, as demonstrated by <span class="citation">Langel and Tillé (<a href="#ref-langel2011quintile">2011</a>)</span>, can be computed as
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>I</mi><msub><mrow><mo stretchy="true" form="prefix">(</mo><mover><mrow><mi>Q</mi><mi>S</mi><mi>R</mi></mrow><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><msub><mi>y</mi><mi>k</mi></msub><mo>−</mo><mrow><mo stretchy="true" form="prefix">{</mo><mn>0.8</mn><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>y</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><msub><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mn>0.2</mn></msub></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mspace width="1.0em"></mspace><mo>−</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mo>−</mo><msub><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mn>0.8</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">{</mo><mn>0.2</mn><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>y</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><msubsup><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mn>0.2</mn><mn>2</mn></msubsup></mfrac></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<span class="math display">\[
 \begin{split}
-I(\widehat{QSR})_{k} &amp;= \frac{y_k-\left\{0.8 \widehat{Q}(0.8)-\left(\widehat{Q}(0.8)-y_k\right) \mathbf{1}\left[y_k \leq \widehat{Q}(0.8)\right]\right\}}{\widehat{Y}_{0.2}} \\
-&amp;\quad - \frac{\left(\widehat{Y}-\widehat{Y}_{0.8}\right)\left\{0.2 \widehat{Q}(0.2)-\left(\widehat{Q}(0.2)-y_k\right) \mathbf{1}\left[y_k \leq \widehat{Q}(0.2)\right]\right\}}{\widehat{Y}_{0.2}^2}
+I(\widehat{QSR})_{k} &amp;= \frac{y_k-\left\{0.8
+\widehat{Q}(0.8)-\left(\widehat{Q}(0.8)-y_k\right) \mathbf{1}\left[y_k
+\leq \widehat{Q}(0.8)\right]\right\}}{\widehat{Y}_{0.2}} \\
+&amp;\quad - \frac{\left(\widehat{Y}-\widehat{Y}_{0.8}\right)\left\{0.2
+\widehat{Q}(0.2)-\left(\widehat{Q}(0.2)-y_k\right) \mathbf{1}\left[y_k
+\leq \widehat{Q}(0.2)\right]\right\}}{\widehat{Y}_{0.2}^2}
 \end{split}
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mi>α</mi></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></msub><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mn>𝟏</mn><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{Y}_{\alpha} = \sum_{j \in s} w_j y_j \mathbf{1}[y_k \leq \widehat{Q}(\alpha)]</annotation></semantics></math>.</p>
+\]</span></p>
+<p>where <span class="math inline">\(\hat{Y}_{\alpha} = \sum_{j \in s}
+w_j y_j \mathbf{1}[y_k \leq \widehat{Q}(\alpha)]\)</span>.</p>
 <p><span class="citation">Scarpa, Ferrante, and Sperlich (<a href="#ref-scarpa2025inference">2025</a>)</span> demonstrated that the
-QRI IF can be estimated as
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>I</mi><msub><mrow><mo stretchy="true" form="prefix">(</mo><mover><mrow><mi>Q</mi><mi>R</mi><mi>I</mi></mrow><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mi>−</mi><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mfrac><mi>p</mi><mn>2</mn></mfrac><mo>−</mo><mn>𝟙</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>F</mi><mo accent="true">̂</mo></mover><mi>′</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>N</mi><mo accent="true">̂</mo></mover></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mfrac><mi>p</mi><mn>2</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mn>𝟙</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>k</mi></msub><mo>≤</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>F</mi><mo accent="true">̂</mo></mover><mi>′</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>N</mi><mo accent="true">̂</mo></mover></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>Q</mi><mo accent="true">̂</mo></mover><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac><mi>d</mi><mi>p</mi><mspace width="0.222em"></mspace><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
+QRI IF can be estimated as <span class="math display">\[
 \begin{split}
-{I}(\widehat{QRI})_{k} &amp;=  - \int_0^1 \frac{\left(\frac{\frac{p}{2} - \mathbb{1}(y_k \leq \widehat{Q}(p/2))}{\widehat{F}'(\widehat{Q}(p/2))  \widehat N}\right) \widehat{Q}(1-p/2) - \left(\frac{(1 - \frac{p}{2}) - \mathbb{1}(y_k \leq \widehat{Q}(1-p/2))}{\widehat{F}'(\widehat{Q}(1-p/2)) \widehat N}\right) \widehat{Q}(p/2)}{ \widehat{Q}(1-p/2)^2}dp \ .
+{I}(\widehat{QRI})_{k} &amp;=  - \int_0^1 \frac{\left(\frac{\frac{p}{2}
+- \mathbb{1}(y_k \leq
+\widehat{Q}(p/2))}{\widehat{F}'(\widehat{Q}(p/2))  \widehat
+N}\right) \widehat{Q}(1-p/2) - \left(\frac{(1 - \frac{p}{2}) -
+\mathbb{1}(y_k \leq
+\widehat{Q}(1-p/2))}{\widehat{F}'(\widehat{Q}(1-p/2)) \widehat
+N}\right) \widehat{Q}(p/2)}{ \widehat{Q}(1-p/2)^2}dp \ .
 \end{split}
-</annotation></semantics></math></p>
-<p>The Gini coefficient IF can be approximated as (see <span class="citation">Langel and Tillé (<a href="#ref-langel2013variance">2013</a>)</span>) as
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><msub><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>G</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mover><mi>N</mi><mo accent="true">̂</mo></mover><mover><mi>Y</mi><mo accent="true">̂</mo></mover></mrow></mfrac><mrow><mo stretchy="true" form="prefix">{</mo><mn>2</mn><msub><mi>W</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>k</mi></msub><mo>−</mo><msub><mover><mover><mi>Y</mi><mo accent="true">‾</mo></mover><mo accent="true">̂</mo></mover><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mo>−</mo><mover><mi>N</mi><mo accent="true">̂</mo></mover><msub><mi>y</mi><mi>k</mi></msub><mo>−</mo><mover><mi>G</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mo>+</mo><msub><mi>y</mi><mi>k</mi></msub><mover><mi>N</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow></mrow><annotation encoding="application/x-tex">
-{I}(\widehat{G})_{k} =\frac{1}{\hat{N} \hat{Y}}\left\{2 W_k\left(y_k-\hat{\bar{Y}}_k\right)+\hat{Y}-\hat{N} y_k-\hat{G}\left(\hat{Y}+y_k \hat{N}\right)\right\}
-</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">with</mtext><mspace width="2.0em"></mspace><mover><mi>Y</mi><mo accent="true">̂</mo></mover><mo>=</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>s</mi></mrow></munder><msub><mi>w</mi><mi>j</mi></msub><msub><mi>y</mi><mi>j</mi></msub><mo>;</mo><mspace width="1.0em"></mspace><msub><mover><mover><mi>Y</mi><mo accent="true">‾</mo></mover><mo accent="true">̂</mo></mover><mi>j</mi></msub><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mrow><mi>l</mi><mo>∈</mo><mi>S</mi></mrow></munder><msub><mi>w</mi><mi>l</mi></msub><msub><mi>y</mi><mi>l</mi></msub><mn>1</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>W</mi><mi>l</mi></msub><mo>≤</mo><msub><mi>W</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>W</mi><mi>k</mi></msub></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">   \text{with}  \qquad 
- \hat{Y} = \sum_{j \in s}w_j y_j; \quad  \hat{\bar{Y}}_j=\frac{\sum_{l \in S} w_l y_l 1\left(W_l \leqslant W_j\right)}{W_k}.
-</annotation></semantics></math></p>
+\]</span></p>
+<p>The Gini coefficient IF can be approximated as (see <span class="citation">Langel and Tillé (<a href="#ref-langel2013variance">2013</a>)</span>) as <span class="math display">\[
+{I}(\widehat{G})_{k} =\frac{1}{\hat{N} \hat{Y}}\left\{2
+W_k\left(y_k-\hat{\bar{Y}}_k\right)+\hat{Y}-\hat{N}
+y_k-\hat{G}\left(\hat{Y}+y_k \hat{N}\right)\right\}
+\]</span> <span class="math display">\[   \text{with}  \qquad
+\hat{Y} = \sum_{j \in s}w_j y_j; \quad  \hat{\bar{Y}}_j=\frac{\sum_{l
+\in S} w_l y_l 1\left(W_l \leqslant W_j\right)}{W_k}.
+\]</span></p>
 <div class="section level4">
 <h4 id="comparison-of-the-influence-function-values">Comparison of the influence function values<a class="anchor" aria-label="anchor" href="#comparison-of-the-influence-function-values"></a>
 </h4>
@@ -746,10 +727,8 @@ QRI IF can be estimated as
 </ul>
 <p><strong>QSR</strong>:</p>
 <ul>
-<li>Sharp discontinuities at
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Q(0.2)</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.8</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Q(0.8)</annotation></semantics></math>
+<li>Sharp discontinuities at <span class="math inline">\(Q(0.2)\)</span>
+and <span class="math inline">\(Q(0.8)\)</span>
 </li>
 <li>Near-zero influence in the middle 60% of distribution</li>
 <li>High sensitivity to observations at boundary quantiles</li>
@@ -761,60 +740,44 @@ and
 </h2>
 <p>When only frequency tables are available (common with administrative
 or tax data), the package provides specialized functions.</p>
-<p>Consider grouped data divided into
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
-classes with known boundaries, observed frequencies
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>f</mi><mi>L</mi></msub></mrow><annotation encoding="application/x-tex">f_1, \ldots, f_L</annotation></semantics></math>
-and total amounts
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>Y</mi><mi>L</mi></msub></mrow><annotation encoding="application/x-tex">Y_1, \ldots, Y_L</annotation></semantics></math>.
+<p>Consider grouped data divided into <span class="math inline">\(L\)</span> classes with known boundaries, observed
+frequencies <span class="math inline">\(f_1, \ldots, f_L\)</span> and
+total amounts <span class="math inline">\(Y_1, \ldots, Y_L\)</span>.
 Let:</p>
 <ul>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>L</mi><mi>l</mi></msub><annotation encoding="application/x-tex">L_l</annotation></semantics></math>
-be the lower bound of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>-th
-class</li>
+<span class="math inline">\(L_l\)</span> be the lower bound of the
+<span class="math inline">\(l\)</span>-th class</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>U</mi><mi>l</mi></msub><annotation encoding="application/x-tex">U_l</annotation></semantics></math>
-be the upper bound of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>-th
-class</li>
+<span class="math inline">\(U_l\)</span> be the upper bound of the
+<span class="math inline">\(l\)</span>-th class</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>l</mi></msub><mo>=</mo><msub><mi>U</mi><mi>l</mi></msub><mo>−</mo><msub><mi>L</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">h_l = U_l - L_l</annotation></semantics></math>
-be the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>-th
-class width</li>
+<span class="math inline">\(h_l = U_l - L_l\)</span> be the <span class="math inline">\(l\)</span>-th class width</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>L</mi></msubsup><msub><mi>f</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">N = \sum_{i=1}^{L} f_i</annotation></semantics></math>
-be the total frequency</li>
+<span class="math inline">\(N = \sum_{i=1}^{L} f_i\)</span> be the
+total frequency</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>l</mi></msub><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>l</mi></msubsup><msub><mi>f</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">C_{l} = \sum_{i=1}^{l} f_i</annotation></semantics></math>
-be the cumulative frequency up to the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>-th
-class</li>
+<span class="math inline">\(C_{l} = \sum_{i=1}^{l} f_i\)</span> be
+the cumulative frequency up to the <span class="math inline">\(l\)</span>-th class</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>l</mi></msub><mo>=</mo><msub><mi>Y</mi><mi>l</mi></msub><mi>/</mi><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>L</mi></msubsup><msub><mi>Y</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">c_l = Y_l / \sum_{i=1}^{L} Y_i</annotation></semantics></math>
-is the share in group
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>
+<span class="math inline">\(c_l = Y_l / \sum_{i=1}^{L} Y_i\)</span>
+is the share in group <span class="math inline">\(l\)</span>
 </li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mi>l</mi></msub><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>l</mi></msubsup><msub><mi>c</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">s_l = \sum_{k=1}^{l} c_k</annotation></semantics></math>
-is the cumulative share up to group
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>
+<span class="math inline">\(s_l = \sum_{k=1}^{l} c_k\)</span> is the
+cumulative share up to group <span class="math inline">\(l\)</span>
 </li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>l</mi></msub><mo>=</mo><msub><mi>f</mi><mi>l</mi></msub><mi>/</mi><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>L</mi></msubsup><msub><mi>f</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">p_l = f_l / \sum_{i=1}^{L} f_i</annotation></semantics></math>
-be the population share of group
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>
+<span class="math inline">\(p_l = f_l / \sum_{i=1}^{L} f_i\)</span>
+be the population share of group <span class="math inline">\(l\)</span>
 </li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>l</mi></msub><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>l</mi></msubsup><msub><mi>p</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">u_l = \sum_{k=1}^{l} p_k</annotation></semantics></math>
-is the cumulative population share up to group
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>
+<span class="math inline">\(u_l = \sum_{k=1}^{l} p_k\)</span> is the
+cumulative population share up to group <span class="math inline">\(l\)</span>
 </li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>0</mn></msub><mo>=</mo><msub><mi>u</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">s_0 = u_0 = 0</annotation></semantics></math>
-by convention</li>
+<span class="math inline">\(s_0 = u_0 = 0\)</span> by
+convention</li>
 </ul>
 <p>For example</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -826,22 +789,15 @@ by convention</li>
 <div class="section level3">
 <h3 id="quantile-computation-for-grouped-data">Quantile Computation for Grouped Data<a class="anchor" aria-label="anchor" href="#quantile-computation-for-grouped-data"></a>
 </h3>
-<p>The quantile class for the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">{p}</annotation></semantics></math>-th
-quantile is the first class
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">{l}</annotation></semantics></math>
-such that:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mo>=</mo><mi>m</mi><mi>i</mi><mi>n</mi><mo stretchy="false" form="prefix">{</mo><mi>l</mi><mo>:</mo><msub><mi>C</mi><mi>l</mi></msub><mo>≥</mo><mi>p</mi><mi>N</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">
+<p>The quantile class for the <span class="math inline">\({p}\)</span>-th quantile is the first class <span class="math inline">\({l}\)</span> such that:</p>
+<p><span class="math display">\[
 {l = min\{l: C_l \geq pN \}}
-</annotation></semantics></math></p>
-<p>The
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">{p}</annotation></semantics></math>-th
-quantile
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">{Q(p)}</annotation></semantics></math>
-is then estimated by linear interpolation within the quantile class:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>Q</mi><mo accent="true">̃</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>L</mi><mi>l</mi></msub><mo>+</mo><mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>N</mi><mo>−</mo><msub><mi>C</mi><mrow><mi>l</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>f</mi><mi>l</mi></msub></mfrac><mo>⋅</mo><msub><mi>h</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">
+\]</span></p>
+<p>The <span class="math inline">\({p}\)</span>-th quantile <span class="math inline">\({Q(p)}\)</span> is then estimated by linear
+interpolation within the quantile class:</p>
+<p><span class="math display">\[
 {\widetilde{Q}(p) = L_l + \frac{(pN - C_{l-1})}{f_l} \cdot h_l}
-</annotation></semantics></math></p>
+\]</span></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Estimate quantiles from grouped data</span></span>
 <span><span class="fu"><a href="../reference/quantile_grouped.html">quantile_grouped</a></span><span class="op">(</span>freq <span class="op">=</span> <span class="va">income_freq</span>,</span>
@@ -856,9 +812,10 @@ is then estimated by linear interpolation within the quantile class:</p>
 </h3>
 <p>By using the quantile measure for grouped data, the QRI is
 approximated as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi>Q</mi><mi>R</mi><mi>I</mi></mrow><mo>≈</mo><mfrac><mn>1</mn><mi>M</mi></mfrac><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mi>M</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mover><mi>Q</mi><mo accent="true">̃</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mi>m</mi></msub><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mover><mi>Q</mi><mo accent="true">̃</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>m</mi></msub><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
-{{QRI}} \approx \frac{1}{M}\sum_{m=1}^{M}\left(1 - \frac{\widetilde{Q}(p_m/2)}{\widetilde{Q}(1 - p_m/2)}\right)
-</annotation></semantics></math></p>
+<p><span class="math display">\[
+{{QRI}} \approx \frac{1}{M}\sum_{m=1}^{M}\left(1 -
+\frac{\widetilde{Q}(p_m/2)}{\widetilde{Q}(1 - p_m/2)}\right)
+\]</span></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute QRI from grouped data</span></span>
 <span><span class="fu"><a href="../reference/qri_grouped.html">qri_grouped</a></span><span class="op">(</span>freq <span class="op">=</span> <span class="va">income_freq</span>, </span>
@@ -872,9 +829,9 @@ approximated as:</p>
 </h3>
 <p>The Gini coefficient is approximated by linear interpolation of
 cumulative shares, as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>≈</mo><mn>1</mn><mo>−</mo><munderover><mo>∑</mo><mrow><mi>l</mi><mo>=</mo><mn>1</mn></mrow><mi>L</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>s</mi><mi>l</mi></msub><mo>+</mo><msub><mi>s</mi><mrow><mi>l</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>u</mi><mi>l</mi></msub><mo>−</mo><msub><mi>u</mi><mrow><mi>l</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">\[
 {G \approx 1 - \sum_{l=1}^{L} (s_l + s_{l-1})(u_l - u_{l-1})}
-</annotation></semantics></math></p>
+\]</span></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Estimate quantiles from grouped data</span></span>
 <span><span class="fu"><a href="../reference/gini_grouped.html">gini_grouped</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">income_tot</span>, freq <span class="op">=</span> <span class="va">income_freq</span><span class="op">)</span></span>
