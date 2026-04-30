@@ -4,10 +4,10 @@ test_that("inequantiles returns an object of class 'inequantiles'", {
   expect_s3_class(result, "inequantiles")
 })
 
-test_that("inequantiles with 'all' returns all four indicators", {
+test_that("inequantiles with 'all' returns all five indicators", {
   y <- rlnorm(100)
   result <- inequantiles(y)
-  expect_named(result$estimates, c("qri", "qsr", "palma", "p90p10"))
+  expect_named(result$estimates, c("qri", "qsr", "palma", "p90p10", "gini"))
 })
 
 test_that("inequantiles subset of indicators returns only requested ones", {
@@ -25,7 +25,7 @@ test_that("inequantiles single indicator works", {
 
 test_that("inequantiles stops on unknown indicator", {
   y <- rlnorm(100)
-  expect_error(inequantiles(y, indicators = "gini"), "Unknown indicator")
+  expect_error(inequantiles(y, indicators = "lorenz"), "Unknown indicator")
 })
 
 test_that("inequantiles custom prob_num/prob_den changes ratio label", {
@@ -75,6 +75,15 @@ test_that("inequantiles estimates increase with greater inequality", {
   expect_lt(r_low$estimates["qri"],   r_high$estimates["qri"])
   expect_lt(r_low$estimates["qsr"],   r_high$estimates["qsr"])
   expect_lt(r_low$estimates["palma"], r_high$estimates["palma"])
+  expect_lt(r_low$estimates["gini"],  r_high$estimates["gini"])
+})
+
+test_that("inequantiles gini is in [0, 1)", {
+  set.seed(5)
+  y <- rlnorm(200)
+  result <- inequantiles(y, indicators = "gini")
+  expect_true(result$estimates["gini"] >= 0)
+  expect_true(result$estimates["gini"] < 1)
 })
 
 test_that("print.inequantiles runs without error", {
@@ -92,7 +101,7 @@ test_that("inequantiles se = TRUE returns numeric standard errors", {
   result <- inequantiles(df$y,
                          se = TRUE, B = 50, seed = 42,
                          data = df, strata = "stratum", N_h = N_h)
-  expect_length(result$se, 4)
+  expect_length(result$se, 5)
   expect_true(all(is.numeric(result$se)))
   expect_true(all(result$se >= 0))
   expect_equal(result$B, 50)

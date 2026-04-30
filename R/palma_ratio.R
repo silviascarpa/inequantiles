@@ -1,7 +1,7 @@
-#' Palma Ratio Estimator
+#' Palma Ratio
 #'
 #'
-#' Computes the Palma ratio estimator for measuring inequality
+#' Estimates the Palma ratio indicator for measuring inequality
 #' on simple and complex sampling data
 #'
 #' @param y A numeric vector of data values
@@ -18,11 +18,11 @@
 #' the sampling weight and \eqn{y_j} be the observed characteristics (i.e. income)
 #' associated to the \eqn{j}-th individual, \eqn{j = 1, \ldots, n}.
 #' According to \insertCite{cobham2013all;textual}{inequantiles} definition,
-#' the Palma index divides the share earned by the richest 10\% by the share of the
-#' poorest 40\%. Its estimator is defined as:
+#' the Palma index divides the share earned by the richest 10% by the share of the
+#' poorest 40%. Its estimator is defined as:
 #'
 #' \deqn{\widehat{Palma} =
-#' \frac{\sum_{j \in s}w_j y_j \mathds{1}\left\{ y_j \geq \widehat{Q}(0.9)\right\} }{\sum_{j \in s} w_j y_j\mathds{1}\left\{ y_j \leq \widehat{Q}(0.4)\right\} }}
+#' \frac{\sum_{j \in s}w_j y_j \mathbf{1}\left\{ y_j \geq \widehat{Q}(0.9)\right\} }{\sum_{j \in s} w_j y_j\mathbf{1}\left\{ y_j \leq \widehat{Q}(0.4)\right\} }}
 #'
 #' where the estimated quantiles \eqn{\widehat{Q}(p)} are computed via the function
 #' \code{csquantile()}, which accounts for sampling weights and the specified
@@ -30,7 +30,7 @@
 #' random samples and for complex survey data with design weights.
 #'
 #' See  \insertCite{palma2006globalizing;textual}{inequantiles} and \insertCite{palma2011homogeneous;textual}{inequantiles}
-#' for an introduction to the Palma ratio.
+#' for an introduction to the Palma ratio inequality indicator.
 #'
 #'
 #' @examples

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ratio_quantiles.R
 \name{ratio_quantiles}
 \alias{ratio_quantiles}
-\title{Ratio of Quantiles Estimator (e.g., P90/P10)}
+\title{Ratio of Quantiles (e.g., P90/P10)}
 \usage{
 ratio_quantiles(
   y,
@@ -31,8 +31,7 @@ See \code{csquantile} documentation for a complete description.}
 A scalar numeric value representing the estimated ratio of quantiles
 }
 \description{
-Estimates ratio of quantiles (e.g., P90/P10)
-on simple and complex sampling data
+Estimates ratio of quantiles (e.g., P90/P10) on simple and complex sampling data
 }
 \details{
 Consider a random sample \eqn{s} of size \eqn{n}, and let \eqn{w_j}, \eqn{j \in s}, define

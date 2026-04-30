@@ -1,6 +1,6 @@
 # Internal helper: weighted Gini coefficient.
-# Formula: Alfons & Templ (2012, laeken) / equation in Scarpa et al. (2025).
-# Not exported; used only by if_gini().
+# Formula: \insertCite{langel2013variance;textual}{inequantiles}, equation 6.
+# Not exported; used by if_gini() and inequantiles().
 .gini_coef <- function(y, weights = NULL) {
   if (is.null(weights)) weights <- rep(1L, length(y))
   ord  <- order(y)

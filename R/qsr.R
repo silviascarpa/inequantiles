@@ -1,7 +1,7 @@
-#' Quintile Share Ratio Estimator
+#' Quintile Share Ratio
 #'
 #'
-#' Computes the quintile share ratio (QSR) estimator for measuring inequality
+#' Estimates the quintile share ratio (QSR) inequality for measuring inequality
 #' on simple and complex sampling data
 #'
 #' @param y A numeric vector of data values
@@ -20,7 +20,7 @@
 #' The QSR estimator is defined as:
 #'
 #' \deqn{\widehat{QSR} =
-#' \frac{\sum_{j \in s}w_j y_j \mathds{1}\left\{ y_j \geq \widehat{Q}(0.8)\right\} }{\sum_{j \in s} w_j y_j\mathds{1}\left\{ y_j \leq \widehat{Q}(0.2)\right\} }}
+#' \frac{\sum_{j \in s}w_j y_j \mathbf{1}\left\{ y_j \geq \widehat{Q}(0.8)\right\} }{\sum_{j \in s} w_j y_j\mathbf{1}\left\{ y_j \leq \widehat{Q}(0.2)\right\} }}
 #'
 #' where the estimated quantiles \eqn{\widehat{Q}(p)} are computed via the function
 #' \code{csquantile()}, which accounts for sampling weights and the specified
@@ -28,7 +28,7 @@
 #' random samples and for complex survey data with design weights.
 #'
 #' See  \insertCite{langel2011quintile;textual}{inequantiles} for a complete review of the
-#' QSR estimator with complex sampling data.
+#' QSR indicator estimator with complex sampling data.
 #'
 #'
 #'

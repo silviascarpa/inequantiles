@@ -32,7 +32,7 @@ all observations are equally weighted.}
 
 \item{indicators}{Character vector specifying which indicators to compute.
 Use \code{"all"} (default) for all four, or any subset of
-\code{"qri"}, \code{"qsr"}, \code{"palma"}, \code{"ratio_quantiles"}.}
+\code{"qri"}, \code{"qsr"}, \code{"palma"}, \code{"ratio_quantiles"}, \code{"gini"}.}
 
 \item{se}{Logical; if \code{TRUE}, bootstrap standard errors are computed.}
 
@@ -85,17 +85,22 @@ A list with components:
 \item{call}{The matched function call.}
 }
 \description{
-Computes one or more quantile-based inequality indicators simultaneously among
-QRI, QSR, Palma ratio, and percentile ratio, optionally with standard
-errors (estimated from the same set of bootstrap replicates), ensuring full
-comparability across indicators.
+Estimates one or more quantile-based inequality indicators simultaneously —
+QRI, QSR, Palma ratio, and percentile ratio — together with the Gini
+coefficient as a widely used benchmark. When standard errors are requested,
+all indicators are evaluated on the same bootstrap replicates, ensuring
+full comparability.
 }
 \details{
-All indicators are computed from the same specified \code{\link{csquantile}} type.
-When \code{se = TRUE}, a \emph{single} bootstrap loop is run through rescaled
-bootstrap method (see details in \code{\link{rescaled_bootstrap}}) and all
-indicators are evaluated on each replicate, so standard errors are based on
-identical resamples and are directly comparable.
+All quantile-based indicators are computed from the same specified
+\code{\link{csquantile}} type. When \code{se = TRUE}, a \emph{single}
+bootstrap loop is run through the rescaled bootstrap method
+(see \code{\link{rescaled_bootstrap}}) and all indicators are evaluated on
+each replicate, so standard errors are based on identical resamples and are
+directly comparable.
+
+The Gini coefficient is estimated following \insertCite{langel2013variance}{inequantiles},
+equation 6, using a weighted formula based on cumulative weight sums.
 }
 \examples{
 data(synthouse)

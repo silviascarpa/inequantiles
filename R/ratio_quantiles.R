@@ -1,8 +1,7 @@
-#' Ratio of Quantiles Estimator (e.g., P90/P10)
+#' Ratio of Quantiles (e.g., P90/P10)
 #'
 #'
-#' Estimates ratio of quantiles (e.g., P90/P10)
-#' on simple and complex sampling data
+#' Estimates ratio of quantiles (e.g., P90/P10) on simple and complex sampling data
 #'
 #' @param y A numeric vector of data values
 #' @param weights A numeric vector of sampling weights (optional)

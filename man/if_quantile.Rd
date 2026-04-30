@@ -77,6 +77,8 @@ IF_quantile <- if_quantile(y = eq, weights = w, type = 6, probs = 0.5)
 \insertRef{osier2009variance}{inequantiles}
 }
 \seealso{
+\code{\link{csquantile}} for weighted quantile estimation.
+
 Other influence functions: 
 \code{\link{if_gini}()},
 \code{\link{if_qri}()},

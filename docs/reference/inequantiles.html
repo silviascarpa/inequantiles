@@ -5,13 +5,15 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Quantile-based inequality indicators — inequantiles"><meta name="description" content="Computes one or more quantile-based inequality indicators simultaneously among
-QRI, QSR, Palma ratio, and percentile ratio, optionally with standard
-errors (estimated from the same set of bootstrap replicates), ensuring full
-comparability across indicators."><meta property="og:description" content="Computes one or more quantile-based inequality indicators simultaneously among
-QRI, QSR, Palma ratio, and percentile ratio, optionally with standard
-errors (estimated from the same set of bootstrap replicates), ensuring full
-comparability across indicators."></head><body>
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Quantile-based inequality indicators — inequantiles"><meta name="description" content="Estimates one or more quantile-based inequality indicators simultaneously —
+QRI, QSR, Palma ratio, and percentile ratio — together with the Gini
+coefficient as a widely used benchmark. When standard errors are requested,
+all indicators are evaluated on the same bootstrap replicates, ensuring
+full comparability."><meta property="og:description" content="Estimates one or more quantile-based inequality indicators simultaneously —
+QRI, QSR, Palma ratio, and percentile ratio — together with the Gini
+coefficient as a widely used benchmark. When standard errors are requested,
+all indicators are evaluated on the same bootstrap replicates, ensuring
+full comparability."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -49,10 +51,11 @@ comparability across indicators."></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p>Computes one or more quantile-based inequality indicators simultaneously among
-QRI, QSR, Palma ratio, and percentile ratio, optionally with standard
-errors (estimated from the same set of bootstrap replicates), ensuring full
-comparability across indicators.</p>
+    <p>Estimates one or more quantile-based inequality indicators simultaneously —
+QRI, QSR, Palma ratio, and percentile ratio — together with the Gini
+coefficient as a widely used benchmark. When standard errors are requested,
+all indicators are evaluated on the same bootstrap replicates, ensuring
+full comparability.</p>
     </div>
 
     <div class="section level2">
@@ -94,7 +97,7 @@ all observations are equally weighted.</p></dd>
 <dt id="arg-indicators">indicators<a class="anchor" aria-label="anchor" href="#arg-indicators"></a></dt>
 <dd><p>Character vector specifying which indicators to compute.
 Use <code>"all"</code> (default) for all four, or any subset of
-<code>"qri"</code>, <code>"qsr"</code>, <code>"palma"</code>, <code>"ratio_quantiles"</code>.</p></dd>
+<code>"qri"</code>, <code>"qsr"</code>, <code>"palma"</code>, <code>"ratio_quantiles"</code>, <code>"gini"</code>.</p></dd>
 
 
 <dt id="arg-se">se<a class="anchor" aria-label="anchor" href="#arg-se"></a></dt>
@@ -186,11 +189,15 @@ Defaults to the Rao-Wu formula. See <code><a href="rescaled_bootstrap.html">resc
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>All indicators are computed from the same specified <code><a href="csquantile.html">csquantile</a></code> type.
-When <code>se = TRUE</code>, a <em>single</em> bootstrap loop is run through rescaled
-bootstrap method (see details in <code><a href="rescaled_bootstrap.html">rescaled_bootstrap</a></code>) and all
-indicators are evaluated on each replicate, so standard errors are based on
-identical resamples and are directly comparable.</p>
+    <p>All quantile-based indicators are computed from the same specified
+<code><a href="csquantile.html">csquantile</a></code> type. When <code>se = TRUE</code>, a <em>single</em>
+bootstrap loop is run through the rescaled bootstrap method
+(see <code><a href="rescaled_bootstrap.html">rescaled_bootstrap</a></code>) and all indicators are evaluated on
+each replicate, so standard errors are based on identical resamples and are
+directly comparable.</p>
+<p>The Gini coefficient is estimated following (Langel and Tillé 2013)
+,
+equation 6, using a weighted formula based on cumulative weight sums.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

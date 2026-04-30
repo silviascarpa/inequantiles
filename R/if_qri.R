@@ -78,6 +78,9 @@
 #'
 #' \insertRef{scarpa2025inference}{inequantiles}
 #'
+#' @seealso \code{\link{qri}} for the QRI inequality indicator estimator, \code{\link{csquantile}}
+#'   for weighted quantile estimation.
+#'
 #' @family influence functions
 #'
 #' @export

@@ -1,16 +1,17 @@
 #' Quantile-based inequality indicators
 #'
-#' Computes one or more quantile-based inequality indicators simultaneously among
-#' QRI, QSR, Palma ratio, and percentile ratio, optionally with standard
-#' errors (estimated from the same set of bootstrap replicates), ensuring full
-#' comparability across indicators.
+#' Estimates one or more quantile-based inequality indicators simultaneously —
+#' QRI, QSR, Palma ratio, and percentile ratio — together with the Gini
+#' coefficient as a widely used benchmark. When standard errors are requested,
+#' all indicators are evaluated on the same bootstrap replicates, ensuring
+#' full comparability.
 #'
 #' @param y A numeric vector of strictly positive values (e.g. income, wealth, expenditure).
 #' @param weights A numeric vector of sampling weights. If \code{NULL},
 #'   all observations are equally weighted.
 #' @param indicators Character vector specifying which indicators to compute.
 #'   Use \code{"all"} (default) for all four, or any subset of
-#'   \code{"qri"}, \code{"qsr"}, \code{"palma"}, \code{"ratio_quantiles"}.
+#'   \code{"qri"}, \code{"qsr"}, \code{"palma"}, \code{"ratio_quantiles"}, \code{"gini"}.
 #' @param se Logical; if \code{TRUE}, standard errors are estimated via the
 #'   rescaled bootstrap; see \code{\link{rescaled_bootstrap}}. Requires \code{data} and \code{strata} (see below).
 #' @param type Quantile estimation type (integer 4--9 or \code{"HD"} for
@@ -50,11 +51,15 @@
 #'   \item{call}{The matched function call.}
 #'
 #' @details
-#' All indicators are computed from the same specified \code{\link{csquantile}} type.
-#' When \code{se = TRUE}, a \emph{single} bootstrap loop is run through rescaled
-#' bootstrap method (see details in \code{\link{rescaled_bootstrap}}) and all
-#' indicators are evaluated on each replicate, so standard errors are based on
-#' identical resamples and are directly comparable.
+#' All quantile-based indicators are computed from the same specified
+#' \code{\link{csquantile}} type. When \code{se = TRUE}, a \emph{single}
+#' bootstrap loop is run through the rescaled bootstrap method
+#' (see \code{\link{rescaled_bootstrap}}) and all indicators are evaluated on
+#' each replicate, so standard errors are based on identical resamples and are
+#' directly comparable.
+#'
+#' The Gini coefficient is estimated following \insertCite{langel2013variance}{inequantiles},
+#' equation 6, using a weighted formula based on cumulative weight sums.
 #'
 #'
 #' @seealso \code{\link{qri}}, \code{\link{qsr}}, \code{\link{palma_ratio}},
@@ -112,7 +117,7 @@ inequantiles <- function(y,
   # VALIDATE indicators
   # =========================================================================
 
-  valid <- c("qri", "qsr", "palma", "ratio_quantiles")
+  valid <- c("qri", "qsr", "palma", "ratio_quantiles", "gini")
   if (identical(indicators, "all")) indicators <- valid
 
   unknown <- setdiff(indicators, valid)
@@ -141,7 +146,9 @@ inequantiles <- function(y,
                         prob_denominator = prob_den,
                         type = type, na.rm = na.rm),
         rq_name
-      )
+      ),
+    if ("gini" %in% indicators)
+      c(gini = .gini_coef(y, weights))
   )
 
   # =========================================================================
@@ -183,7 +190,9 @@ inequantiles <- function(y,
                             prob_denominator = prob_den,
                             type = type, na.rm = na.rm),
             rq_name
-          )
+          ),
+        if ("gini" %in% indicators)
+          c(gini = .gini_coef(y_b, w_b))
       )
     }
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/qsr.R
 \name{qsr}
 \alias{qsr}
-\title{Quintile Share Ratio Estimator}
+\title{Quintile Share Ratio}
 \usage{
 qsr(y, weights = NULL, type = 6, na.rm = TRUE)
 }
@@ -21,7 +21,7 @@ A scalar numeric value representing the estimated inequality by the
 quintile share ratio (QSR).
 }
 \description{
-Computes the quintile share ratio (QSR) estimator for measuring inequality
+Estimates the quintile share ratio (QSR) inequality for measuring inequality
 on simple and complex sampling data
 }
 \details{
@@ -31,7 +31,7 @@ associated to the \eqn{j}-th individual, \eqn{j = 1, \ldots, n}.
 The QSR estimator is defined as:
 
 \deqn{\widehat{QSR} =
-\frac{\sum_{j \in s}w_j y_j \mathds{1}\left\{ y_j \geq \widehat{Q}(0.8)\right\} }{\sum_{j \in s} w_j y_j\mathds{1}\left\{ y_j \leq \widehat{Q}(0.2)\right\} }}
+\frac{\sum_{j \in s}w_j y_j \mathbf{1}\left\{ y_j \geq \widehat{Q}(0.8)\right\} }{\sum_{j \in s} w_j y_j\mathbf{1}\left\{ y_j \leq \widehat{Q}(0.2)\right\} }}
 
 where the estimated quantiles \eqn{\widehat{Q}(p)} are computed via the function
 \code{csquantile()}, which accounts for sampling weights and the specified
@@ -39,7 +39,7 @@ quantile type. This allows \eqn{\widehat{QSR}} to be used both for simple
 random samples and for complex survey data with design weights.
 
 See  \insertCite{langel2011quintile;textual}{inequantiles} for a complete review of the
-QSR estimator with complex sampling data.
+QSR indicator estimator with complex sampling data.
 }
 \examples{
 

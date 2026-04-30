@@ -66,6 +66,8 @@
 #'
 #' @family influence functions
 #'
+#' @seealso \code{\link{csquantile}} for weighted quantile estimation.
+#'
 #' @export
 if_quantile <- function(y, weights = NULL, probs, type = 6, na.rm = TRUE) {
 

@@ -91,6 +91,9 @@ IF_qri <- if_qri(y = eq, weights = w, type = 6)
 \insertRef{scarpa2025inference}{inequantiles}
 }
 \seealso{
+\code{\link{qri}} for the QRI inequality indicator estimator, \code{\link{csquantile}}
+for weighted quantile estimation.
+
 Other influence functions: 
 \code{\link{if_gini}()},
 \code{\link{if_qsr}()},

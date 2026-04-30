@@ -1,4 +1,4 @@
-#' Quantile Ratio Index Estimator
+#' Quantile Ratio Index
 #'
 #' Computes the quantile ratio index (QRI) estimator for measuring inequality
 #'  on simple and complex sampling data

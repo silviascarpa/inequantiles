@@ -60,7 +60,7 @@ z_weighted <- if_qsr(y = eq, weights = w)
 \insertRef{langel2011quintile}{inequantiles}
 }
 \seealso{
-\code{\link{qsr}} for the QSR estimator, \code{\link{csquantile}}
+\code{\link{qsr}} for the QSR inequality indicator estimator, \code{\link{csquantile}}
 for weighted quantile estimation.
 
 Other influence functions: 

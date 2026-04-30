@@ -2,7 +2,7 @@
 % Please edit documentation in R/qri.R
 \name{qri}
 \alias{qri}
-\title{Quantile Ratio Index Estimator}
+\title{Quantile Ratio Index}
 \usage{
 qri(y, weights = NULL, M = 100, type = 6, na.rm = TRUE)
 }
