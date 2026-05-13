@@ -1,4 +1,4 @@
-#' Quantile Ratio Index Estimator in Superpopulation
+#' Quantile Ratio Index in Superpopulation
 #'
 #' Computes the theoretical quantile ratio index (QRI) for measuring inequality
 #' for a given parametric distribution.
