@@ -53,8 +53,8 @@
 #'
 #' \insertRef{langel2013variance}{inequantiles}
 #'
-#' @seealso \code{\link{if_qsr}} for the quintile share ratio influence function
-#' and \code{\link{if_qri}} for the quantile ratio index influence function.
+#' @seealso \code{\link{if_share_ratio}} for the share ratio influence function,
+#'   \code{\link{if_qri}} for the quantile ratio index influence function.
 #'
 #' @family influence functions
 #'

@@ -1,17 +1,18 @@
 #' Quantile-based inequality indicators
 #'
 #' Estimates one or more quantile-based inequality indicators simultaneously —
-#' QRI, QSR, Palma ratio, and percentile ratio — together with the Gini
-#' coefficient as a widely used benchmark. When standard errors are requested,
-#' all indicators are evaluated on the same bootstrap replicates, ensuring
-#' full comparability.
+#' QRI, quantile-based share ratio (QSR, Palma, or custom), percentile ratio —
+#' together with the Gini coefficient as a widely used benchmark. When standard
+#' errors are requested, all indicators are evaluated on the same bootstrap
+#' replicates, ensuring full comparability.
 #'
 #' @param y A numeric vector of strictly positive values (e.g. income, wealth, expenditure).
 #' @param weights A numeric vector of sampling weights. If \code{NULL},
 #'   all observations are equally weighted.
 #' @param indicators Character vector specifying which indicators to compute.
-#'   Use \code{"all"} (default) for all four, or any subset of
+#'   Use \code{"all"} (default) for all, or any subset of
 #'   \code{"qri"}, \code{"qsr"}, \code{"palma"}, \code{"ratio_quantiles"}, \code{"gini"}.
+#'   \code{"qsr"} and \code{"palma"} are special cases of \code{\link{share_ratio}}.
 #' @param se Logical; if \code{TRUE}, standard errors are estimated via the
 #'   rescaled bootstrap; see \code{\link{rescaled_bootstrap}}. Requires \code{data} and \code{strata} (see below).
 #' @param type Quantile estimation type (integer 4--9 or \code{"HD"} for
@@ -62,7 +63,7 @@
 #' equation 6, using a weighted formula based on cumulative weight sums.
 #'
 #'
-#' @seealso \code{\link{qri}}, \code{\link{qsr}}, \code{\link{palma_ratio}},
+#' @seealso \code{\link{qri}}, \code{\link{share_ratio}},
 #'   \code{\link{ratio_quantiles}}, \code{\link{rescaled_bootstrap}}
 #'
 #' @family inequality indicators based on quantiles
@@ -136,9 +137,11 @@ inequantiles <- function(y,
     if ("qri" %in% indicators)
       c(qri = qri(y, weights = weights, M = M, type = type, na.rm = na.rm)),
     if ("qsr" %in% indicators)
-      c(qsr = qsr(y, weights = weights, type = type, na.rm = na.rm)),
+      c(qsr = share_ratio(y, weights = weights, type = type, na.rm = na.rm,
+                          prob_numerator = 0.80, prob_denominator = 0.20)),
     if ("palma" %in% indicators)
-      c(palma = palma_ratio(y, weights = weights, type = type, na.rm = na.rm)),
+      c(palma = share_ratio(y, weights = weights, type = type, na.rm = na.rm,
+                            prob_numerator = 0.90, prob_denominator = 0.40)),
     if ("ratio_quantiles" %in% indicators)
       setNames(
         ratio_quantiles(y, weights = weights,
@@ -180,9 +183,11 @@ inequantiles <- function(y,
         if ("qri" %in% indicators)
           c(qri = qri(y_b, weights = w_b, M = M, type = type, na.rm = na.rm)),
         if ("qsr" %in% indicators)
-          c(qsr = qsr(y_b, weights = w_b, type = type, na.rm = na.rm)),
+          c(qsr = share_ratio(y_b, weights = w_b, type = type, na.rm = na.rm,
+                              prob_numerator = 0.80, prob_denominator = 0.20)),
         if ("palma" %in% indicators)
-          c(palma = palma_ratio(y_b, weights = w_b, type = type, na.rm = na.rm)),
+          c(palma = share_ratio(y_b, weights = w_b, type = type, na.rm = na.rm,
+                                prob_numerator = 0.90, prob_denominator = 0.40)),
         if ("ratio_quantiles" %in% indicators)
           setNames(
             ratio_quantiles(y_b, weights = w_b,

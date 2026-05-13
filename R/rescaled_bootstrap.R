@@ -179,9 +179,9 @@
 #'
 #' multi_estimator <- function(y, weights) {
 #'   c(
-#'     w_mean = sum(y * weights) / sum(weights),   # custom: weighted mean
-#'     qri    = qri(y, weights = weights),          # package function
-#'     qsr    = qsr(y, weights = weights)           # package function
+#'     w_mean = sum(y * weights) / sum(weights),        # custom: weighted mean
+#'     qri    = qri(y, weights = weights),               # package function
+#'     qsr    = share_ratio(y, weights = weights)        # package function
 #'   )
 #' }
 #'

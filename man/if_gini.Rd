@@ -65,12 +65,13 @@ z_weighted <- if_gini(y = eq, weights = w)
 \insertRef{langel2013variance}{inequantiles}
 }
 \seealso{
-\code{\link{if_qsr}} for the quintile share ratio influence function
-and \code{\link{if_qri}} for the quantile ratio index influence function.
+\code{\link{if_share_ratio}} for the share ratio influence function,
+\code{\link{if_qri}} for the quantile ratio index influence function.
 
 Other influence functions: 
 \code{\link{if_qri}()},
-\code{\link{if_qsr}()},
-\code{\link{if_quantile}()}
+\code{\link{if_quantile}()},
+\code{\link{if_ratio_quantiles}()},
+\code{\link{if_share_ratio}()}
 }
 \concept{influence functions}

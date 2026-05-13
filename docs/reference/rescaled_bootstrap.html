@@ -313,9 +313,9 @@ indicators and their standard errors in a single call, see <code><a href="inequa
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">multi_estimator</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>, <span class="va">weights</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    w_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">y</span> <span class="op">*</span> <span class="va">weights</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">weights</span><span class="op">)</span>,   <span class="co"># custom: weighted mean</span></span></span>
-<span class="r-in"><span>    qri    <span class="op">=</span> <span class="fu"><a href="qri.html">qri</a></span><span class="op">(</span><span class="va">y</span>, weights <span class="op">=</span> <span class="va">weights</span><span class="op">)</span>,          <span class="co"># package function</span></span></span>
-<span class="r-in"><span>    qsr    <span class="op">=</span> <span class="fu"><a href="qsr.html">qsr</a></span><span class="op">(</span><span class="va">y</span>, weights <span class="op">=</span> <span class="va">weights</span><span class="op">)</span>           <span class="co"># package function</span></span></span>
+<span class="r-in"><span>    w_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">y</span> <span class="op">*</span> <span class="va">weights</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">weights</span><span class="op">)</span>,        <span class="co"># custom: weighted mean</span></span></span>
+<span class="r-in"><span>    qri    <span class="op">=</span> <span class="fu"><a href="qri.html">qri</a></span><span class="op">(</span><span class="va">y</span>, weights <span class="op">=</span> <span class="va">weights</span><span class="op">)</span>,               <span class="co"># package function</span></span></span>
+<span class="r-in"><span>    qsr    <span class="op">=</span> <span class="fu"><a href="share_ratio.html">share_ratio</a></span><span class="op">(</span><span class="va">y</span>, weights <span class="op">=</span> <span class="va">weights</span><span class="op">)</span>        <span class="co"># package function</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
@@ -331,11 +331,11 @@ indicators and their standard errors in a single call, see <code><a href="inequa
 <span class="r-in"><span>  seed      <span class="op">=</span> <span class="fl">42</span>,</span></span>
 <span class="r-in"><span>  verbose   <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in share_ratio(y, weights = weights):</span> could not find function "share_ratio"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># One variance per indicator, all from the same replicates</span></span></span>
 <span class="r-in"><span><span class="va">boot_multi</span><span class="op">$</span><span class="va">variance</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       w_mean          qri          qsr </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.292902e+05 2.151047e-05 3.087562e-02 </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'boot_multi' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>

@@ -1,8 +1,12 @@
 CLAUDE.md
+.claude/
 
 # Ignore external data folder
 external_data/
 R/package_imports.R
+
+# Ignore notes and others
+R_discarded_functions/
 
 # Common RStudio / temporary files
 .Rhistory

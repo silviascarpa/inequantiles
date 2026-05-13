@@ -9,7 +9,7 @@ plot_inequality_curve(
   qfunction = NULL,
   qfun_args = list(),
   weights = NULL,
-  M = 200,
+  M = 100,
   type = 6,
   na.rm = TRUE,
   shade = TRUE,
@@ -165,9 +165,8 @@ distribution.
 
 Other inequality indicators based on quantiles: 
 \code{\link{inequantiles}()},
-\code{\link{palma_ratio}()},
 \code{\link{qri}()},
-\code{\link{qsr}()},
-\code{\link{ratio_quantiles}()}
+\code{\link{ratio_quantiles}()},
+\code{\link{share_ratio}()}
 }
 \concept{inequality indicators based on quantiles}

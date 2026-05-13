@@ -50,7 +50,8 @@ where:
 \item \eqn{\widehat{Q}(p)} is the weighted sample quantile of order \eqn{p},
 computed using the internal function \code{csquantile()},
 \item \eqn{\widehat{f}(\cdot)} denotes the estimated income density function,
-\item \eqn{\widehat{N} = \sum_i w_i} is the estimated population size.
+\item \eqn{\widehat{N} = \sum_i w_i} is the estimated population size, where \eqn{ w_i}
+is the sampling weight associated to the \eqn{i}-th individual.
 }
 
 The density function \eqn{\widehat{f}(y)} is estimated via a Gaussian kernel smoother:
@@ -96,7 +97,8 @@ for weighted quantile estimation.
 
 Other influence functions: 
 \code{\link{if_gini}()},
-\code{\link{if_qsr}()},
-\code{\link{if_quantile}()}
+\code{\link{if_quantile}()},
+\code{\link{if_ratio_quantiles}()},
+\code{\link{if_share_ratio}()}
 }
 \concept{influence functions}

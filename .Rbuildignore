@@ -12,3 +12,4 @@
 ^rd2pdf_log\.txt$
 ^\.Rd2pdf
 ^\.claude$
+^R_discarded_functions

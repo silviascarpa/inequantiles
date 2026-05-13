@@ -78,8 +78,8 @@ The QRI was introduced by @prendergast2018simple as a simple, effective inequali
  
 For a continuous non-negative random variable $Y$ with cumulative distribution function $F(y)$ and quantile function $Q(p) = F^{-1}(p)$, $0 \leq p \leq 1$, define the ratio between symmetric quantiles as:
 
-$$R(p) = \frac{Q(p/2)}{Q(1-p/2)}, \quad  \leq p \leq 1.$$
-$R(p)$ in a non-decreasing function between 0 and 1, which takes value 1 for any $0 \leq p \leq 1$ when income (or another economic variable with poisitive support) is equally distributed among the individuals.
+$$R(p) = \frac{Q(p/2)}{Q(1-p/2)}, \quad  0 \leq p \leq 1.$$
+$R(p)$ is a non-decreasing function between 0 and 1, which takes value 1 for any $0 \leq p \leq 1$ when income (or another economic variable with poisitive support) is equally distributed among the individuals.
 
 The QRI is then defined as:
 
@@ -184,7 +184,7 @@ kbl(df,
 
 ```
 
-They can be easily compued on survey data, as:
+They can be easily computed on survey data, as:
 ```{r}
 # Compute weighted quartiles
 csquantile(y = synthouse$eq_income,
@@ -219,7 +219,7 @@ csquantile(y = synthouse$eq_income,
            type = "HD")
 ```
 
-Differences among the quantle estimators are particularly evident in small samples and in the distribution tails, as demonstrated in the following example:
+Differences among the quantile estimators are particularly evident in small samples and in the distribution tails, as demonstrated in the following example:
 ```{r}
 # Compare different quantile types by NUTS3
 types <- c(4, 5, 6, 7, 8, 9, "HD")
@@ -293,7 +293,7 @@ $$
 
 ```{r}
 # Compute QSR
-qsr(y = synthouse$eq_income, 
+share_ratio(y = synthouse$eq_income, 
     weights = synthouse$weight, type = 4)
 ```
 
@@ -306,8 +306,11 @@ $$
 
 ```{r}
 # Compute Palma ratio
-palma_ratio(y = synthouse$eq_income, 
-            weights = synthouse$weight, type = 7)
+share_ratio(y = synthouse$eq_income, 
+            weights = synthouse$weight, 
+            type = 7,
+            prob_numerator = 0.90,
+            prob_denominator = 0.40)
 ```
 
 ### Percentile Ratios
@@ -372,6 +375,15 @@ $$
 $$
 where $\widehat{F}'(y) = \frac{1}{\widehat N}\frac{1}{h \sqrt{2 \pi}} \sum_{j \in s} w_j \operatorname{exp} \left\{-\frac{(y - y_j)^2}{2h^2} \right\}$.
 
+Following @deville1999variance and @osier2009variance, the influence function for the ratio of quantiles can be estimated as
+$$
+{I}\left(\frac{\widehat{Q}(p_n)}{\widehat{Q}(p_d)}\right)_{k} = \frac{\left(
+    \frac{p_n - \mathbf{1}(y_i \leq \widehat{Q}(p_n))}
+    {\widehat{f}(\widehat{Q}(p_n)) \, \widehat{N}}\right)\widehat{Q}(p_d)
+  -\left( \frac{p_d - \mathbf{1}(y_i \leq \widehat{Q}(p_d))}{\widehat{f}(\widehat{Q}(p_d)) \, \widehat{N}}\right)\widehat{Q}(p_n)}{
+  \widehat{Q}(p_d)^2}
+$$
+
 The QSR estimator IF, as demonstrated by  @langel2011quintile, can be computed as 
 $$
 \begin{split}
@@ -381,7 +393,7 @@ I(\widehat{QSR})_{k} &= \frac{y_k-\left\{0.8 \widehat{Q}(0.8)-\left(\widehat{Q}(
 $$
 
 
-where $\hat{Y}_{\alpha} = \sum_{j \in s} w_j y_j \mathbf{1}[y_k \leq \widehat{Q}(\alpha)]$.
+where $\hat{Y}_{\alpha} = \sum_{j \in s} w_j y_j \mathbf{1}[y_k \leq \widehat{Q}(\alpha)]$. This can be extended easily to other quantile-based share ratios, e.g. the Palma index.
 
 @scarpa2025inference demonstrated that the QRI IF can be estimated as
 $$
@@ -399,7 +411,6 @@ $$   \text{with}  \qquad
 $$
 
 ### Comparison of the influence function values
-
 
 ```{r}
 # Select a subset for clearer visualization
@@ -419,8 +430,11 @@ w_ordered <- w_subset[order_idx]
 # Compute the IF for some indicators
 if_gini_vals <- if_gini(y_ordered, w_ordered)
 if_qri_vals <- if_qri(y_ordered, w_ordered, type = 6)
-if_qsr_vals <- if_qsr(y_ordered, w_ordered, type = 4)
+if_qsr_vals <- if_share_ratio(y_ordered, w_ordered, type = 4)
+if_palma_vals <- if_share_ratio(y_ordered, w_ordered, type = 4, prob_numerator = 0.90, prob_denominator = 0.40)
 if_q50_vals <- if_quantile(y_ordered, w_ordered, probs = 0.5, type = 6)
+if_ratioquantiles_vals <- if_ratio_quantiles(y_ordered, w_ordered, prob_numerator = 0.90,
+                                             prob_denominator = 0.10, type = 6)
 
 ```
 
@@ -432,14 +446,16 @@ library(scales)
 
 # 
 plot_df <- data.frame(
-  Income = rep(y_ordered, 4),
+  Income = rep(y_ordered, 6),
   IF_Value = c(
-    if_qri_vals,   # ← Già ordinato
-    if_qsr_vals,   # ← Già ordinato
-    if_gini_vals,  # ← Già ordinato
-    if_q50_vals    # ← Già ordinato
+    if_qri_vals,   
+    if_qsr_vals,   
+    if_gini_vals,  
+    if_palma_vals,
+    if_q50_vals,
+    if_ratioquantiles_vals
   ),
-  Indicator = rep(c("QRI", "QSR", "Gini", "Median"), each = n_obs)
+  Indicator = rep(c("QRI", "QSR", "Gini", "Palma", "Median", "P90/P10"), each = n_obs)
 )
 
 ggplot(plot_df, aes(x = Income, y = IF_Value, color = Indicator)) +
@@ -472,6 +488,23 @@ We observe that
 - Shows generally increasing unbounded pattern with income
 - Less sensitive to low incomes
 
+**Median**:
+
+- Step function that admits only two values
+- Robust but ignores most of the distribution
+
+**P90/P10**:
+
+- Step function that admits only three values
+- Robust but ignores most of the distribution
+
+
+**Palma ratio**:
+
+- Sharp discontinuities at $Q(0.9)$ and $Q(0.4)$
+- Near-zero influence in the middle of distribution
+- High sensitivity to observations at boundary quantiles
+
 **QRI**:
 
 - Balanced influence across the entire distribution
@@ -479,11 +512,6 @@ We observe that
 - Upper bound as income increases
 - More robust than the other inequality indicators
 
-
-**Median**:
-
-- Step function that admits only two values
-- Robust but ignores most of the distribution
 
 **QSR**:
 

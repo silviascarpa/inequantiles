@@ -31,8 +31,9 @@ inequantiles(
 all observations are equally weighted.}
 
 \item{indicators}{Character vector specifying which indicators to compute.
-Use \code{"all"} (default) for all four, or any subset of
-\code{"qri"}, \code{"qsr"}, \code{"palma"}, \code{"ratio_quantiles"}, \code{"gini"}.}
+Use \code{"all"} (default) for all, or any subset of
+\code{"qri"}, \code{"qsr"}, \code{"palma"}, \code{"ratio_quantiles"}, \code{"gini"}.
+\code{"qsr"} and \code{"palma"} are special cases of \code{\link{share_ratio}}.}
 
 \item{se}{Logical; if \code{TRUE}, bootstrap standard errors are computed.}
 
@@ -86,10 +87,10 @@ A list with components:
 }
 \description{
 Estimates one or more quantile-based inequality indicators simultaneously —
-QRI, QSR, Palma ratio, and percentile ratio — together with the Gini
-coefficient as a widely used benchmark. When standard errors are requested,
-all indicators are evaluated on the same bootstrap replicates, ensuring
-full comparability.
+QRI, quantile-based share ratio (QSR, Palma, or custom), percentile ratio —
+together with the Gini coefficient as a widely used benchmark. When standard
+errors are requested, all indicators are evaluated on the same bootstrap
+replicates, ensuring full comparability.
 }
 \details{
 All quantile-based indicators are computed from the same specified
@@ -128,14 +129,13 @@ inequantiles(eq, weights = w,
 
 }
 \seealso{
-\code{\link{qri}}, \code{\link{qsr}}, \code{\link{palma_ratio}},
+\code{\link{qri}}, \code{\link{share_ratio}},
 \code{\link{ratio_quantiles}}, \code{\link{rescaled_bootstrap}}
 
 Other inequality indicators based on quantiles: 
-\code{\link{palma_ratio}()},
 \code{\link{plot_inequality_curve}()},
 \code{\link{qri}()},
-\code{\link{qsr}()},
-\code{\link{ratio_quantiles}()}
+\code{\link{ratio_quantiles}()},
+\code{\link{share_ratio}()}
 }
 \concept{inequality indicators based on quantiles}

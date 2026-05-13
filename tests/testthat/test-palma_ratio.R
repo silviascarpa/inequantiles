@@ -1,42 +1,55 @@
-test_that("palma_ratio returns a single numeric scalar", {
+# Tests for share_ratio() with Palma parameters (prob_numerator=0.90, prob_denominator=0.40)
+
+test_that("share_ratio (Palma) returns a single numeric scalar", {
   y <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
-  result <- palma_ratio(y)
+  result <- share_ratio(y, prob_numerator = 0.90, prob_denominator = 0.40)
   expect_type(result, "double")
   expect_length(result, 1)
 })
 
-test_that("palma_ratio is 1 for a perfectly equal distribution", {
+test_that("share_ratio (Palma) is 1 for a perfectly equal distribution", {
   y <- rep(5, 100)
-  expect_equal(palma_ratio(y), 1, tolerance = 1e-10)
+  expect_equal(share_ratio(y, prob_numerator = 0.90, prob_denominator = 0.40),
+               1, tolerance = 1e-10)
 })
 
-test_that("palma_ratio is >= 1 for a right-skewed distribution", {
+test_that("share_ratio (Palma) is >= 1 for a right-skewed distribution", {
   set.seed(20)
   y <- rlnorm(300)
-  expect_gte(palma_ratio(y), 1)
+  expect_gte(share_ratio(y, prob_numerator = 0.90, prob_denominator = 0.40), 1)
 })
 
-test_that("palma_ratio increases with greater inequality", {
+test_that("share_ratio (Palma) increases with greater inequality", {
   set.seed(6)
   y_low  <- rlnorm(500, meanlog = 0, sdlog = 0.3)
   y_high <- rlnorm(500, meanlog = 0, sdlog = 1.5)
-  expect_lt(palma_ratio(y_low), palma_ratio(y_high))
+  expect_lt(
+    share_ratio(y_low,  prob_numerator = 0.90, prob_denominator = 0.40),
+    share_ratio(y_high, prob_numerator = 0.90, prob_denominator = 0.40)
+  )
 })
 
-test_that("palma_ratio with equal weights matches unweighted result", {
+test_that("share_ratio (Palma) with equal weights matches unweighted result", {
   set.seed(7)
   y <- rlnorm(100)
   w <- rep(1, 100)
-  expect_equal(palma_ratio(y, weights = w), palma_ratio(y), tolerance = 1e-6)
+  expect_equal(
+    share_ratio(y, weights = w, prob_numerator = 0.90, prob_denominator = 0.40),
+    share_ratio(y,              prob_numerator = 0.90, prob_denominator = 0.40),
+    tolerance = 1e-6
+  )
 })
 
-test_that("palma_ratio returns NA with a warning when bottom-40% sum is zero", {
+test_that("share_ratio (Palma) returns NA with a warning when bottom-40% sum is zero", {
   y <- c(rep(0, 40), rep(10, 60))
-  expect_warning(result <- palma_ratio(y))
+  expect_warning(
+    result <- share_ratio(y, prob_numerator = 0.90, prob_denominator = 0.40)
+  )
   expect_true(is.na(result))
 })
 
-test_that("palma_ratio na.rm = TRUE handles NAs without error", {
+test_that("share_ratio (Palma) na.rm = TRUE handles NAs without error", {
   y <- c(1, NA, 3, 4, 5, 6, 7, 8, 9, 10)
-  expect_no_error(palma_ratio(y, na.rm = TRUE))
+  expect_no_error(share_ratio(y, prob_numerator = 0.90, prob_denominator = 0.40,
+                               na.rm = TRUE))
 })

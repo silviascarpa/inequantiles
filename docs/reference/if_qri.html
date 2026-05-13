@@ -114,7 +114,8 @@ $$</p>
 <p>where:</p><ul><li><p>\(\widehat{Q}(p)\) is the weighted sample quantile of order \(p\),
 computed using the internal function <code><a href="csquantile.html">csquantile()</a></code>,</p></li>
 <li><p>\(\widehat{f}(\cdot)\) denotes the estimated income density function,</p></li>
-<li><p>\(\widehat{N} = \sum_i w_i\) is the estimated population size.</p></li>
+<li><p>\(\widehat{N} = \sum_i w_i\) is the estimated population size, where \( w_i\)
+is the sampling weight associated to the \(i\)-th individual.</p></li>
 </ul><p>The density function \(\widehat{f}(y)\) is estimated via a Gaussian kernel smoother:
 $$
   \widehat{f}(y) =
@@ -149,8 +150,9 @@ where \(\mathrm{IQR}\) is the interquartile range of the weighted sample.</p>
 for weighted quantile estimation.</p>
 <p>Other influence functions:
 <code><a href="if_gini.html">if_gini</a>()</code>,
-<code><a href="if_qsr.html">if_qsr</a>()</code>,
-<code><a href="if_quantile.html">if_quantile</a>()</code></p></div>
+<code><a href="if_quantile.html">if_quantile</a>()</code>,
+<code><a href="if_ratio_quantiles.html">if_ratio_quantiles</a>()</code>,
+<code><a href="if_share_ratio.html">if_share_ratio</a>()</code></p></div>
     </div>
 
     <div class="section level2">
