@@ -378,9 +378,9 @@ where $\widehat{F}'(y) = \frac{1}{\widehat N}\frac{1}{h \sqrt{2 \pi}} \sum_{j \i
 Following @deville1999variance and @osier2009variance, the influence function for the ratio of quantiles can be estimated as
 $$
 {I}\left(\frac{\widehat{Q}(p_n)}{\widehat{Q}(p_d)}\right)_{k} = \frac{\left(
-    \frac{p_n - \mathbf{1}(y_i \leq \widehat{Q}(p_n))}
+    \frac{p_n - \mathbf{1}(y_k \leq \widehat{Q}(p_n))}
     {\widehat{f}(\widehat{Q}(p_n)) \, \widehat{N}}\right)\widehat{Q}(p_d)
-  -\left( \frac{p_d - \mathbf{1}(y_i \leq \widehat{Q}(p_d))}{\widehat{f}(\widehat{Q}(p_d)) \, \widehat{N}}\right)\widehat{Q}(p_n)}{
+  -\left( \frac{p_d - \mathbf{1}(y_k \leq \widehat{Q}(p_d))}{\widehat{f}(\widehat{Q}(p_d)) \, \widehat{N}}\right)\widehat{Q}(p_n)}{
   \widehat{Q}(p_d)^2}
 $$
 

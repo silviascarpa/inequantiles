@@ -2,7 +2,7 @@
 % Please edit documentation in R/superpop_qri.R
 \name{superpop_qri}
 \alias{superpop_qri}
-\title{Quantile Ratio Index Estimator in Superpopulation}
+\title{Quantile Ratio Index in Superpopulation}
 \usage{
 superpop_qri(qfunction, lower = 0, upper = 1, subdivisions = 1000L, ...)
 }

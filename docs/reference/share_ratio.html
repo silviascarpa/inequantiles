@@ -156,18 +156,19 @@ Palma JG (2011).
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># QSR (default: top 20% vs bottom 20%)</span></span></span>
 <span class="r-in"><span><span class="fu">share_ratio</span><span class="op">(</span>y <span class="op">=</span> <span class="va">eq</span>, weights <span class="op">=</span> <span class="va">w</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in share_ratio(y = eq, weights = w):</span> could not find function "share_ratio"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.016053</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Palma index (top 10% vs bottom 40%)</span></span></span>
 <span class="r-in"><span><span class="fu">share_ratio</span><span class="op">(</span>y <span class="op">=</span> <span class="va">eq</span>, weights <span class="op">=</span> <span class="va">w</span>, prob_numerator <span class="op">=</span> <span class="fl">0.90</span>, prob_denominator <span class="op">=</span> <span class="fl">0.40</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in share_ratio(y = eq, weights = w, prob_numerator = 0.9, prob_denominator = 0.4):</span> could not find function "share_ratio"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.578739</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compare across macro-regions (NUTS1)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">synthouse</span><span class="op">)</span>, <span class="va">synthouse</span><span class="op">$</span><span class="va">NUTS1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">idx</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu">share_ratio</span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span>              weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in share_ratio(y = synthouse$eq_income[idx], weights = synthouse$weight[idx]):</span> could not find function "share_ratio"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        C        N       NE       NO        S </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7.329234 6.892276 7.127548 7.746556 6.530128 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

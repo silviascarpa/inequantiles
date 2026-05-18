@@ -1,9 +1,10 @@
 bibentry(
   bibtype = "Manual",
   key = "inequantiles",
-  title = "inequantiles: Tools for Inequality Quantiles",
-   author = person("Silvia", "Scarpa"),
+  title = "Quantile-Based Inequality Measures for Survey Data",
+  author = c(person("Silvia", "Scarpa"),
+             person("Stefan", "Sperlich")),
   year = "2026",
-  note = paste("R package version", packageVersion("inequantiles")),
+  note = paste("R package version", meta$Version),
   url = "https://github.com/silviascarpa/inequantiles"
 )

@@ -65,7 +65,7 @@
                         <h4 data-toc-skip class="author">Silvia
 Scarpa</h4>
             
-            <h4 data-toc-skip class="date">2026-04-30</h4>
+            <h4 data-toc-skip class="date">2026-05-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/silviascarpa/inequantiles/blob/HEAD/vignettes/inequantiles-intro.Rmd" class="external-link"><code>vignettes/inequantiles-intro.Rmd</code></a></small>
       <div class="d-none name"><code>inequantiles-intro.Rmd</code></div>
@@ -176,10 +176,10 @@ percentiles</li>
 <p>For a continuous non-negative random variable <span class="math inline">\(Y\)</span> with cumulative distribution function
 <span class="math inline">\(F(y)\)</span> and quantile function <span class="math inline">\(Q(p) = F^{-1}(p)\)</span>, <span class="math inline">\(0 \leq p \leq 1\)</span>, define the ratio between
 symmetric quantiles as:</p>
-<p><span class="math display">\[R(p) = \frac{Q(p/2)}{Q(1-p/2)},
-\quad  \leq p \leq 1.\]</span> <span class="math inline">\(R(p)\)</span>
-in a non-decreasing function between 0 and 1, which takes value 1 for
-any <span class="math inline">\(0 \leq p \leq 1\)</span> when income (or
+<p><span class="math display">\[R(p) = \frac{Q(p/2)}{Q(1-p/2)}, \quad  0
+\leq p \leq 1.\]</span> <span class="math inline">\(R(p)\)</span> is a
+non-decreasing function between 0 and 1, which takes value 1 for any
+<span class="math inline">\(0 \leq p \leq 1\)</span> when income (or
 another economic variable with poisitive support) is equally distributed
 among the individuals.</p>
 <p>The QRI is then defined as:</p>
@@ -377,7 +377,7 @@ W_{k} - \frac{w_{k}}{2}\)</span>
 </tr>
 </tbody>
 </table>
-<p>They can be easily compued on survey data, as:</p>
+<p>They can be easily computed on survey data, as:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute weighted quartiles</span></span>
 <span><span class="fu"><a href="../reference/csquantile.html">csquantile</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>,</span>
@@ -415,7 +415,7 @@ W_n - (W_n+ w_n)p + w_n\} \\
 <span>           type <span class="op">=</span> <span class="st">"HD"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      50% </span></span>
 <span><span class="co">#&gt; 20017.37</span></span></code></pre></div>
-<p>Differences among the quantle estimators are particularly evident in
+<p>Differences among the quantile estimators are particularly evident in
 small samples and in the distribution tails, as demonstrated in the
 following example:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -511,7 +511,7 @@ Its estimator is defined as</p>
 \]</span></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute QSR</span></span>
-<span><span class="fu"><a href="../reference/qsr.html">qsr</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, </span>
+<span><span class="fu"><a href="../reference/share_ratio.html">share_ratio</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, </span>
 <span>    weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, type <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 7.023932</span></span></code></pre></div>
 </div>
@@ -526,8 +526,11 @@ y_j \leq \widehat{Q}(0.4)\right\} } \ .
 \]</span></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute Palma ratio</span></span>
-<span><span class="fu"><a href="../reference/palma_ratio.html">palma_ratio</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, </span>
-<span>            weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, type <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/share_ratio.html">share_ratio</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">eq_income</span>, </span>
+<span>            weights <span class="op">=</span> <span class="va">synthouse</span><span class="op">$</span><span class="va">weight</span>, </span>
+<span>            type <span class="op">=</span> <span class="fl">7</span>,</span>
+<span>            prob_numerator <span class="op">=</span> <span class="fl">0.90</span>,</span>
+<span>            prob_denominator <span class="op">=</span> <span class="fl">0.40</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.578482</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -578,7 +581,8 @@ and interquantiles ratio.</p>
 <span><span class="co">#&gt; qri      0.5691</span></span>
 <span><span class="co">#&gt; qsr      7.0161</span></span>
 <span><span class="co">#&gt; palma    1.5787</span></span>
-<span><span class="co">#&gt; p90p10   5.9206</span></span></code></pre></div>
+<span><span class="co">#&gt; p90p10   5.9206</span></span>
+<span><span class="co">#&gt; gini     0.3715</span></span></code></pre></div>
 <p>Standard errors can be obtained via the rescaled bootstrap by setting
 <code>se = TRUE</code>. Note that this requires specifying the survey
 design variables (<code>strata</code>, and optionally <code>psu</code>
@@ -612,6 +616,18 @@ function estimation for some measures.</p>
 \frac{1}{\widehat N}\frac{1}{h \sqrt{2 \pi}} \sum_{j \in s} w_j
 \operatorname{exp} \left\{-\frac{(y - y_j)^2}{2h^2}
 \right\}\)</span>.</p>
+<p>Following <span class="citation">Deville (<a href="#ref-deville1999variance">1999</a>)</span> and <span class="citation">Osier (<a href="#ref-osier2009variance">2009</a>)</span>, the influence function
+for the ratio of quantiles can be estimated as <span class="math display">\[
+{I}\left(\frac{\widehat{Q}(p_n)}{\widehat{Q}(p_d)}\right)_{k} =
+\frac{\left(
+    \frac{p_n - \mathbf{1}(y_i \leq \widehat{Q}(p_n))}
+    {\widehat{f}(\widehat{Q}(p_n)) \,
+\widehat{N}}\right)\widehat{Q}(p_d)
+  -\left( \frac{p_d - \mathbf{1}(y_i \leq
+\widehat{Q}(p_d))}{\widehat{f}(\widehat{Q}(p_d)) \,
+\widehat{N}}\right)\widehat{Q}(p_n)}{
+  \widehat{Q}(p_d)^2}
+\]</span></p>
 <p>The QSR estimator IF, as demonstrated by <span class="citation">Langel and Tillé (<a href="#ref-langel2011quintile">2011</a>)</span>, can be computed as
 <span class="math display">\[
 \begin{split}
@@ -624,7 +640,9 @@ I(\widehat{QSR})_{k} &amp;= \frac{y_k-\left\{0.8
 \end{split}
 \]</span></p>
 <p>where <span class="math inline">\(\hat{Y}_{\alpha} = \sum_{j \in s}
-w_j y_j \mathbf{1}[y_k \leq \widehat{Q}(\alpha)]\)</span>.</p>
+w_j y_j \mathbf{1}[y_k \leq \widehat{Q}(\alpha)]\)</span>. This can be
+extended easily to other quantile-based share ratios, e.g. the Palma
+index.</p>
 <p><span class="citation">Scarpa, Ferrante, and Sperlich (<a href="#ref-scarpa2025inference">2025</a>)</span> demonstrated that the
 QRI IF can be estimated as <span class="math display">\[
 \begin{split}
@@ -666,8 +684,11 @@ y_k-\hat{G}\left(\hat{Y}+y_k \hat{N}\right)\right\}
 <span><span class="co"># Compute the IF for some indicators</span></span>
 <span><span class="va">if_gini_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_gini.html">if_gini</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span><span class="op">)</span></span>
 <span><span class="va">if_qri_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_qri.html">if_qri</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span>, type <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
-<span><span class="va">if_qsr_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_qsr.html">if_qsr</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span>, type <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">if_q50_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_quantile.html">if_quantile</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span>, probs <span class="op">=</span> <span class="fl">0.5</span>, type <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">if_qsr_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_share_ratio.html">if_share_ratio</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span>, type <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">if_palma_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_share_ratio.html">if_share_ratio</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span>, type <span class="op">=</span> <span class="fl">4</span>, prob_numerator <span class="op">=</span> <span class="fl">0.90</span>, prob_denominator <span class="op">=</span> <span class="fl">0.40</span><span class="op">)</span></span>
+<span><span class="va">if_q50_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_quantile.html">if_quantile</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span>, probs <span class="op">=</span> <span class="fl">0.5</span>, type <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">if_ratioquantiles_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/if_ratio_quantiles.html">if_ratio_quantiles</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="va">w_ordered</span>, prob_numerator <span class="op">=</span> <span class="fl">0.90</span>,</span>
+<span>                                             prob_denominator <span class="op">=</span> <span class="fl">0.10</span>, type <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create the plot</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -677,14 +698,16 @@ y_k-\hat{G}\left(\hat{Y}+y_k \hat{N}\right)\right\}
 <span></span>
 <span><span class="co"># </span></span>
 <span><span class="va">plot_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  Income <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="fl">4</span><span class="op">)</span>,</span>
+<span>  Income <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">y_ordered</span>, <span class="fl">6</span><span class="op">)</span>,</span>
 <span>  IF_Value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="va">if_qri_vals</span>,   <span class="co"># ← Già ordinato</span></span>
-<span>    <span class="va">if_qsr_vals</span>,   <span class="co"># ← Già ordinato</span></span>
-<span>    <span class="va">if_gini_vals</span>,  <span class="co"># ← Già ordinato</span></span>
-<span>    <span class="va">if_q50_vals</span>    <span class="co"># ← Già ordinato</span></span>
+<span>    <span class="va">if_qri_vals</span>,   </span>
+<span>    <span class="va">if_qsr_vals</span>,   </span>
+<span>    <span class="va">if_gini_vals</span>,  </span>
+<span>    <span class="va">if_palma_vals</span>,</span>
+<span>    <span class="va">if_q50_vals</span>,</span>
+<span>    <span class="va">if_ratioquantiles_vals</span></span>
 <span>  <span class="op">)</span>,</span>
-<span>  Indicator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QRI"</span>, <span class="st">"QSR"</span>, <span class="st">"Gini"</span>, <span class="st">"Median"</span><span class="op">)</span>, each <span class="op">=</span> <span class="va">n_obs</span><span class="op">)</span></span>
+<span>  Indicator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QRI"</span>, <span class="st">"QSR"</span>, <span class="st">"Gini"</span>, <span class="st">"Palma"</span>, <span class="st">"Median"</span>, <span class="st">"P90/P10"</span><span class="op">)</span>, each <span class="op">=</span> <span class="va">n_obs</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">plot_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Income</span>, y <span class="op">=</span> <span class="va">IF_Value</span>, color <span class="op">=</span> <span class="va">Indicator</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -713,17 +736,30 @@ y_k-\hat{G}\left(\hat{Y}+y_k \hat{N}\right)\right\}
 <li>Shows generally increasing unbounded pattern with income</li>
 <li>Less sensitive to low incomes</li>
 </ul>
+<p><strong>Median</strong>:</p>
+<ul>
+<li>Step function that admits only two values</li>
+<li>Robust but ignores most of the distribution</li>
+</ul>
+<p><strong>P90/P10</strong>:</p>
+<ul>
+<li>Step function that admits only three values</li>
+<li>Robust but ignores most of the distribution</li>
+</ul>
+<p><strong>Palma ratio</strong>:</p>
+<ul>
+<li>Sharp discontinuities at <span class="math inline">\(Q(0.9)\)</span>
+and <span class="math inline">\(Q(0.4)\)</span>
+</li>
+<li>Near-zero influence in the middle of distribution</li>
+<li>High sensitivity to observations at boundary quantiles</li>
+</ul>
 <p><strong>QRI</strong>:</p>
 <ul>
 <li>Balanced influence across the entire distribution</li>
 <li>Jump around the median</li>
 <li>Upper bound as income increases</li>
 <li>More robust than the other inequality indicators</li>
-</ul>
-<p><strong>Median</strong>:</p>
-<ul>
-<li>Step function that admits only two values</li>
-<li>Robust but ignores most of the distribution</li>
 </ul>
 <p><strong>QSR</strong>:</p>
 <ul>
@@ -897,6 +933,11 @@ cumulative shares, as:</p>
 <span><span class="co">#&gt; [45] ragg_1.5.0         rmarkdown_2.30     pkgconfig_2.0.3    tools_4.4.1       </span></span>
 <span><span class="co">#&gt; [49] htmltools_0.5.9</span></span></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-deville1999variance" class="csl-entry">
+Deville, Jean-Claude. 1999. <span>“Variance Estimation for Complex
+Statistics and Estimators: Linearization and Residual
+Techniques.”</span> <em>Survey Methodology</em> 25: 193–204.
+</div>
 <div id="ref-hyndman1996sample" class="csl-entry">
 Hyndman, Rob J., and Yanan Fan. 1996. <span>“Sample Quantiles in
 Statistical Packages.”</span> <em>The American Statistician</em> 50:
