@@ -8,3 +8,4 @@
 * Influence functions for linearization of indicators (`*if_` functions)
 * Rescaled bootstrap for complex survey designs (`rescaled_bootstrap()`).
 * Functions and indicators for grouped data (quantiles, QRI, Gini - `*_grouped()` functions)
+* Survey synthetic data (`synthouse`)
