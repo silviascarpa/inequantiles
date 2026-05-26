@@ -19,8 +19,8 @@ if_share_ratio(
 \item{weights}{A numeric vector of sampling weights. If \code{NULL},
 all observations are equally weighted.}
 
-\item{type}{Quantile estimation type: integer 4--9 or \code{"HD"} for
-Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.}
+\item{type}{Quantile estimation type: integer \code{4}--\code{9} or
+\code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.}
 
 \item{prob_numerator}{Numeric in \eqn{(0,1)}; quantile order for the
 numerator (default: \code{0.80}).}
@@ -48,21 +48,21 @@ Define \eqn{p_n} and \eqn{p_d} as the quantile orders for the numerator
 and denominator, respectively. The linearized variable is:
 
 \deqn{
-  \widehat{z}_k =
-  \frac{y_k - \widehat{I}(\widehat{Y}_{p_n})_k}{\widehat{Y}_{p_d}}
+  {I}(\widehat{QBSR})_{k} =
+  \frac{y_k - {I}(\widehat{Y}_{p_n})_k}{\widehat{Y}_{p_d}}
   -
   \frac{(\widehat{Y} - \widehat{Y}_{p_n})\,
-        \widehat{I}(\widehat{Y}_{p_d})_k}{\widehat{Y}_{p_d}^2}
+        {I}(\widehat{Y}_{p_d})_k}{\widehat{Y}_{p_d}^2}
 }
 
 where the influence function of the partial total
-\eqn{\widehat{Y}_p = \sum_{j \in s} w_j y_j \mathbf{1}[y_j \leq \widehat{Q}(p)]}
+\eqn{\widehat{Y}_p = \sum_{j \in s} w_j y_j \mathbf{1}(y_j \leq \widehat{Q}(p))}
 is:
 
 \deqn{
-  \widehat{I}(\widehat{Y}_p)_k =
+  {I}(\widehat{Y}_p)_k =
   p\,\widehat{Q}(p) - \bigl(\widehat{Q}(p) - y_k\bigr)
-  \mathbf{1}\bigl[y_k \leq \widehat{Q}(p)\bigr]
+  \mathbf{1}(y_k \leq \widehat{Q}(p))
 }
 
 and \eqn{\widehat{Y} = \sum_{j \in s} w_j y_j} is the estimated total.

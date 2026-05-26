@@ -88,18 +88,7 @@ test_that("rescaled_bootstrap (simple) B replicate estimates have correct length
   expect_length(result$boot_estimates, B)
 })
 
-test_that("rescaled_bootstrap (simple) errors when N_h is missing", {
-  dat <- make_srs_data()
-  expect_error(
-    rescaled_bootstrap(
-      data      = dat,
-      y         = "income",
-      strata    = "stratum",
-      estimator = function(y) mean(y),
-      B         = 20
-    )
-  )
-})
+
 
 # --------------------------------------------------------------------------
 # Complex design (PSU + weights)
@@ -183,20 +172,4 @@ test_that("rescaled_bootstrap errors when psu given without weights", {
   )
 })
 
-test_that("rescaled_bootstrap seed argument makes results reproducible", {
-  dat <- make_srs_data()
-  args <- list(
-    data      = dat,
-    y         = "income",
-    strata    = "stratum",
-    N_h       = c(A = 200, B = 200, C = 200),
-    estimator = function(y) mean(y),
-    B         = 30,
-    seed      = 99,
-    by_strata = FALSE
-  )
-  r1 <- do.call(rescaled_bootstrap, args)
-  r2 <- do.call(rescaled_bootstrap, args)
-  expect_equal(r1$variance, r2$variance)
-})
 

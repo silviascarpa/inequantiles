@@ -10,9 +10,9 @@
 ## Features
 
 - **Quantile ratio index (QRI)**: estimation from survey data, parametric distributions, and grouped data
-- **Traditional indicators**: quintile share ratio (QSR), Palma ratio, percentile ratios (e.g., P90/P10)
+- **Traditional quantile-based inequality indicators**: quantile-based share ratios (e.g., quintile share ratio and Palma index), percentile ratios (e.g., P90/P10)
 - **Weighted quantile estimation**: multiple interpolation rules (types 4–9 and Harrell-Davis) for complex survey data
-- **Influence functions**: linearization-based techniques for QRI, QSR, Gini and quantiles
+- **Influence functions**: linearization-based techniques for QRI, quantiles, quantile-based share ratios, percentile ratios and Gini
 - **Grouped data**: quantiles, QRI and Gini from frequency tables (e.g., fiscal/administrative data)
 - **Variance estimation**: rescaled bootstrap for complex sampling designs
 
@@ -83,8 +83,9 @@ if_qri(y       = synthouse$eq_income,
        weights = synthouse$weight)
 
 # Influence function for the QSR
-if_qsr(y       = synthouse$eq_income,
-       weights = synthouse$weight)
+if_share_ratio(y       = synthouse$eq_income,
+       weights = synthouse$weight,
+       prob_numerator = 0.80, prob_denominator = 0.20)
 
 # Influence function for the Gini coefficient
 if_gini(y       = synthouse$eq_income,
@@ -94,6 +95,12 @@ if_gini(y       = synthouse$eq_income,
 if_quantile(y       = synthouse$eq_income,
             weights = synthouse$weight,
             probs   = 0.5)
+            
+# Influence function for P90/P10
+if_ratio_quantiles(y       = synthouse$eq_income,
+       weights = synthouse$weight,
+       prob_numerator = 0.90, prob_denominator = 0.10
+       )
 ```
 
 
@@ -124,7 +131,7 @@ gini_grouped(Y = income_tot, freq = income_freq)
 
 If you use **inequantiles** in your research, please cite:
 
-> Scarpa, S. (2025). *inequantiles: Quantile-Based Inequality Measures for Survey Data*. R package. https://github.com/silviascarpa/inequantiles
+> Scarpa, S. and Sperlich S. (2025). *inequantiles: Quantile-Based Inequality Measures for Survey Data*. R package. https://github.com/silviascarpa/inequantiles
 
 ## Getting Help
 

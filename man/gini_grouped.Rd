@@ -7,12 +7,10 @@
 gini_grouped(Y, freq)
 }
 \arguments{
-\item{Y}{Numeric vector of total amounts per group.
-Each element represents the sum of the variable of interest (e.g. income, wealth,
-consumption) for all individuals or units in that group.}
+\item{Y}{Numeric vector of total amounts per group
+(e.g., total income per income class)}
 
-\item{freq}{Numeric vector of frequencies (number of individuals or units) per group.
-Must have the same length as \code{Y}.}
+\item{freq}{Numeric vector of frequencies per group or class.}
 }
 \value{
 A numeric value representing the estimated Gini coefficient on grouped data.
@@ -24,8 +22,8 @@ Computes the Gini coefficient from grouped income data based on linear
 interpolation of income shares.
 }
 \details{
-Consider grouped data divided into \eqn{L} classes with known boundaries,
-observed frequencies \eqn{f_1, \ldots, f_L} and total amounts \eqn{Y_1, \ldots, Y_J}.
+Consider grouped data divided into \eqn{J} classes with known boundaries,
+observed frequencies \eqn{f_1, \ldots, f_J} and total amounts \eqn{Y_1, \ldots, Y_J}.
 The Gini coefficient is approximated by linear interpolation of cumulative shares, as:
 
 \deqn{G \approx 1 - \sum_{j=1}^{J} (s_j + s_{j-1})(u_j - u_{j-1})}
@@ -42,17 +40,8 @@ where:
 This formula computes twice the area between the egalitarian line (perfect equality)
 and the Lorenz curve obtained by linearly interpolating the points \eqn{(u_j, s_j)}.
 Since it assumes all observations within a group have identical values, it provides
-a \emph{lower-bound} estimate of the true Gini coefficient -- actual inequality may be larger
-\insertCite{jorda2021inequality}{inequantiles}.
-}
-\note{
-\strong{Important limitations:}
-\itemize{
-\item This is a \strong{lower bound} approximation. The true Gini coefficient
-may be higher due to within-group inequality.
-\item The bias magnitude depends on the number of groups and how they are defined.
-\item Groups should ideally be defined to maximize within-group homogeneity.
-}
+a \emph{lower-bound} estimate of the true Gini coefficient, actual inequality may be larger
+\insertCite{jorda2021inequality}{inequantiles}. The bias magnitude depends on the number of groups and how they are defined.
 }
 \examples{
 income_freq <- c(1200, 1800, 1500, 800, 400, 20, 10)

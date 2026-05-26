@@ -1,20 +1,20 @@
-#' Quantile Ratio Rndex Estimator for Grouped (Binned) Data
+#' Quantile Ratio Index Estimator for Grouped Data
 #'
 #' Computes the quantile ratio index (QRI) for measuring inequality from
 #' grouped frequency data using linear interpolation for quantile estimation.
 #' This function is intended to be used for administrative or tax data, which are
-#' very often in the form of grouped (binned) data. Therefore, sampling weights are
+#' very often in the form of grouped data. Therefore, sampling weights are
 #' not considered.
 #'
 #' @param freq Numeric vector of class frequencies (counts). Must be non-negative.
 #' @param lower_bounds Numeric vector of lower class bounds.
 #' @param upper_bounds Numeric vector of upper class bounds.
-#' @param M Integer, number of quantile ratios to average (default: 100).
+#' @param M Integer; number of quantile ratios to average (default: 100).
 #' @param midpoints Optional numeric vector of class midpoints. Used only as
 #'   fallback when a quantile class has zero frequency.
-#' @param na.rm Logical, should missing values in frequencies be removed? (default: TRUE)
+#' @param na.rm Logical; should missing values in frequencies be removed? (default: TRUE)
 #'
-#' @return A scalar numeric value representing the estimated inequality by the
+#' @returns A scalar numeric value representing the estimated inequality by the
 #'   quantile ratio index (QRI) for grouped data.
 #'
 #' @details

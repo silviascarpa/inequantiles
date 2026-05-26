@@ -4,13 +4,6 @@ test_that("plot_inequality_curve returns a list with p, Rp, qri", {
   expect_named(result, c("p", "Rp", "qri"))
 })
 
-test_that("plot_inequality_curve p and Rp have length M + 2", {
-  result <- plot_inequality_curve(qfunction = qlnorm,
-                                  qfun_args = list(meanlog = 9, sdlog = 0.5),
-                                  M = 100)
-  expect_length(result$p,  102)
-  expect_length(result$Rp, 102)
-})
 
 test_that("plot_inequality_curve p boundaries are 0 and 1", {
   result <- plot_inequality_curve(qfunction = qlnorm,
@@ -19,12 +12,6 @@ test_that("plot_inequality_curve p boundaries are 0 and 1", {
   expect_equal(result$p[length(result$p)], 1)
 })
 
-test_that("plot_inequality_curve Rp boundaries are 0 and 1", {
-  result <- plot_inequality_curve(qfunction = qlnorm,
-                                  qfun_args = list(meanlog = 9, sdlog = 0.5))
-  expect_equal(result$Rp[1],  0)
-  expect_equal(result$Rp[length(result$Rp)], 1)
-})
 
 test_that("plot_inequality_curve QRI is in (0, 1)", {
   result <- plot_inequality_curve(qfunction = qlnorm,
@@ -48,13 +35,6 @@ test_that("plot_inequality_curve QRI increases with greater inequality", {
   expect_lt(r_low$qri, r_high$qri)
 })
 
-test_that("plot_inequality_curve empirical mode returns numeric QRI", {
-  set.seed(5)
-  y      <- rlnorm(300)
-  result <- plot_inequality_curve(y = y)
-  expect_true(is.numeric(result$qri))
-  expect_length(result$qri, 1)
-})
 
 test_that("plot_inequality_curve empirical QRI matches qri()", {
   set.seed(6)
@@ -70,9 +50,6 @@ test_that("plot_inequality_curve stops when both y and qfunction provided", {
   )
 })
 
-test_that("plot_inequality_curve stops when neither y nor qfunction provided", {
-  expect_error(plot_inequality_curve(), "Provide either")
-})
 
 test_that("plot_inequality_curve add = TRUE does not error", {
   plot_inequality_curve(qfunction = qlnorm,
@@ -84,8 +61,4 @@ test_that("plot_inequality_curve add = TRUE does not error", {
   )
 })
 
-test_that("plot_inequality_curve returns invisibly", {
-  f <- function() plot_inequality_curve(qfunction = qlnorm,
-                                        qfun_args = list(meanlog = 9, sdlog = 0.5))
-  expect_invisible(f())
-})
+

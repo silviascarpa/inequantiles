@@ -10,23 +10,24 @@
 #' @param y A numeric vector of data values
 #' @param weights A numeric vector of sampling weights (optional)
 #' @param probs A numeric value specifying the probability for the quantile (e.g., 0.5 for median)
-#' @param type Quantile estimation type: integer 4-9 or "HD" for Harrell-Davis (default: 6)
+#' @param type Quantile estimation type: integer \code{4}--\code{9} or
+#'   \code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.
 #' @param na.rm Logical, should missing values be removed? (default: TRUE)
 #'
-#' @return A numeric vector containing the estimtaed quantile influence function values for each observation.
+#' @returns A numeric vector containing the estimated influence function values for each observation.
 #'
 #' @details
-#' From the definiton in \insertCite{van2000asymptotic;textual}{inequantiles} and \insertCite{osier2009variance}{inequantiles},
+#' From the definition in \insertCite{van2000asymptotic;textual}{inequantiles} and \insertCite{osier2009variance}{inequantiles},
 #' the population influence function of the quantile \eqn{Q(p)} is defined as:
 #'
-#' \deqn{IF(Q(p))_i = \frac{p - \mathbf{1}(y_i \leq Q(p))}{f(Q(p)) \, N},}
+#' \deqn{IF(Q(p))_k = \frac{p - \mathbf{1}(y_k \leq Q(p))}{f(Q(p)) \, N},}
 #'
 #' where \eqn{f(Q(p))} is the population density function evaluated at the quantile and
 #'    \eqn{N} is the population size.
 #'
 #' In the sample, this is estimated as:
 #'
-#' \deqn{\widehat{IF}(Q(p))_i = \frac{p - \mathbf{1}(y_i \leq \widehat{Q}(p))}{\widehat{f}(\widehat{Q}(p)) \, \widehat{N}},}
+#' \deqn{\widehat{IF}(Q(p))_k = \frac{p - \mathbf{1}(y_k \leq \widehat{Q}(p))}{\widehat{f}(\widehat{Q}(p)) \, \widehat{N}},}
 #'
 #' where \eqn{\widehat{Q}(p)} is the weighted sample quantile estimated by
 #' \code{csquantile()}, and \eqn{\widehat{N} = \sum_{i \in s} w_i} is the estimated population size.
@@ -49,7 +50,7 @@
 #'
 #' # On real data
 #' data(synthouse)
-#' eq <- synthouse$eq_income[1:30] ## Take some observations (as example)
+#' eq <- synthouse$eq_income[1:30] # First 30 observations
 #' w <- synthouse$weight[1:30]
 #' IF_quantile <- if_quantile(y = eq, weights = w, type = 6, probs = 0.5)
 #'

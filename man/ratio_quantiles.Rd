@@ -10,20 +10,21 @@ ratio_quantiles(
   prob_numerator = 0.9,
   prob_denominator = 0.1,
   type = 6,
-  na.rm = FALSE
+  na.rm = TRUE
 )
 }
 \arguments{
 \item{y}{A numeric vector of data values}
 
-\item{weights}{A numeric vector of sampling weights (optional)}
+\item{weights}{A numeric vector of sampling weights (optional). If \code{NULL},
+all observations are equally weighted.}
 
 \item{prob_numerator}{The percentile to be considered at the numerator (default \code{0.90})}
 
-\item{prob_denominator}{The percentile to be considered at the denominator (default \code{0.10}}
+\item{prob_denominator}{The percentile to be considered at the denominator (default \code{0.10})}
 
-\item{type}{Quantile estimation type: integer 4-9 or HD for Harrell-Davis (default: 6).
-See \code{csquantile} documentation for a complete description.}
+\item{type}{Quantile estimation type: integer \code{4}--\code{9} or
+\code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.}
 
 \item{na.rm}{Logical, should missing values be removed? (default: TRUE)}
 }
@@ -37,11 +38,11 @@ Estimates ratio of quantiles (e.g., P90/P10) on simple and complex sampling data
 Consider a random sample \eqn{s} of size \eqn{n}, and let \eqn{w_j}, \eqn{j \in s}, define
 the sampling weight and \eqn{y_j} be the observed characteristics (i.e. income)
 associated to the \eqn{j}-th individual, \eqn{j = 1, \ldots, n}.
-Let \eqn{p_{top}} be the order of the quantile at the numerator and
-\eqn{p_{bottom}} be the order of the quantile at the denominator. For example, set \eqn{p_{top} = 0.90} and
-\eqn{p_{bottom} = 0.10}. Then the popular P90/P10 ratio can be estimated by
+Let \eqn{p_{n}} be the order of the quantile at the numerator and
+\eqn{p_{d}} be the order of the quantile at the denominator. For example, set \eqn{p_{n} = 0.90} and
+\eqn{p_{d} = 0.10}. Then the popular P90/P10 ratio can be estimated by
 
-\deqn{\widehat{{P}90/{P}10} = \frac{\widehat{Q}(p=0.9)}{\widehat{Q}(p=0.1)}  }
+\deqn{\widehat{{P}90/{P}10} = \frac{\widehat{Q}(p_n=0.9)}{\widehat{Q}(p_d=0.1)}  }
 
 where the estimated quantiles \eqn{\widehat{Q}(p)} are computed via the function
 \code{csquantile()}, which accounts for sampling weights and the specified
@@ -51,7 +52,7 @@ quantile type.
 
 data(synthouse)
 
-eq <- synthouse$eq_income ### Income data
+eq <- synthouse$eq_income # Income data
 
 # Compute unweighted P90/P10 with default type 6 quantile estimator
 ratio_quantiles(y = eq)
@@ -73,6 +74,7 @@ Other inequality indicators based on quantiles:
 \code{\link{inequantiles}()},
 \code{\link{plot_inequality_curve}()},
 \code{\link{qri}()},
-\code{\link{share_ratio}()}
+\code{\link{share_ratio}()},
+\code{\link{superpop_qri}()}
 }
 \concept{inequality indicators based on quantiles}

@@ -19,8 +19,8 @@ if_ratio_quantiles(
 \item{weights}{A numeric vector of sampling weights (optional). If \code{NULL},
 equal weights are assumed.}
 
-\item{type}{Quantile estimation type: integer 4--9 or \code{"HD"} for
-Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.}
+\item{type}{Quantile estimation type: integer \code{4}--\code{9} or
+\code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.}
 
 \item{prob_numerator}{Numeric in \eqn{(0,1)}; order of the quantile at the
 numerator (default: \code{0.90}).}
@@ -46,16 +46,16 @@ is derived via the delta method applied to the quantile influence function of
 \insertCite{deville1999variance;textual}{inequantiles}:
 
 \deqn{
-  \widehat{z}_i =
+  {I}\left(\frac{\widehat{Q}(p_n)}{\widehat{Q}(p_d)}\right)_{k} =
   \frac{
     \left(
-      \frac{p_n - \mathbf{1}(y_i \leq \widehat{Q}(p_n))}
+      \frac{p_n - \mathbf{1}(y_k \leq \widehat{Q}(p_n))}
       {\widehat{f}(\widehat{Q}(p_n)) \, \widehat{N}}
     \right)
     \widehat{Q}(p_d)
     -
     \left(
-      \frac{p_d - \mathbf{1}(y_i \leq \widehat{Q}(p_d))}
+      \frac{p_d - \mathbf{1}(y_k \leq \widehat{Q}(p_d))}
       {\widehat{f}(\widehat{Q}(p_d)) \, \widehat{N}}
     \right)
     \widehat{Q}(p_n)
@@ -102,8 +102,7 @@ IF_vals <- if_ratio_quantiles(y = eq, weights = w, type = 6)
 \insertRef{osier2009variance}{inequantiles}
 }
 \seealso{
-\code{\link{ratio_quantiles}}, \code{\link{if_quantile}},
-\code{\link{csquantile}}
+\code{\link{ratio_quantiles}}, \code{\link{csquantile}}
 
 Other influence functions: 
 \code{\link{if_gini}()},

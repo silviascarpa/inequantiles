@@ -2,6 +2,7 @@
 % Please edit documentation in R/inequantiles.R
 \name{inequantiles}
 \alias{inequantiles}
+\alias{print.inequantiles}
 \title{Quantile-based inequality indicators}
 \usage{
 inequantiles(
@@ -12,8 +13,6 @@ inequantiles(
   type = 6,
   na.rm = TRUE,
   M = 100,
-  prob_num = 0.9,
-  prob_den = 0.1,
   B = 200,
   seed = NULL,
   data = NULL,
@@ -23,6 +22,8 @@ inequantiles(
   m_h = NULL,
   verbose = TRUE
 )
+
+\method{print}{inequantiles}(x, digits = 4, ...)
 }
 \arguments{
 \item{y}{A numeric vector of strictly positive values (e.g. income, wealth, expenditure).}
@@ -33,26 +34,20 @@ all observations are equally weighted.}
 \item{indicators}{Character vector specifying which indicators to compute.
 Use \code{"all"} (default) for all, or any subset of
 \code{"qri"}, \code{"qsr"}, \code{"palma"}, \code{"ratio_quantiles"}, \code{"gini"}.
-\code{"qsr"} and \code{"palma"} are special cases of \code{\link{share_ratio}}.}
+\code{"qsr"} (quintile share ratio) and \code{"palma"} (Palma index) are special cases of \code{\link{share_ratio}}.
+\code{"ratio_quantiles"} computes the P90/P10.}
 
-\item{se}{Logical; if \code{TRUE}, bootstrap standard errors are computed.}
+\item{se}{Logical; if \code{TRUE}, standard errors are estimated via the
+rescaled bootstrap; see \code{\link{rescaled_bootstrap}}. Requires \code{data} and \code{strata} (see below).}
 
-\item{type}{Quantile estimation type (integer 4--9 or \code{"HD"} for
-Harrell-Davis). Default: \code{6}. See \code{\link{csquantile}}.}
+\item{type}{Quantile estimation type: integer \code{4}--\code{9} or
+\code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.}
 
 \item{na.rm}{Logical; remove missing values before computing? Default:
 \code{TRUE}.}
 
 \item{M}{Integer; number of quantile-ratio grid points for the QRI
 (default: \code{100}). Only used when the QRI is estimated; see \code{\link{qri}}.}
-
-\item{prob_num}{Numeric in \eqn{(0,1)}; numerator quantile for the
-percentile ratio (default: \code{0.90}). Only used when percentiles ratio is estimated;
-see \code{\link{ratio_quantiles}}.}
-
-\item{prob_den}{Numeric in \eqn{(0,1)}; denominator quantile for the
-percentile ratio (default: \code{0.10}). Only used when percentiles ratio is estimated;
-see \code{\link{ratio_quantiles}}.}
 
 \item{B}{Integer; number of bootstrap replicates (default: \code{200}).
 Only used when \code{se = TRUE}.}
@@ -76,6 +71,12 @@ the finite population correction. See \code{\link{rescaled_bootstrap}}.}
 Defaults to the Rao-Wu formula. See \code{\link{rescaled_bootstrap}}.}
 
 \item{verbose}{Logical; if \code{TRUE} (default), displays a progress bar during bootstrap iterations.}
+
+\item{x}{An object of class \code{"inequantiles"}.}
+
+\item{digits}{Integer; number of decimal places for rounding (default: \code{4}).}
+
+\item{...}{Further arguments passed to or from other methods.}
 }
 \value{
 A list with components:
@@ -83,7 +84,10 @@ A list with components:
 \item{se}{Numeric vector of standard errors, or \code{NULL} when
 \code{se = FALSE}.}
 \item{B}{Number of bootstrap replicates used, or \code{NULL}.}
+\item{design}{Sampling design type detected by the bootstrap, or \code{NULL} when \code{se = FALSE}.}
 \item{call}{The matched function call.}
+
+The argument \code{x}, invisibly.
 }
 \description{
 Estimates one or more quantile-based inequality indicators simultaneously —
@@ -114,9 +118,6 @@ inequantiles(eq, weights = w)
 # Subset of indicators
 inequantiles(eq, weights = w, indicators = c("qri", "palma"))
 
-# Custom percentile ratio (P80/P20 instead of P90/P10)
-inequantiles(eq, weights = w, indicators = "ratio_quantiles",
-             prob_num = 0.80, prob_den = 0.20)
 
 \donttest{
 # With bootstrap standard errors (complex design)
@@ -136,6 +137,7 @@ Other inequality indicators based on quantiles:
 \code{\link{plot_inequality_curve}()},
 \code{\link{qri}()},
 \code{\link{ratio_quantiles}()},
-\code{\link{share_ratio}()}
+\code{\link{share_ratio}()},
+\code{\link{superpop_qri}()}
 }
 \concept{inequality indicators based on quantiles}

@@ -9,8 +9,8 @@
 #' @param y A numeric vector of data values.
 #' @param weights A numeric vector of sampling weights (optional). If \code{NULL},
 #'   equal weights are assumed.
-#' @param type Quantile estimation type: integer 4--9 or \code{"HD"} for
-#'   Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.
+#' @param type Quantile estimation type: integer \code{4}--\code{9} or
+#'   \code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.
 #' @param prob_numerator Numeric in \eqn{(0,1)}; order of the quantile at the
 #'   numerator (default: \code{0.90}).
 #' @param prob_denominator Numeric in \eqn{(0,1)}; order of the quantile at the
@@ -25,16 +25,16 @@
 #' \insertCite{deville1999variance;textual}{inequantiles}:
 #'
 #' \deqn{
-#'   \widehat{z}_i =
+#'   {I}\left(\frac{\widehat{Q}(p_n)}{\widehat{Q}(p_d)}\right)_{k} =
 #'   \frac{
 #'     \left(
-#'       \frac{p_n - \mathbf{1}(y_i \leq \widehat{Q}(p_n))}
+#'       \frac{p_n - \mathbf{1}(y_k \leq \widehat{Q}(p_n))}
 #'       {\widehat{f}(\widehat{Q}(p_n)) \, \widehat{N}}
 #'     \right)
 #'     \widehat{Q}(p_d)
 #'     -
 #'     \left(
-#'       \frac{p_d - \mathbf{1}(y_i \leq \widehat{Q}(p_d))}
+#'       \frac{p_d - \mathbf{1}(y_k \leq \widehat{Q}(p_d))}
 #'       {\widehat{f}(\widehat{Q}(p_d)) \, \widehat{N}}
 #'     \right)
 #'     \widehat{Q}(p_n)
@@ -79,8 +79,7 @@
 #' \insertRef{deville1999variance}{inequantiles}
 #' \insertRef{osier2009variance}{inequantiles}
 #'
-#' @seealso \code{\link{ratio_quantiles}}, \code{\link{if_quantile}},
-#'   \code{\link{csquantile}}
+#' @seealso \code{\link{ratio_quantiles}}, \code{\link{csquantile}}
 #'
 #' @family influence functions
 #'

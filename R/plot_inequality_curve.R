@@ -22,8 +22,9 @@
 #'   mode. If \code{NULL}, all observations are equally weighted.
 #' @param M Integer; number of grid points for evaluating \eqn{R(p)}
 #'   (default: \code{200}).
-#' @param type Quantile estimation type (integer 4--9 or \code{"HD"}).
-#'   Only used in empirical mode. Default: \code{6}.
+#' @param type Quantile estimation type: integer \code{4}--\code{9} or
+#'   \code{"HD"} for Harrell--Davis (default: \code{6}). Only used in
+#'   empirical mode. See \code{\link{csquantile}}.
 #' @param na.rm Logical; remove missing values? Default: \code{TRUE}.
 #' @param shade Logical; if \code{TRUE} (default), shades the area between
 #'   \eqn{R(p)} and the equality line \eqn{R(p) = 1}. The shaded area equals
@@ -57,7 +58,8 @@
 #' @details
 #' The inequality curve \eqn{R(p)} plots the ratio of symmetric quantiles
 #' around the median:
-#' \deqn{R(p) = \frac{Q(p/2)}{Q(1 - p/2)}, \quad p \in [0, 1]}, against \eqn{p}.
+#' \deqn{R(p) = \frac{Q(p/2)}{Q(1 - p/2)}, \quad p \in [0, 1],}
+#' against \eqn{p}.
 #' For a perfectly equal distribution \eqn{R(p) = 1} for all \eqn{p}, and the
 #' curve coincides with the horizontal line at 1. The further the curve lies
 #' below the equality line, the more unequal the distribution. The QRI is the

@@ -4,22 +4,23 @@
 #'  on simple and complex sampling data
 #'
 #' @param y A numeric vector of strictly positive values (e.g. income, wealth, expenditure).
-#' @param weights A numeric vector of sampling weights (optional)
-#' @param M Integer, number of quantile ratios to average (default: 100)
-#' @param type Quantile estimation type: integer 4-9 or HD for Harrell-Davis (default: 6).
-#'         See \code{csquantile} documentation for a complete description.
-#' @param na.rm Logical, should missing values be removed? (default: TRUE)
+#' @param weights A numeric vector of sampling weights. If \code{NULL},
+#'   all observations are equally weighted.
+#' @param M Integer; number of quantile ratios to average (default: 100)
+#' @param type Quantile estimation type: integer \code{4}--\code{9} or
+#'   \code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.
+#' @param na.rm Logical; should missing values be removed? (default: TRUE)
 #'
-#' @return A scalar numeric value representing the estimated inequality by the quantile ratio index (QRI).
+#' @returns A scalar numeric value representing the estimated inequality by the quantile ratio index (QRI).
 #'
 #' @details
-#' Consider a random sample \eqn{s} of size, where \eqn{w_j}, \eqn{j \in s}, defines
+#' Consider a random sample \eqn{s}, where \eqn{w_j}, \eqn{j \in s}, defines
 #' the sampling weight associated to the \eqn{j}-th individual.
 #' The QRI estimator is defined as:
 #'
 #' \deqn{\widehat{QRI} = \frac{1}{M}\sum_{m=1}^M\left(1- \frac{\widehat{Q}(p_{m/2})}{\widehat{Q}(1 - p_{m/2})}\right)}
 #'
-#' where \eqn{p_m = p_m = (m-0.5)/M}.
+#' where \eqn{p_m = p_m = (m-0.5)/M} and \eqn{m = 1, \ldots, M}.
 #' The estimated quantiles \eqn{\widehat{Q}(p)} are computed via the function
 #' \code{csquantile()}, which accounts for sampling weights and the specified
 #' quantile type. This allows \eqn{\widehat{QRI}} to be used both for simple
@@ -33,7 +34,7 @@
 #'
 #' data(synthouse)
 #'
-#' eq <- synthouse$eq_income ### Income data
+#' eq <- synthouse$eq_income # Income data
 #'
 #' # Compute unweighted QRI with default type 6 quantile estimator
 #' qri(y = eq)
@@ -57,9 +58,9 @@
 #' @family inequality indicators based on quantiles
 #'
 #' @seealso
-#'   \code{\link{qri_grouped}} for QRI estimation from pre-aggregated (grouped/binned) data,
+#'   \code{\link{qri_grouped}} for QRI estimation from grouped data,
 #'   \code{\link{superpop_qri}} for the theoretical QRI of a parametric distribution,
-#'   \code{\link{if_qri}} for the influence function used in variance estimation.
+#'   \code{\link{if_qri}} for the influence function used for linearization.
 #'
 #' @importFrom Rdpack reprompt
 #'

@@ -5,13 +5,14 @@
 #' Synthetic Household Survey Data
 #'
 #' A realistic synthetic dataset based on the empirical structure of real IT-SILC
-#' (Italian Survey on Income and Living Conditions) 2024 data. The \code{synthouse} dataset contains
-#' 20,034 individuals nested in 10,099 households, with detailed
-#' demographic, socio-economic, and geographic information.
+#' (Italian Survey on Income and Living Conditions) 2024 data.
 #'
-#' @format A data frame with 20,034 rows (individuals), 10,099 households and 15 variables:
+#' @format A data frame with 20,034 rows (individuals nested in 10,099 households)
+#' and 17 variables covering demographic, socio-economic, and geographic information:
 #' \describe{
-#'   \item{person_id}{Character. Unique person identifier (format: P00000001, P00000002, ...)}
+#'   \item{person_id}{Character. Unique person identifier, composed of the
+#'     household ID followed by a person index within the household
+#'     (format: HH000001P1, HH000001P2, HH000002P1, ...)}
 #'   \item{hh_id}{Character. Household identifier. All individuals in the same
 #'     household share this ID (format: HH000001, HH000002, ...)}
 #'   \item{NUTS1}{Character. NUTS1 region code (5 macro-regions):
@@ -25,7 +26,7 @@
 #'   \item{NUTS3}{Character. NUTS3 province code (120 provinces, format: N01001-N01004, ...)}
 #'   \item{municipality}{Character. Municipality code (1,079 municipalities,
 #'     format: N010010001-N010010008, ...)}
-#'   \item{age}{Integer. Age in years (0-80)}
+#'   \item{age}{Integer. Age in years (0-85)}
 #'   \item{age_class}{Factor. Age class with 7 levels:
 #'     "0-14", "15-17", "18-24", "25-34", "35-49", "50-64", "65+"}
 #'   \item{gender}{Integer. Gender code:
@@ -74,22 +75,31 @@
 #' }
 #'
 #' @details
-#'  The synthetic dataset was generated to reproduce key characteristics of
-#'  IT-SILC data. It is primarily intended to demonstrate the computation of
-#' quantile-based inequality indicators provided by the \code{inequantiles} package,
-#' such as quantiles, influence functions, and the quantile ratio index (QRI).
-#' The data structure mirrors that of IT-SILC but contains fictional values, therefore it
-#' is suitable for methodology illustration and testing, not for policy analysis.
+#' The synthetic dataset was generated to reproduce key characteristics of
+#' IT-SILC data, but contains fictional values; it is therefore suitable for
+#' methodology illustration and testing, not for policy analysis.
+#' It is primarily intended to demonstrate the computation of quantile-based
+#' inequality indicators provided by the \code{inequantiles} package,
+#' such as quantiles, quantile-based indicators, influence functions, and
+#' variance estimation.
 #'
 #' Geographic variables follow a hierarchical NUTS structure with
-#'     realistic proportions across macro-regions and were created randomly, they
-#'     do not correspond to real codes. Individual characteristics (age, gender, education, ..)
-#'     were assigned randomly based on conditional empirical distributions from IT-SILC.
-#'     Income was generated using a regression model fitted to IT-SILC data:
-#'     \deqn{log(eq_income) ~ education_head + n_employed + age_head +
-#'           I(age_head^2) + hh_size}.
-#'     Sampling weights follow a lognormal distribution fitted to IT-SILC.
+#' realistic proportions across macro-regions and were created randomly; they
+#' do not correspond to real codes. Individual characteristics (age, gender,
+#' education, \ldots) were assigned randomly based on conditional empirical
+#' distributions from IT-SILC.
+#' Income was generated using a regression model fitted to IT-SILC data:
 #'
+#' \deqn{
+#'   \log(\mathit{eq\_income}) \sim \mathit{education\_head} +
+#'   \mathit{n\_employed} + \mathit{age\_head} +
+#'   \mathit{age\_head}^2 + \mathit{hh\_size}.
+#' }
+#'
+#' where the suffix \code{_head} identifies variables measured for the
+#' household head (e.g., \code{education_head} is the education level of
+#' the household head, \code{age_head} is their age).
+#' Sampling weights follow a lognormal distribution fitted to IT-SILC.
 #'
 #' \strong{Key Statistics:}
 #' \itemize{
@@ -99,16 +109,10 @@
 #'   \item Geographic coverage: 5 macro-regions, 30 NUTS2, 120 NUTS3, 1,079 municipalities
 #' }
 #'
-#'
-#'
-#'
-#'
 #' @references
 #'
-#' Eurostat (2024). "EU Statistics on Income and Living Conditions (EU-SILC)
-#'   methodology". \url{https://ec.europa.eu/eurostat/}
-#'
-#'
+#' Eurostat (2024). \emph{EU Statistics on Income and Living Conditions (EU-SILC):
+#'   Methodology}. \url{https://ec.europa.eu/eurostat/}
 #'
 #' @examples
 #' # Load the dataset
@@ -134,7 +138,6 @@
 #'
 #' # Age distribution
 #' table(synthouse$age_class)
-#'
 #'
 #' # Weighted quantiles
 #' csquantile(synthouse$eq_income,

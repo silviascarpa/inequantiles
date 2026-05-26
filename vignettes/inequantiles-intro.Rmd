@@ -79,7 +79,7 @@ The QRI was introduced by @prendergast2018simple as a simple, effective inequali
 For a continuous non-negative random variable $Y$ with cumulative distribution function $F(y)$ and quantile function $Q(p) = F^{-1}(p)$, $0 \leq p \leq 1$, define the ratio between symmetric quantiles as:
 
 $$R(p) = \frac{Q(p/2)}{Q(1-p/2)}, \quad  0 \leq p \leq 1.$$
-$R(p)$ is a non-decreasing function between 0 and 1, which takes value 1 for any $0 \leq p \leq 1$ when income (or another economic variable with poisitive support) is equally distributed among the individuals.
+$R(p)$ is a non-decreasing function between 0 and 1, which takes value 1 for any $0 \leq p \leq 1$ when income (or another economic variable with positive support) is equally distributed among the individuals.
 
 The QRI is then defined as:
 
@@ -134,7 +134,6 @@ The $p$ quantile estimator can be expressed as a weighted average of order stati
 
 $$
 \widehat{Q}(p)=y_{(k-1)}+ \left(y_{(k )} - y_{(k- 1)}\right) \left(\frac{p - \widehat{r}_{k - 1 }}{\widehat{r}_{k} - \widehat{r}_{k - 1}} \right),
-\label{eq:quantiles complessi}
 $$
 
 where $\widehat{r}_{k}$ indicates the estimator of the cdf, namely the plotting position, and the selected order $k$ is such that $W_{k-1} - m_{k-1} < W_n p < W_{k} - m_k$, where $m_k$ is determined by the interpolation method between adjacent data points.
@@ -422,18 +421,14 @@ idx <- sample(nrow(synthouse), n_obs)
 y_subset <- synthouse$eq_income[idx]
 w_subset <- synthouse$weight[idx]
 
-# Order income values (for ease of representation, see the plots later)
-order_idx <- order(y_subset)
-y_ordered <- y_subset[order_idx]      # Order the data
-w_ordered <- w_subset[order_idx]      
 
 # Compute the IF for some indicators
-if_gini_vals <- if_gini(y_ordered, w_ordered)
-if_qri_vals <- if_qri(y_ordered, w_ordered, type = 6)
-if_qsr_vals <- if_share_ratio(y_ordered, w_ordered, type = 4)
-if_palma_vals <- if_share_ratio(y_ordered, w_ordered, type = 4, prob_numerator = 0.90, prob_denominator = 0.40)
-if_q50_vals <- if_quantile(y_ordered, w_ordered, probs = 0.5, type = 6)
-if_ratioquantiles_vals <- if_ratio_quantiles(y_ordered, w_ordered, prob_numerator = 0.90,
+if_gini_vals <- if_gini(y_subset, w_subset)
+if_qri_vals <- if_qri(y_subset, w_subset, type = 6)
+if_qsr_vals <- if_share_ratio(y_subset, w_subset, type = 4)
+if_palma_vals <- if_share_ratio(y_subset, w_subset, type = 4, prob_numerator = 0.90, prob_denominator = 0.40)
+if_q50_vals <- if_quantile(y_subset, w_subset, probs = 0.5, type = 6)
+if_ratioquantiles_vals <- if_ratio_quantiles(y_subset, w_subset, prob_numerator = 0.90,
                                              prob_denominator = 0.10, type = 6)
 
 ```
@@ -446,7 +441,7 @@ library(scales)
 
 # 
 plot_df <- data.frame(
-  Income = rep(y_ordered, 6),
+  Income = rep(y_subset, 6),
   IF_Value = c(
     if_qri_vals,   
     if_qsr_vals,   

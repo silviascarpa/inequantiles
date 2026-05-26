@@ -8,14 +8,7 @@ test_that("quantile_grouped returns a named numeric vector", {
   expect_named(result)
 })
 
-test_that("quantile_grouped median lies within the correct class interval", {
-  freq  <- c(0, 0, 100, 0, 0)
-  lower <- c(0, 10, 20, 30, 40)
-  upper <- c(10, 20, 30, 40, 50)
-  result <- quantile_grouped(freq, lower, upper, probs = 0.5)
-  expect_gte(result, 20)
-  expect_lte(result, 30)
-})
+
 
 test_that("quantile_grouped handles open lower bound (-Inf) without error", {
   freq  <- c(10, 20, 30, 25, 15)

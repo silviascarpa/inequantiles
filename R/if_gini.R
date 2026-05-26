@@ -16,36 +16,33 @@
 #' Influence Function for the Gini Coefficient
 #'
 #' Computes the influence function for the Gini coefficient, useful for
-#' variance estimation in complex survey designs. The function implements
-#' the linearization approach described in \insertCite{langel2013variance;textual}{inequantiles}.
+#' variance estimation and linearization in complex survey designs \insertCite{langel2013variance;textual}{inequantiles}.
 #'
 #' @param y Numeric vector of income or variable of interest.
 #' @param weights Numeric vector of sampling weights. If \code{NULL} (default),
 #'   equal weights are assumed (simple random sampling).
 #' @param na.rm Logical. Should missing values be removed? Default is \code{TRUE}.
 #'
-#' @return A numeric vector of the same length as \code{y} containing the
-#'   influence function values for each observation.
+#' @returns A numeric vector of the same length as \code{y} containing the
+#'   influence function values for each observation, returned in the same order
+#'   as the input \code{y}.
 #'
 #' @details
 #' The influence function for the Gini coefficient is computed using the
-#' linearization method, follwing \insertCite{deville1999variance;textual}{inequantiles}
+#' linearization method, following \insertCite{deville1999variance;textual}{inequantiles}
 #' framework and as defined by \insertCite{langel2013variance;textual}{inequantiles}.
-#' For observation \eqn{k} with value \eqn{y_k} and
-#' weight \eqn{w_k}, the influence function is:
+#' The influence function for Gini is:
 #'
-#' \deqn{z_k = \frac{2W_k(y_k - \bar{Y}_k) + \hat{Y} - \hat{N}y_k - G(\hat{Y} + y_k\hat{N})}{\hat{N}\hat{Y}}}
+#' \deqn{{I}(\widehat{G})_{k} = \frac{2W_k(y_k - \bar{Y}_k) + \hat{Y} - \hat{N}y_k - G(\hat{Y} + y_k\hat{N})}{\hat{N}\hat{Y}}}
 #'
 #' where:
 #' \itemize{
 #'   \item \eqn{W_k = \sum_{i=1}^k w_i} is the cumulative sum of weights up to rank \eqn{k}
-#'   \item \eqn{\bar{Y}_k =\frac{\sum_{l \in S} w_l y_l 1\left(W_l \leqslant W_j\right)}{W_k}} is the weighted mean of values up to rank \eqn{k}
+#'   \item \eqn{\bar{Y}_k =\frac{\sum_{l \in S} w_l y_l 1\left(W_l \leqslant W_k\right)}{W_k}} is the weighted mean of values up to rank \eqn{k}
 #'   \item \eqn{\hat{N} = \sum_i w_i} is the total sum of weights
 #'   \item \eqn{\hat{Y} = \sum_i w_i y_i} is the weighted total of the variable
 #'   \item \eqn{G} is the Gini coefficient estimate
 #' }
-#'
-#' The observations are ranked by their values before computing the influence function.
 #'
 #' @references
 #'
@@ -53,8 +50,6 @@
 #'
 #' \insertRef{langel2013variance}{inequantiles}
 #'
-#' @seealso \code{\link{if_share_ratio}} for the share ratio influence function,
-#'   \code{\link{if_qri}} for the quantile ratio index influence function.
 #'
 #' @family influence functions
 #'
@@ -62,7 +57,7 @@
 #'
 #' data(synthouse)
 #'
-#' eq <- synthouse$eq_income ### Income data
+#' eq <- synthouse$eq_income # Equivalized disposable income
 #'
 #' # Simple example
 #' z <- if_gini(eq)
@@ -96,9 +91,7 @@ if_gini <- function(y, weights = NULL, na.rm = TRUE) {
     stop("Missing values in weights. Set na.rm = TRUE to remove them.")
   }
 
-  # Store original order
   n <- length(y)
-  original_order <- seq_len(n)
 
   # Case 1: Unweighted (simple random sampling)
   if (is.null(weights)) {
@@ -118,10 +111,11 @@ if_gini <- function(y, weights = NULL, na.rm = TRUE) {
     G <- .gini_coef(y)
 
     # Influence function (equation 12 from Langel & Tillé 2013)
+    # z[k] = IF for the k-th smallest observation
     z <- (2 * Nk * (x - Yk_mu) + Y - N * x - G * (Y + x * N)) / (N * Y)
 
-    # Return in original order
-    output <- z[order(r)]
+    # Return in original order: obs i has rank r[i], so its IF is z[r[i]]
+    output <- z[r]
 
   } else {
     # Case 2: Weighted
@@ -153,12 +147,13 @@ if_gini <- function(y, weights = NULL, na.rm = TRUE) {
     G <- .gini_coef(y, weights)
 
     # Influence function (equation 12 from Langel & Tillé 2013)
+    # z[k] = IF for the k-th smallest observation
     numerator <- 2 * Nk * (x - Yk_mu) + hatY - hatN * x -
       G * (hatY + x * hatN)
     z <- numerator / (hatN * hatY)
 
-    # Return in original order
-    output <- z[order(r)]
+    # Return in original order: obs i has rank r[i], so its IF is z[r[i]]
+    output <- z[r]
   }
 
   return(output)

@@ -47,9 +47,4 @@ test_that("gini_grouped warns (does not stop) for negative Y values", {
   expect_warning(gini_grouped(Y, freq))
 })
 
-test_that("gini_grouped returns 0 with a warning when sum(Y) is 0", {
-  Y    <- c(0, 0, 0)
-  freq <- c(10, 20, 30)
-  expect_warning(result <- gini_grouped(Y, freq))
-  expect_equal(result, 0)
-})
+

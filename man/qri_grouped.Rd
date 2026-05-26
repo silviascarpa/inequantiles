@@ -2,7 +2,7 @@
 % Please edit documentation in R/qri_grouped.R
 \name{qri_grouped}
 \alias{qri_grouped}
-\title{Quantile Ratio Rndex Estimator for Grouped (Binned) Data}
+\title{Quantile Ratio Index Estimator for Grouped Data}
 \usage{
 qri_grouped(
   freq,
@@ -20,12 +20,12 @@ qri_grouped(
 
 \item{upper_bounds}{Numeric vector of upper class bounds.}
 
-\item{M}{Integer, number of quantile ratios to average (default: 100).}
+\item{M}{Integer; number of quantile ratios to average (default: 100).}
 
 \item{midpoints}{Optional numeric vector of class midpoints. Used only as
 fallback when a quantile class has zero frequency.}
 
-\item{na.rm}{Logical, should missing values in frequencies be removed? (default: TRUE)}
+\item{na.rm}{Logical; should missing values in frequencies be removed? (default: TRUE)}
 }
 \value{
 A scalar numeric value representing the estimated inequality by the
@@ -35,7 +35,7 @@ quantile ratio index (QRI) for grouped data.
 Computes the quantile ratio index (QRI) for measuring inequality from
 grouped frequency data using linear interpolation for quantile estimation.
 This function is intended to be used for administrative or tax data, which are
-very often in the form of grouped (binned) data. Therefore, sampling weights are
+very often in the form of grouped data. Therefore, sampling weights are
 not considered.
 }
 \details{

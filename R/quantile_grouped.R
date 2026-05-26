@@ -14,12 +14,12 @@
 #'   fallback when a quantile class has zero frequency. If \code{NULL}, the
 #'   midpoint is computed as the arithmetic mean of class bounds.
 #'
-#' @return A vector of estimated quantiles on grouped data corresponding to \code{probs}.
+#' @returns A vector of estimated quantiles on grouped data corresponding to \code{probs}.
 #'   Returns \code{NA} if total frequency is zero or missing.
 #'
 #' @details
 #'
-#' Consider grouped data divided into \eqn{L} classes with known boundaries. Let:
+#' Consider grouped data divided into \eqn{J} classes with known boundaries. Let:
 #' \itemize{
 #'   \item \eqn{L_j} be the lower bound of the \eqn{j}-th quantile class
 #'   \item \eqn{U_j} be the upper bound of the \eqn{j}-th quantile class
@@ -45,7 +45,7 @@
 #'
 #'@section Handling Open-Ended Classes:
 #'
-#' When dealing with administrative or tax data, the first class often is often defined
+#' When dealing with administrative or tax data, the first class is often defined
 #' as negative income  (or incomes below zero) and the last class as incomes above
 #' a certain threshold. In such cases, we have \code{-Inf} as the lower bound of the
 #' first class and \code{Inf} as the upper bound of the last class.
@@ -183,7 +183,7 @@ quantile_grouped <- function(freq, lower_bounds, upper_bounds,
         res[i] <- midpoints[idx]
       } else {
         mid <- (lower_bounds + upper_bounds) / 2
-        res[i] <- mid
+        res[i] <- mid[idx]
       }
     } else {
       # Linear interpolation within the class

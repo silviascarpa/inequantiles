@@ -20,18 +20,19 @@ superpop_qri(qfunction, lower = 0, upper = 1, subdivisions = 1000L, ...)
 \value{
 A numeric value representing the theoretical QRI for the specified
 parametric distribution. Values range from 0 (perfect equality) to 1
-(maximum inequality).#'
+(maximum inequality).
 }
 \description{
 Computes the theoretical quantile ratio index (QRI) for measuring inequality
 for a given parametric distribution.
 }
 \details{
-The QRI was proposed by \insertCite{prendergast2018simple}{inequantiles} fot the
-economic inequality measurement. It is calculated as:
+The QRI was proposed by \insertCite{prendergast2018simple}{inequantiles} for measuring
+economic inequality. Consider a random variable \eqn{Y} with positive support, which admits
+a continuous CDF \eqn{F} and quantile function \eqn{Q(p) = F^{-1}(p)}, for any \eqn{p \in (0, 1)}.
+It is calculated as:
 \deqn{QRI = 1 - \int_0^1 R(p) dp}
-where \eqn{R(p) = Q(p/2) / Q(1 - p/2)} is the ratio between symmetric quantiles
-function.
+where \eqn{R(p) = Q(p/2) / Q(1 - p/2)} is the ratio of symmetric quantiles, with \eqn{R(0) = 0} and \eqn{R(1) = 1}.
 
 This function computes the (superpopulation) QRI for
 theoretical parametric distributions, as opposed to \code{\link{qri}} which estimates
@@ -44,7 +45,7 @@ superpop_qri(qlnorm, meanlog = 9, sdlog = 1.4)
 
 # Weibull distribution
 superpop_qri(qweibull, shape = 1.7, scale = 30000)
-superpop_qri(qweibull, shape = 1.7, scale = 30000)
+superpop_qri(qweibull, shape = 3, scale = 30000)
 
 
 }
@@ -52,5 +53,13 @@ superpop_qri(qweibull, shape = 1.7, scale = 30000)
 \insertRef{prendergast2018simple}{inequantiles}
 }
 \seealso{
-\code{\link{qri}} for the sample-based QRI estimator
+\code{\link{qri}} for the sample-based QRI estimator, \code{\link{plot_inequality_curve}} for its representation
+
+Other inequality indicators based on quantiles: 
+\code{\link{inequantiles}()},
+\code{\link{plot_inequality_curve}()},
+\code{\link{qri}()},
+\code{\link{ratio_quantiles}()},
+\code{\link{share_ratio}()}
 }
+\concept{inequality indicators based on quantiles}

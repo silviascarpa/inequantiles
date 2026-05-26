@@ -6,8 +6,8 @@
 #' @param y A numeric vector of strictly positive values (e.g. income, wealth).
 #' @param weights A numeric vector of sampling weights. If \code{NULL},
 #'   all observations are equally weighted.
-#' @param type Quantile estimation type: integer 4--9 or \code{"HD"} for
-#'   Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.
+#' @param type Quantile estimation type: integer \code{4}--\code{9} or
+#'   \code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.
 #' @param prob_numerator Numeric in \eqn{(0,1)}; quantile order for the
 #'   numerator (default: \code{0.80}, corresponding to the QSR top share).
 #' @param prob_denominator Numeric in \eqn{(0,1)}; quantile order for the
@@ -18,8 +18,8 @@
 #' @returns A scalar numeric value representing the estimated share ratio.
 #'
 #' @details
-#' Consider a random sample \eqn{s} of size \eqn{n}, and let \eqn{w_j},
-#' \eqn{j \in s}, define the sampling weight associated to the \eqn{j}-th
+#' Consider a random sample \eqn{s} of size \eqn{n}, and let \eqn{y_j} and \eqn{w_j},
+#' \eqn{j \in s}, define the observed value and the sampling weight associated to the \eqn{j}-th
 #' individual. Define \eqn{p_n} and \eqn{p_d} as the orders of the numerator
 #' and denominator quantiles, respectively. The QBSR estimator is defined as:
 #'
@@ -60,11 +60,15 @@
 #' })
 #'
 #' @references
+#'
 #' \insertRef{langel2011quintile}{inequantiles}
+#'
 #' \insertRef{palma2006globalizing}{inequantiles}
+#'
 #' \insertRef{palma2011homogeneous}{inequantiles}
 #'
-#' @seealso \code{\link{csquantile}}, \code{\link{inequantiles}}
+#' @seealso \code{\link{csquantile}} for quantile estimation
+#'
 #'
 #' @family inequality indicators based on quantiles
 #'

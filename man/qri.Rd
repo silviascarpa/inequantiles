@@ -9,14 +9,15 @@ qri(y, weights = NULL, M = 100, type = 6, na.rm = TRUE)
 \arguments{
 \item{y}{A numeric vector of strictly positive values (e.g. income, wealth, expenditure).}
 
-\item{weights}{A numeric vector of sampling weights (optional)}
+\item{weights}{A numeric vector of sampling weights. If \code{NULL},
+all observations are equally weighted.}
 
-\item{M}{Integer, number of quantile ratios to average (default: 100)}
+\item{M}{Integer; number of quantile ratios to average (default: 100)}
 
-\item{type}{Quantile estimation type: integer 4-9 or HD for Harrell-Davis (default: 6).
-See \code{csquantile} documentation for a complete description.}
+\item{type}{Quantile estimation type: integer \code{4}--\code{9} or
+\code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.}
 
-\item{na.rm}{Logical, should missing values be removed? (default: TRUE)}
+\item{na.rm}{Logical; should missing values be removed? (default: TRUE)}
 }
 \value{
 A scalar numeric value representing the estimated inequality by the quantile ratio index (QRI).
@@ -26,13 +27,13 @@ Computes the quantile ratio index (QRI) estimator for measuring inequality
 on simple and complex sampling data
 }
 \details{
-Consider a random sample \eqn{s} of size, where \eqn{w_j}, \eqn{j \in s}, defines
+Consider a random sample \eqn{s}, where \eqn{w_j}, \eqn{j \in s}, defines
 the sampling weight associated to the \eqn{j}-th individual.
 The QRI estimator is defined as:
 
 \deqn{\widehat{QRI} = \frac{1}{M}\sum_{m=1}^M\left(1- \frac{\widehat{Q}(p_{m/2})}{\widehat{Q}(1 - p_{m/2})}\right)}
 
-where \eqn{p_m = p_m = (m-0.5)/M}.
+where \eqn{p_m = p_m = (m-0.5)/M} and \eqn{m = 1, \ldots, M}.
 The estimated quantiles \eqn{\widehat{Q}(p)} are computed via the function
 \code{csquantile()}, which accounts for sampling weights and the specified
 quantile type. This allows \eqn{\widehat{QRI}} to be used both for simple
@@ -45,7 +46,7 @@ and extended to survey data by \insertCite{scarpa2025inference;textual}{inequant
 
 data(synthouse)
 
-eq <- synthouse$eq_income ### Income data
+eq <- synthouse$eq_income # Income data
 
 # Compute unweighted QRI with default type 6 quantile estimator
 qri(y = eq)
@@ -68,14 +69,15 @@ tapply(1:nrow(synthouse), synthouse$NUTS1, function(area) {
 \insertRef{scarpa2025inference}{inequantiles}
 }
 \seealso{
-\code{\link{qri_grouped}} for QRI estimation from pre-aggregated (grouped/binned) data,
+\code{\link{qri_grouped}} for QRI estimation from grouped data,
 \code{\link{superpop_qri}} for the theoretical QRI of a parametric distribution,
-\code{\link{if_qri}} for the influence function used in variance estimation.
+\code{\link{if_qri}} for the influence function used for linearization.
 
 Other inequality indicators based on quantiles: 
 \code{\link{inequantiles}()},
 \code{\link{plot_inequality_curve}()},
 \code{\link{ratio_quantiles}()},
-\code{\link{share_ratio}()}
+\code{\link{share_ratio}()},
+\code{\link{superpop_qri}()}
 }
 \concept{inequality indicators based on quantiles}

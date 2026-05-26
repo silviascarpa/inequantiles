@@ -19,8 +19,8 @@ share_ratio(
 \item{weights}{A numeric vector of sampling weights. If \code{NULL},
 all observations are equally weighted.}
 
-\item{type}{Quantile estimation type: integer 4--9 or \code{"HD"} for
-Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.}
+\item{type}{Quantile estimation type: integer \code{4}--\code{9} or
+\code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.}
 
 \item{na.rm}{Logical; remove missing values before computing? Default:
 \code{TRUE}.}
@@ -39,8 +39,8 @@ Estimates a quantile-based share ratio (QBSR) for measuring inequality
 from simple or complex survey data.
 }
 \details{
-Consider a random sample \eqn{s} of size \eqn{n}, and let \eqn{w_j},
-\eqn{j \in s}, define the sampling weight associated to the \eqn{j}-th
+Consider a random sample \eqn{s} of size \eqn{n}, and let \eqn{y_j} and \eqn{w_j},
+\eqn{j \in s}, define the observed value and the sampling weight associated to the \eqn{j}-th
 individual. Define \eqn{p_n} and \eqn{p_d} as the orders of the numerator
 and denominator quantiles, respectively. The QBSR estimator is defined as:
 
@@ -83,16 +83,19 @@ tapply(1:nrow(synthouse), synthouse$NUTS1, function(idx) {
 }
 \references{
 \insertRef{langel2011quintile}{inequantiles}
+
 \insertRef{palma2006globalizing}{inequantiles}
+
 \insertRef{palma2011homogeneous}{inequantiles}
 }
 \seealso{
-\code{\link{csquantile}}, \code{\link{inequantiles}}
+\code{\link{csquantile}} for quantile estimation
 
 Other inequality indicators based on quantiles: 
 \code{\link{inequantiles}()},
 \code{\link{plot_inequality_curve}()},
 \code{\link{qri}()},
-\code{\link{ratio_quantiles}()}
+\code{\link{ratio_quantiles}()},
+\code{\link{superpop_qri}()}
 }
 \concept{inequality indicators based on quantiles}

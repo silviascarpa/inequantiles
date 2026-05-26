@@ -4,18 +4,21 @@
 \alias{if_qri}
 \title{Influence Function for the Quantile Ratio Index}
 \usage{
-if_qri(y, weights = NULL, type = 6)
+if_qri(y, weights = NULL, type = 6, na.rm = TRUE)
 }
 \arguments{
 \item{y}{A numeric vector of data values}
 
 \item{weights}{A numeric vector of sampling weights (optional). If \code{NULL}, equal weights are assumed.}
 
-\item{type}{Quantile estimation type: integer 4–9 or HD for Harrell–Davis (default: 6)
-See \code{csquantile} documentation for a complete description.}
+\item{type}{Quantile estimation type: integer \code{4}--\code{9} or
+\code{"HD"} for Harrell--Davis (default: \code{6}). See \code{\link{csquantile}}.}
+
+\item{na.rm}{Logical. Should missing values be removed? Default is \code{TRUE}.}
 }
 \value{
-A numeric vector of influence function values (one for each observation)
+A numeric vector of influence function values (one per observation),
+returned in the same order as the input \code{y}.
 }
 \description{
 Computes the influence function of the quantile ratio index (QRI) in the context
@@ -27,16 +30,16 @@ function in finite population theory.
 \details{
 The influence function for the QRI is computed on each observation as
 \deqn{
-  \widehat{z}_i = - \int_0^1
+  {I}(\widehat{QRI})_{k}  = - \int_0^1
   \frac{
   \left(
-    \frac{\frac{p}{2} - \mathbf{1}(y_i \leq \widehat{Q}(p/2))}
+    \frac{\frac{p}{2} - \mathbf{1}(y_k \leq \widehat{Q}(p/2))}
     {\widehat{f}(\widehat{Q}(p/2)) \, \widehat{N}}
   \right)
   \widehat{Q}(1 - p/2)
   -
   \left(
-    \frac{(1 - \frac{p}{2}) - \mathbf{1}(y_i \leq \widehat{Q}(1 - p/2))}
+    \frac{(1 - \frac{p}{2}) - \mathbf{1}(y_k \leq \widehat{Q}(1 - p/2))}
     {\widehat{f}(\widehat{Q}(1 - p/2)) \, \widehat{N}}
   \right)
   \widehat{Q}(p/2)
@@ -79,7 +82,8 @@ eq_synth <- rlnorm(30, 9, 0.7)
 IF_synth <- if_qri(y = eq_synth)
 
 # On real data
-eq <- synthouse$eq_income[1:30] ## Take some observations (as example)
+data(synthouse)
+eq <- synthouse$eq_income[1:30]
 w <- synthouse$weight[1:30]
 IF_qri <- if_qri(y = eq, weights = w, type = 6)
 

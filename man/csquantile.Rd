@@ -2,23 +2,29 @@
 % Please edit documentation in R/csquantile.R
 \name{csquantile}
 \alias{csquantile}
-\title{Estimator of Quantile in case of Simple and Complex Sampling Design}
+\title{Quantile estimation with complex sampling data}
 \usage{
 csquantile(y, weights = NULL, probs = seq(0, 1, 0.1), type = 4, na.rm = FALSE)
 }
 \arguments{
 \item{y}{Numeric vector of observations.}
 
-\item{weights}{Optional numeric vector of sampling weights (default: NULL for equal weights)}
+\item{weights}{Optional numeric vector of sampling weights; if \code{NULL}
+(default), all observations are equally weighted.}
 
-\item{probs}{Numeric vector of probabilities (default = seq(0, 1, 0.1)).}
+\item{probs}{Numeric vector of probabilities (default: \code{seq(0, 1, 0.1)}).}
 
-\item{type}{Quantile estimation algorithm: integer 4-9 or "HD" for Harrell-Davis (default: 4)}
+\item{type}{Quantile estimation type: integer \code{4}--\code{9} or
+\code{"HD"} for Harrell--Davis (default: \code{4}).}
 
-\item{na.rm}{Logical indicating whether to remove NA values (default: TRUE)}
+\item{na.rm}{Logical; if \code{TRUE}, missing values are removed before
+computing. Default: \code{FALSE}. Higher-level functions in this package
+handle \code{NA} removal before calling \code{csquantile()}, so the
+default is kept \code{FALSE} to avoid redundant filtering.}
 }
 \value{
-A named numeric vector of estimated quantiles corresponding to \code{probs}.
+A named numeric vector of estimated quantiles corresponding to
+\code{probs}.
 }
 \description{
 Computes quantiles for weighted or unweighted data, allowing for sampling weights
@@ -26,12 +32,12 @@ and several interpolation types.
 The method extends the standard quantile
 definitions of \insertCite{hyndman1996sample;textual}{inequantiles} and
 \insertCite{harrell1982new;textual}{inequantiles} estimator to the case of complex survey data
-by incorporating sampling weights into the cumulative distribution function (CDF)
+by incorporating sampling weights into the cumulative distribution function
 and interpolation points, as proposed in \insertCite{scarpa2025inference;textual}{inequantiles}.
 }
 \details{
-Consider a random sample \eqn{s} of size \eqn{n}. Let \eqn{Y_1, \ldots, Y_n} be the sample observations from a finite population,
-with order statistics \eqn{Y_{(1)} \le \ldots \le Y_{(n)}} and corresponding sampling
+Consider a random sample \eqn{s} of size \eqn{n}. Let \eqn{y_1, \ldots, y_n} be the sample observations from a finite population,
+with order statistics \eqn{y_{(1)} \le \ldots \le y_{(n)}} and corresponding sampling
 weights \eqn{w_1, \ldots, w_n}. Define the cumulative weights
 \eqn{W_j = \sum_{i \le j} w_i} and the total weight \eqn{W_n = \sum_{i=1}^n w_i}.
 The weighted quantile estimator is computed as a linear interpolation between
@@ -39,8 +45,8 @@ adjacent order statistics:
 
 \deqn{
   \widehat{Q}(p)
-  = Y_{(k-1)} +
-    (Y_{(k)} - Y_{(k-1)})
+  = y_{(k-1)} +
+    (y_{(k)} - y_{(k-1)})
     \frac{p - \widehat{r}_{k-1}}{\widehat{r}_k - \widehat{r}_{k-1}},
 }
 
@@ -48,9 +54,6 @@ where \eqn{\widehat{r}_k} denotes the estimated cumulative distribution function
 (the “plotting position”), and the order \eqn{k} is such that
 \eqn{W_{k-1} - m_{k-1} < W_n p < W_k - m_k},
 with \eqn{m_k} determined by the interpolation method.
-
-The function supports several interpolation rules (types 4–9), extending the
-quantile definitions in \insertCite{hyndman1996sample;textual}{inequantiles} to incorporate sampling weights.
 
 The table below summarizes the six interpolation types (4–9) extended from
 \insertCite{hyndman1996sample;textual}{inequantiles} to incorporate sampling weights,
@@ -75,10 +78,12 @@ as described in \insertCite{scarpa2025inference;textual}{inequantiles}.
 \eqn{W_{k-1} - \tfrac{3w_{k-1}}{8} \le (W_n + \tfrac{w_n}{4})p < W_k - \tfrac{3w_k}{8}} \cr
 }
 
+The function supports several interpolation rules (types 4–9) and extends the
+quantile definitions in \insertCite{hyndman1996sample;textual}{inequantiles} to incorporate sampling weights.
 For unweighted data, the function returns the standard R quantiles.
 
-The Harrell–Davis estimator ("HD") is also extended to the weighted case as
-proposed in Kreutzmann (2018), by redefining the weighting coefficients
+The Harrell–Davis estimator ("HD") is extended to the weighted case as
+proposed in \insertCite{kreutzmann2018estimation;textual}{inequantiles}, by redefining the weighting coefficients
 \eqn{\widehat{\mathcal{W}}_j(p)} for order statistics as:
 
 \deqn{
@@ -90,29 +95,30 @@ proposed in Kreutzmann (2018), by redefining the weighting coefficients
 where \eqn{b_x(a,b)} denotes the incomplete beta function.
 
 The resulting quantile estimator is
-\eqn{\widehat{Q}_{HD}(p) = \sum_{j \in s} \widehat{\mathcal{W}}_j(p) Y_{(j)}.}
-For unweighted data, the function returns the Harrell & Davis quantile estimator.
+\eqn{\widehat{Q}_{HD}(p) = \sum_{j \in s} \widehat{\mathcal{W}}_j(p) y_{(j)}.}
+For unweighted data, the function returns the Harrell-Davis quantile estimator.
 }
 \examples{
-
 data(synthouse)
+y <- synthouse$eq_income
+w <- synthouse$weight
 
-y <- synthouse$eq_income ### Income data
-
-# Compute unweighted quantiles (default: type = 4)
+# Unweighted quantiles
 csquantile(y, probs = c(0.25, 0.5, 0.75), type = 6)
 
-# Consider the sampling weights
-w <- synthouse$weight
-csquantile(y, weight = w, probs = c(0.25, 0.5, 0.75), type = 6)
+# Weighted quantiles
+csquantile(y, weights = w, probs = c(0.25, 0.5, 0.75), type = 6)
 
-
+# Harrell-Davis estimator
+csquantile(y, weights = w, probs = c(0.25, 0.5, 0.75), type = "HD")
 
 }
 \references{
 \insertRef{harrell1982new}{inequantiles}
 
 \insertRef{hyndman1996sample}{inequantiles}
+
+\insertRef{kreutzmann2018estimation}{inequantiles}
 
 \insertRef{scarpa2025inference}{inequantiles}
 }

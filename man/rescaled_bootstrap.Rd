@@ -54,9 +54,9 @@ A list containing:
 \item{variance}{Bootstrap variance estimate}
 \item{boot_estimates}{Vector of B bootstrap estimates}
 \item{B}{Number of bootstrap replicates}
-\item{by_strata}{if variance is computed by stratum or overall}
-\item{design}{if the sampling design is complex or simple}
-\item{strata_info}{Returns information about number of observations/PSUs per stratum}
+\item{by_strata}{Logical; \code{TRUE} if variance is computed separately by stratum.}
+\item{design}{Character string: \code{"two-stage stratified"} or \code{"stratified SRS"}.}
+\item{strata_info}{Data frame with number of observations/PSUs per stratum.}
 \item{call}{The matched function call.}
 }
 \description{
@@ -73,9 +73,9 @@ The methodology is based on \insertCite{rao1988resampling;textual}{inequantiles}
 \strong{(1) Stratified Simple Random Sampling design}
 
 Consider a finite population divided into \eqn{H} strata, each of size \eqn{N_h}, with a sample of size \eqn{n_h}
-selected independently in each \eqn{h} stratum. Suppose to be interested on some \eqn{\theta} parameter,
+selected independently in each \eqn{h} stratum. Suppose to be interested in some \eqn{\theta} parameter,
 with  \eqn{\hat{\theta}} sampling estimator.
-For each \eqn{b} bootstrap replicate, \eqn{b = \ldots, B}:
+For each \eqn{b} bootstrap replicate, \eqn{b = 1, \ldots, B} and stratum \eqn{h}:
 \enumerate{
 \item Draw a bootstrap sample of size \eqn{m_h} with replacement from the \eqn{n_h} sampled units.
 By default, \eqn{m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor \approx n_h - 3}.
@@ -84,19 +84,12 @@ By default, \eqn{m_h = \lfloor (n_h - 2)^2 / (n_h - 1) \rfloor \approx n_h - 3}.
           \tilde{y}_{hj}^{*(b)} = \bar{y}_h +
           \sqrt{\frac{m_h(1-f_h)}{n_h - 1}}
           (y_{hj}^{*(b)} - \bar{y}_h), }
-where \eqn{y_{hj}^*} is the bootstrap observation, \eqn{f_h = n_h / N_h} is the sampling fraction and
+where \eqn{y_{hj}^{*(b)}} is the bootstrap observation, \eqn{1 - f_h} is the FPC, with \eqn{f_h = n_h / N_h}, and
 \eqn{\bar{y}_h} is the sample stratum mean.
-\item Compute the statistic of interest \eqn{\hat{\theta}^{*(b)}} using rescaled values.
+\item Compute the statistic of interest \eqn{\hat{\theta}^{*(b)}_h} using rescaled values.
 }
 
-The bootstrap variance is then given by:
-\deqn{
-  \widehat{V}_{boot}(\hat{\theta}) =
-  \frac{1}{B-1} \sum_{b=1}^{B}
-  \left( \hat{\theta}^{*(b)} - \hat{\bar{\theta}}^{*} \right)^2,
-  \qquad
-  \hat{\bar{\theta}}^{*} = \frac{1}{B} \sum_{b=1}^{B} \hat{\theta}^{*(b)}.
-}
+The variance is then estimated by the bootstrap variance.
 
 \strong{(2) Two-Stage Stratified Sampling design}
 
@@ -114,17 +107,12 @@ Each observation in the \eqn{i}-th PSU is assigned a rescaled bootstrap weight:
           \qquad
           c_h = \sqrt{\frac{m_h}{n_h - 1}}.
         }
-\eqn{w_{hij}} is the sampling weight associtaed to individual
-\eqn{j} in PSU \eqn{i} in stratum \eqn{h}-
-\item The statistic \eqn{\hat{\theta}^{*(b)}} is computed using the rescaled weights.
+\eqn{w_{hij}} is the sampling weight associated to individual
+\eqn{j} in PSU \eqn{i} in stratum \eqn{h}
+\item The statistic \eqn{\hat{\theta}^{*(b)}_h} is computed using the rescaled weights.
 }
 
-The rescaled bootstrap variance estimate is then:
-\deqn{
-  \widehat{V}_{boot}(\hat{\theta}) =
-  \frac{1}{B-1} \sum_{b=1}^{B}
-  \left( \hat{\theta}^{*(b)} - \bar{\theta}^{*} \right)^2.
-}
+The variance is then estimated by the bootstrap variance.
 
 \strong{Multiple estimators}
 
@@ -134,8 +122,6 @@ including functions from this package and user-defined ones.
 When \code{estimator} returns a \emph{named numeric vector}, variances are
 computed for all outputs simultaneously from the same bootstrap replicates,
 so the resulting standard errors are directly comparable across indicators.
-For a convenience wrapper that automatically computes all package inequality
-indicators and their standard errors in a single call, see \code{\link{inequantiles}}.
 }
 \examples{
 \donttest{
@@ -249,4 +235,8 @@ boot_multi$variance
 \insertRef{kolenikov2010resampling}{inequantiles}
 
 \insertRef{scarpa2025inference}{inequantiles}
+}
+\seealso{
+For a convenience wrapper that automatically computes all package inequality
+indicators and their standard errors in a single call, see \code{\link{inequantiles}}.
 }
