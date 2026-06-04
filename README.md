@@ -1,9 +1,11 @@
 # inequantiles
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/inequantiles)](https://cran.r-project.org/package=inequantiles)
 <!-- badges: end -->
 
-**inequantiles** is an R package for estimating quantile-based inequality indicators from survey microdata, with full support for complex sampling designs and weighted quantile estimation.
+
+**inequantiles** is an R package (available on CRAN) for estimating quantile-based inequality indicators from survey microdata, with full support for complex sampling designs and weighted quantile estimation.
 
 📖 **Documentation and vignette**: [silviascarpa.github.io/inequantiles](https://silviascarpa.github.io/inequantiles/)
 
@@ -19,6 +21,10 @@
 ## Installation
 
 ```r
+# Install the released version from CRAN
+install.packages("inequantiles")
+
+# Or install the development version from GitHub
 # install.packages("devtools")
 devtools::install_github("silviascarpa/inequantiles")
 ```
@@ -131,7 +137,7 @@ gini_grouped(Y = income_tot, freq = income_freq)
 
 If you use **inequantiles** in your research, please cite:
 
-> Scarpa, S. and Sperlich S. (2025). *inequantiles: Quantile-Based Inequality Measures for Survey Data*. R package. https://github.com/silviascarpa/inequantiles
+> Scarpa, S. and Sperlich, S. (2026). *inequantiles: Quantile-Based Inequality Indicators for Complex Survey Data*. R package version 0.1.0. https://cran.r-project.org/package=inequantiles
 
 ## Getting Help
 
