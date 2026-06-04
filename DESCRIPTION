@@ -15,7 +15,7 @@ Description: Estimates quantile-based inequality indicators from complex
     designs. Estimation from grouped data is also supported.
     See Scarpa et al. (2025) <doi:10.1093/jssam/smaf024> for details.
 License: MIT + file LICENSE
-URL: https://silviascarpa.github.io/inequantiles/, https://github.com/silviascarpa/inequantiles/
+URL: https://cran.r-project.org/package=inequantiles, https://silviascarpa.github.io/inequantiles/, https://github.com/silviascarpa/inequantiles/
 BugReports: https://github.com/silviascarpa/inequantiles/issues/
 Encoding: UTF-8
 Language: en-US
